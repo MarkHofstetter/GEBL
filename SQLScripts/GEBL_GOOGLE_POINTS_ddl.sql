@@ -23,10 +23,6 @@ CREATE TABLE google_points
   LOGGING
 ;
 
-
-
-
-
 -- Constraints for GOOGLE_POINTS
 
 ALTER TABLE google_points
@@ -56,8 +52,7 @@ REFERENCING NEW AS NEW OLD AS OLD
 begin
 :new."G_P_ID" := gebl_seq.nextval;
 end;
-;
-
+/
 
 -- End of DDL Script for Table GEBL.GOOGLE_POINTS
 
