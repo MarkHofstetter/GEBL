@@ -1,0 +1,169 @@
+<?php $this->headScript()->captureStart() ?>
+
+var geocoder;
+var map;
+
+var customIcons = {
+      Adresse: {
+        icon: 'http://google-maps-icons.googlecode.com/files/villa.png'
+        },
+      Brutstätte: {
+        icon: 'http://google-maps-icons.googlecode.com/files/water.png'
+        },
+       Falle: {
+        icon: 'http://google-maps-icons.googlecode.com/files/exit.png'
+        }
+    };
+
+
+ function initialize() {
+
+    var myLatlng = new google.maps.LatLng(48.20833, 16.373064);
+    var myOptions = {
+      zoom: 12,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+    geocoder = new google.maps.Geocoder();
+
+
+    //draw points from xml
+     var infoWindow = new google.maps.InfoWindow;
+    // Change this depending on the name of your PHP file
+      downloadUrl("listallpoints?format=xml", function(data) {
+     var xml = parseXml(data);
+     var markers = xml.documentElement.getElementsByTagName("marker");
+     for (var i = 0; i < markers.length; i++) {
+        var id = markers[i].getAttribute("id");
+        var name = markers[i].getAttribute("name");
+        var cat = markers[i].getAttribute("cat");
+        var point = new google.maps.LatLng(
+              parseFloat(markers[i].getAttribute("lat")),
+              parseFloat(markers[i].getAttribute("lng")));
+        var html = "" + name + " ";
+        var icon = customIcons[cat] || {};
+        var marker = new google.maps.Marker({
+            map: map,
+            position: point,
+            icon: icon.icon,
+            shadow: icon.shadow
+            });
+          marker.set("name",name);
+          marker.set("cat",cat);
+          marker.set("id",id);
+          bindInfoWindow(marker, map, infoWindow, html);
+        }
+      });
+        
+  }
+
+   function codeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.geocode( { 'address': address,'region': 'at'}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+  }
+
+  function placeMarker(location) {
+  var clickedLocation = new google.maps.LatLng(location);
+  var marker = new google.maps.Marker({
+      position: location,
+      map: map
+  });
+
+   document.getElementById("position").innerHTML="Position clicked " + location.lat()
+        + " " + location.lng();
+  //map.setCenter(location);
+}
+
+   function bindInfoWindow(marker, map, infoWindow, html) {
+      google.maps.event.addListener(marker, 'click', function() {
+        infoWindow.setContent(html);
+        infoWindow.open(map, marker);
+        document.getElementById("pointname").innerHTML="Name: " + marker.get("name");
+        document.getElementById("pointcat").innerHTML="Kategorie: " + marker.get("cat");
+        if(document.getElementById("deletepoint")){
+        document.getElementById("deletepoint").href="/admin/deletepoint/id/" + marker.get("id");
+        document.getElementById("deletepoint").innerHTML="Lösche Punkt mit ID " + marker.get("id");
+        }
+        });
+     
+    }
+
+    function downloadUrl(url, callback) {
+      var request = window.ActiveXObject ?
+          new ActiveXObject('Microsoft.XMLHTTP') :
+          new XMLHttpRequest;
+
+      request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+          request.onreadystatechange = doNothing;
+          callback(request.responseText, request.status);
+        }
+      };
+
+      request.open('GET', url, true);
+      request.send(null);
+    }
+
+    function parseXml(str) {
+      if (window.ActiveXObject) {
+        var doc = new ActiveXObject('Microsoft.XMLDOM');
+        doc.loadXML(str);
+        return doc;
+      } else if (window.DOMParser) {
+        return (new DOMParser).parseFromString(str, 'text/xml');
+      }
+    }
+
+    function doNothing() {}
+
+
+
+ function loadScript() {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
+    document.body.appendChild(script);
+  }
+
+
+
+  window.onload = loadScript;
+
+<?php $this->headScript()->captureEnd() ?>
+
+
+  
+ <table>
+  <tr>
+  <th colspan="2">
+  <h1>GEBL-Karte: Punkte anzeigen</h1>
+  </th>
+  </tr>
+
+  <tr>
+  <td id="map">
+  <div>
+    Adresse: <input id="address" type="textbox" value="Wilfleinsdorf">
+    <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+  </div>
+   <div id="map_canvas" style="height: 500px;width: 400px"</div>
+   <div>
+       <p id="position"></p>
+   </div>
+   </td>
+  <td>
+       <h2 id="pointname"></h2>
+       <p id="pointcat"></p>
+       <p><a id="deletepoint" ></a></p>
+       <p><a id="addpoint" href="/admin/add-point">Noch einen Punkt eingeben</a></p>
+   </td>
+  </tr>
+  </table>
