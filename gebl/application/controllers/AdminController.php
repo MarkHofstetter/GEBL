@@ -3,16 +3,29 @@
 class AdminController extends Zend_Controller_Action
 {
 
+  // protected $_flashMessenger;
+
     public function init()
     {
+        //Context Switch for XML
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('listallpoints', 'xml')
                       ->initContext();
+
+        //Authentification
+        $auth = Zend_Auth::getInstance();
+        if(!$auth->hasIdentity()){
+            $this->_helper->redirector('login', 'index');
+        }
+
+        //FlashMessenger
+    //    $this->_flashMessenger = $this->_helper->getHelper('flashMessenger');
     }
 
     public function indexAction()
     {
-        // action body
+         $this->_helper->redirector('showallpoints','admin');
+        //$this->_helper->redirector('login', 'index');
     }
 
     /*

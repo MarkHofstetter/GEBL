@@ -7,7 +7,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->bootstrap('view');
         $view = $this->getResource('view');
         $view->headMeta()->appendHttpEquiv('Content-Type','text/html:charset=utf-8');
-        $view->headLink()->appendStylesheet($view->baseURL('/css/screen.css'));
+        $view->headLink()->appendStylesheet($view->baseUrl('/css/screen.css'));
 
         $view->doctype('XHTML1_STRICT');
         $view->headTitle()->setSeparator(' - ');
@@ -15,7 +15,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     protected function _initLanguage() {
-        $locale = new Zend_locale('de_AT');
+        $locale = new Zend_Locale('de_AT');
         $translator = new Zend_Translate(
                 'array',
                 APPLICATION_PATH . '/../resources/languages',
