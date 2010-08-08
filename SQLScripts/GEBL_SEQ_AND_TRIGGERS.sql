@@ -1,4 +1,5 @@
 -- sequences
+-- sequence fuer tabellen ids
 CREATE SEQUENCE gebl_seq
   INCREMENT BY 1
   START WITH 355
@@ -8,16 +9,8 @@ CREATE SEQUENCE gebl_seq
   NOORDER
   CACHE 20
 ;
+-- sequence fuer tabelle personen p_nr
 CREATE SEQUENCE gebl_seq_p
-  INCREMENT BY 1
-  START WITH 7
-  MINVALUE 1
-  MAXVALUE 9999999999999999999
-  NOCYCLE
-  NOORDER
-  NOCACHE
-;
-CREATE SEQUENCE gebl_seq_k
   INCREMENT BY 1
   START WITH 1
   MINVALUE 1
@@ -26,54 +19,95 @@ CREATE SEQUENCE gebl_seq_k
   NOORDER
   NOCACHE
 ;
-CREATE SEQUENCE gebl_seq_m
+-- sequence fuer tabelle brutstaetten b_nr
+CREATE SEQUENCE gebl_seq_b
   INCREMENT BY 1
-  START WITH 23
+  START WITH 1
   MINVALUE 1
   MAXVALUE 9999999999999999999
   NOCYCLE
   NOORDER
   NOCACHE
 ;
--- triggers
-CREATE OR REPLACE TRIGGER insert_punkt_id_and_nr
+-- sequence fuer tabelle fallen f_nr
+CREATE SEQUENCE gebl_seq_f
+  INCREMENT BY 1
+  START WITH 1
+  MINVALUE 1
+  MAXVALUE 9999999999999999999
+  NOCYCLE
+  NOORDER
+  NOCACHE
+;
+-- sequence fuer tabelle aktionen a_nr
+CREATE SEQUENCE gebl_seq_a
+  INCREMENT BY 1
+  START WITH 1
+  MINVALUE 1
+  MAXVALUE 9999999999999999999
+  NOCYCLE
+  NOORDER
+  NOCACHE
+;
+ --triggers
+CREATE OR REPLACE TRIGGER insert_brutstaetten_id_and_nr
  BEFORE
   INSERT
- ON punkte
+ ON brutstaetten
 REFERENCING NEW AS NEW OLD AS OLD
  FOR EACH ROW
 DECLARE
-  p_id number;
-  p_nr number;
+  b_id number;
+  b_nr number;
 BEGIN
   SELECT gebl_seq.nextval
-    INTO p_id
+    INTO b_id
     FROM dual;
-  :new.P_Id := p_id;
-  SELECT gebl_seq_p.nextval
-    INTO p_nr
+  :new.B_Id := b_id;
+  SELECT gebl_seq_b.nextval
+   INTO b_nr
     FROM dual;
-  :new.P_nr := p_nr;
+  :new.B_nr := 'B-'||to_char(b_nr);
 END;
 /
-CREATE OR REPLACE TRIGGER insert_kommentar_id_and_nr
+--CREATE OR REPLACE TRIGGER insert_fallen_id_and_nr
+-- BEFORE
+--  INSERT
+-- ON fallen
+--REFERENCING NEW AS NEW OLD AS OLD
+-- FOR EACH ROW
+--DECLARE
+--  f_id number;
+--  f_nr number;
+--BEGIN
+--  SELECT gebl_seq.nextval
+--    INTO f_id
+--    FROM dual;
+--  :new.F_Id := f_id;
+--  SELECT gebl_seq_f.nextval
+--    INTO f_nr
+--    FROM dual;
+--  :new.F_nr := f_nr;
+--END;
+--/
+CREATE OR REPLACE TRIGGER insert_aktionen_id_and_nr
  BEFORE
   INSERT
- ON kommentar
+ ON aktionen
 REFERENCING NEW AS NEW OLD AS OLD
  FOR EACH ROW
 DECLARE
-  k_id number;
-  k_nr number;
+  a_id number;
+  a_nr number;
 BEGIN
   SELECT gebl_seq.nextval
-    INTO k_id
+    INTO a_id
     FROM dual;
-  :new.K_Id := k_id;
-  SELECT gebl_seq_k.nextval
-    INTO k_nr
+  :new.A_Id := a_id;
+  SELECT gebl_seq_a.nextval
+    INTO a_nr
     FROM dual;
-  :new.K_nr := k_nr;
+  :new.A_nr := 'A-'||to_char(a_nr);
 END;
 /
 CREATE OR REPLACE TRIGGER insert_geodaten_id
@@ -91,23 +125,23 @@ BEGIN
   :new.G_Id := g_id;
 END;
 /
-CREATE OR REPLACE TRIGGER insert_mitarbeiter_id_and_nr
+CREATE OR REPLACE TRIGGER insert_personen_id_and_nr
  BEFORE
   INSERT
- ON mitarbeiter
+ ON personen
 REFERENCING NEW AS NEW OLD AS OLD
  FOR EACH ROW
 DECLARE
-  m_id number;
-  m_nr number;
+  p_id number;
+  p_nr number;
 BEGIN
   SELECT gebl_seq.nextval
-    INTO m_id
+    INTO p_id
     FROM dual;
-  :new.M_Id := m_id;
-  SELECT gebl_seq_m.nextval
-    INTO m_nr
+  :new.P_Id := p_id;
+  SELECT gebl_seq_p.nextval
+    INTO p_nr
     FROM dual;
-  :new.M_nr := m_nr;
+  :new.P_nr := 'P-'||to_char(p_nr);
 END;
 /
