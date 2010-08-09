@@ -8,12 +8,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view = $this->getResource('view');
         $view->headMeta()->appendHttpEquiv('Content-Type','text/html:charset=utf-8');
         $view->headLink()->appendStylesheet($view->BaseUrl('/css/screen.css'));
-
         $view->doctype('XHTML1_STRICT');
         $view->headTitle()->setSeparator(' - ');
         $view->headTitle('GEBL-Karte');
     }
-
     protected function _initLanguage() {
         $locale = new Zend_Locale('de_AT');
         $translator = new Zend_Translate(
