@@ -263,8 +263,8 @@ CREATE TABLE fallen
     f_nr                           VARCHAR2(10 BYTE),
     f_name                         VARCHAR2(50 BYTE),
     f_typ                          NUMBER,
+	f_p_id                         NUMBER,
     f_g_id                         NUMBER,
-    f_p_id                         NUMBER,
     f_text                         VARCHAR2(1024 BYTE))
   PCTFREE     10
   INITRANS    1
