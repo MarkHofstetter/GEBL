@@ -1,0 +1,6 @@
+INSERT INTO geodaten 
+VALUES(999,48.221004,16.380904,1,'Rudolf home');
+INSERT INTO geodaten 
+VALUES(1000,48.225962,16.455365,1,'Bernhard home');
+INSERT INTO geodaten 
+VALUES(1002,48.15748,15.89213,2,'Mannerdorf');
