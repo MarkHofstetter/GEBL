@@ -28,6 +28,7 @@
           <dbTableFile dbTableName="EMPLOYEES"/>
           <dbTableFile dbTableName="GooglePoints"/>
           <dbTableFile dbTableName="Geodaten"/>
+          <dbTableFile dbTableName="Brutstaetten"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>

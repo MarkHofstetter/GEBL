@@ -13,6 +13,8 @@ class AdminController extends Zend_Controller_Action
                       ->initContext();
         $contextSwitch->addActionContext('listonepoint', 'xml')
                       ->initContext();
+        $contextSwitch->addActionContext('listonebrutstaette', 'xml')
+                      ->initContext();
 
         //Authentification
         $auth = Zend_Auth::getInstance();
@@ -83,6 +85,19 @@ class AdminController extends Zend_Controller_Action
             
         }
         $this->view->allPoints = $points;
+    }
+
+      public function listonebrutstaetteAction()
+    {
+        if($this->getRequest()->isGet()){
+            $g_id = $this->_getParam('g_id',0);
+            $g_id = (int)$g_id;
+            $brutModel = new Application_Model_DbTable_Brutstaetten();
+            //$select = $brutModel->select()->where('B_G_ID = ?', $g_id);
+            //$brut = $brutModel->fetchRow($select);
+            $brut = $brutModel->fetchRow('B_G_ID = ' . $g_id);
+           }
+        $this->view->brutst = $brut;
     }
 
     /*
