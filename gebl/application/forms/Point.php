@@ -17,19 +17,20 @@ class Application_Form_Point extends Zend_Form
                   'Brutstätte' => 'Brutstätte'));
         $name = new Zend_Form_Element_Text('G_P_NAME');
         $name->setLabel('Name: ')
-              ->addValidator('alnum')
+              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setRequired(true);
         $lat = new Zend_Form_Element('G_P_LAT');
         $lat->setLabel('Lat: ')
-              //->addValidator('alnum')
               ->setRequired(true)
-                //->setAttrib('disabled', 'true')
+              ->addValidator('Float')
+              ->addValidator('Between',true,array(0,180))
+              //->setAttrib('disabled', 'true')
                 ;
-
-         $lng = new Zend_Form_Element('G_P_LNG');
+        $lng = new Zend_Form_Element('G_P_LNG');
         $lng->setLabel('Lon: ')
-              //->addValidator('alnum')
-              ->setRequired(true)
+               ->setRequired(true)
+                ->addValidator('Float')
+               ->addValidator('Between',true,array(0,180))
                 //->setAttrib('disabled', 'true')
                 ;
 

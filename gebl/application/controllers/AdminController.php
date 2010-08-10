@@ -11,12 +11,19 @@ class AdminController extends Zend_Controller_Action
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('listallpoints', 'xml')
                       ->initContext();
+        $contextSwitch->addActionContext('listonepoint', 'xml')
+                      ->initContext();
 
         //Authentification
         $auth = Zend_Auth::getInstance();
         if(!$auth->hasIdentity()){
             $this->_helper->redirector('login', 'index');
         }
+
+        //SET NLS_NUMERIC_CHARACTERS to "." for Database
+        $this->db = Zend_Db_Table::getDefaultAdapter();
+        $this->db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
+        
 
         //FlashMessenger
     //    $this->_flashMessenger = $this->_helper->getHelper('flashMessenger');
@@ -48,6 +55,7 @@ class AdminController extends Zend_Controller_Action
         
         
                         $points = new Application_Model_DbTable_GooglePoints();
+                        
                         $points->addPoint($cat, $name, $lat, $lng);
         
                         $this->_helper->redirector('showallpoints','admin');
@@ -63,6 +71,17 @@ class AdminController extends Zend_Controller_Action
         $pointsModel = new Application_Model_DbTable_GooglePoints();
         $points = $pointsModel->fetchAll();
 
+        $this->view->allPoints = $points;
+    }
+
+    public function listonepointAction()
+    {
+        if($this->getRequest()->isGet()){
+            $id = $this->_getParam('id',0);
+            $pointsModel = new Application_Model_DbTable_GooglePoints();
+            $points = $pointsModel->find($id);
+            
+        }
         $this->view->allPoints = $points;
     }
 
