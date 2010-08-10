@@ -1,0 +1,33 @@
+<?php
+
+$dom = new DOMDocument("1.0");
+$node = $dom->createElement("brutstaetten");
+$parnode = $dom->appendChild($node);
+
+
+header("Content-type: text/xml");
+
+// Iterate through the rows, adding XML nodes for each
+
+//foreach ($this->brutst as $brut) {
+
+  // ADD TO XML DOCUMENT NODE
+
+  $node = $dom->createElement("brutstaette");
+  $newnode = $parnode->appendChild($node);
+  $newnode->setAttribute("b_id",$this->brutst['B_ID']);
+  $newnode->setAttribute("b_nr",$this->brutst['B_NR']);
+  $newnode->setAttribute("b_name",$this->brutst['B_NAME']);
+  $newnode->setAttribute("b_groesse",$this->brutst['B_GROESSE']);
+  $newnode->setAttribute("b_gewaesser_art",$this->brutst['B_GEWAESSER_ART']);
+  $newnode->setAttribute("b_zugang",$this->brutst['B_ZUGANG']);
+  $newnode->setAttribute("b_p_id",$this->brutst['B_P_ID']);
+  $newnode->setAttribute("b_g_id",$this->brutst['B_G_ID']);
+  $newnode->setAttribute("b_bek_art",$this->brutst['B_BEK_ART']);
+  $newnode->setAttribute("b_text",$this->brutst['B_TEXT']);
+  
+  //}
+
+echo $dom->saveXML();
+
+?>

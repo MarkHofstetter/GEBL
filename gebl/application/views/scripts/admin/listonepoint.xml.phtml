@@ -1,0 +1,33 @@
+<?php
+//  echo $this->partialLoop('pointsLoop.phtml', $this->allPoints);
+
+
+
+$dom = new DOMDocument("1.0");
+$node = $dom->createElement("markers");
+$parnode = $dom->appendChild($node);
+
+
+header("Content-type: text/xml");
+
+// Iterate through the rows, adding XML nodes for each
+
+foreach ($this->allPoints as $point) {
+
+  // ADD TO XML DOCUMENT NODE
+
+
+  $node = $dom->createElement("marker");
+  $newnode = $parnode->appendChild($node);
+  $newnode->setAttribute("id",$point['G_P_ID']);
+  $newnode->setAttribute("name",$point['G_P_NAME']);
+  $newnode->setAttribute("cat",$point['G_P_CAT']);
+  $newnode->setAttribute("lat",$point['G_P_LAT']);
+  $newnode->setAttribute("lng",$point['G_P_LNG']);
+
+
+  }
+
+echo $dom->saveXML();
+
+?>
