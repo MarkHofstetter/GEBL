@@ -27,6 +27,7 @@
         <dbTableDirectory>
           <dbTableFile dbTableName="EMPLOYEES"/>
           <dbTableFile dbTableName="GooglePoints"/>
+          <dbTableFile dbTableName="Geodaten"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>

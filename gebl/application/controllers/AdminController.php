@@ -11,12 +11,19 @@ class AdminController extends Zend_Controller_Action
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('listallpoints', 'xml')
                       ->initContext();
+        $contextSwitch->addActionContext('listonepoint', 'xml')
+                      ->initContext();
 
         //Authentification
         $auth = Zend_Auth::getInstance();
         if(!$auth->hasIdentity()){
             $this->_helper->redirector('login', 'index');
         }
+
+        //SET NLS_NUMERIC_CHARACTERS to "." for Database
+        $this->db = Zend_Db_Table::getDefaultAdapter();
+        $this->db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
+        
 
         //FlashMessenger
     //    $this->_flashMessenger = $this->_helper->getHelper('flashMessenger');
@@ -33,22 +40,23 @@ class AdminController extends Zend_Controller_Action
      */
     public function addPointAction()
     {
-        $form = new Application_Form_Point();
-                $form->senden->setLabel('Add');
+        $form = new Application_Form_Geopoint();
+                $form->senden->setLabel('Hinzufügen');
                 $this->view->form = $form;
                 
         
                 if ($this->getRequest()->isPost()) {
                     $formData = $this->getRequest()->getPost();
                     if ($form->isValid($formData)) {
-                        $cat = $form->getValue('G_P_CAT');
-                        $name = $form->getValue('G_P_NAME');
-                        $lat = $form->getValue('G_P_LAT');
-                        $lng = $form->getValue('G_P_LNG');
+                        $typ = $form->getValue('G_TYP');
+                        $name = $form->getValue('G_NAME');
+                        $lat = $form->getValue('G_LAT');
+                        $lon = $form->getValue('G_LON');
         
         
-                        $points = new Application_Model_DbTable_GooglePoints();
-                        $points->addPoint($cat, $name, $lat, $lng);
+                        $points = new Application_Model_DbTable_Geodaten();
+                        
+                        $points->addPoint($typ, $name, $lat, $lon);
         
                         $this->_helper->redirector('showallpoints','admin');
                     }
@@ -60,9 +68,20 @@ class AdminController extends Zend_Controller_Action
     */
     public function listallpointsAction()
     {
-        $pointsModel = new Application_Model_DbTable_GooglePoints();
+        $pointsModel = new Application_Model_DbTable_Geodaten();
         $points = $pointsModel->fetchAll();
 
+        $this->view->allPoints = $points;
+    }
+
+    public function listonepointAction()
+    {
+        if($this->getRequest()->isGet()){
+            $id = $this->_getParam('id',0);
+            $pointsModel = new Application_Model_DbTable_Geodaten();
+            $points = $pointsModel->find($id);
+            
+        }
         $this->view->allPoints = $points;
     }
 
@@ -79,7 +98,7 @@ public function deletepointAction()
     {
         if($this->getRequest()->isGet()){
             $id = $this->_getParam('id',0);
-            $points = new Application_Model_DbTable_GooglePoints();
+            $points = new Application_Model_DbTable_Geodaten();
             $points->deletepoint($id);
             //$this->_flashMessenger->addMessage('Löschen Erfolgreich!');
             $this->_helper->redirector('showallpoints','admin');

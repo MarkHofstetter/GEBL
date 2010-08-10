@@ -51,8 +51,8 @@ var marker;
    document.getElementById("position").innerHTML="Position clicked " + location.lat()
         + " " + location.lng();
 
-   document.getElementById ("G_P_LAT").value = location.lat();
-   document.getElementById ("G_P_LNG").value = location.lng();
+   document.getElementById ("G_LAT").value = location.lat();
+   document.getElementById ("G_LON").value = location.lng();
 
   //map.setCenter(location);
 }
@@ -85,8 +85,7 @@ var marker;
    <div>
        <p id="position"></p>
    </div>
-   </div>
-  </td>
+   </td>
   <td>
    <div>
         <?php echo $this->form; ?>

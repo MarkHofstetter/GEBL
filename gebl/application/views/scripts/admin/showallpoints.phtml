@@ -4,14 +4,14 @@ var geocoder;
 var map;
 
 var customIcons = {
-      Adresse: {
+      1: {
         icon: 'http://google-maps-icons.googlecode.com/files/villa.png'
         },
-      Brutstätte: {
-        icon: 'http://google-maps-icons.googlecode.com/files/water.png'
-        },
-       Falle: {
+      2: {
         icon: 'http://google-maps-icons.googlecode.com/files/exit.png'
+        },
+       3: {
+        icon: 'http://google-maps-icons.googlecode.com/files/water.png'
         }
     };
 
@@ -37,12 +37,12 @@ var customIcons = {
      for (var i = 0; i < markers.length; i++) {
         var id = markers[i].getAttribute("id");
         var name = markers[i].getAttribute("name");
-        var cat = markers[i].getAttribute("cat");
+        var typ = markers[i].getAttribute("typ");
         var point = new google.maps.LatLng(
               parseFloat(markers[i].getAttribute("lat")),
-              parseFloat(markers[i].getAttribute("lng")));
+              parseFloat(markers[i].getAttribute("lon")));
         var html = "" + name + " ";
-        var icon = customIcons[cat] || {};
+        var icon = customIcons[typ] || {};
         var marker = new google.maps.Marker({
             map: map,
             position: point,
@@ -50,7 +50,7 @@ var customIcons = {
             shadow: icon.shadow
             });
           marker.set("name",name);
-          marker.set("cat",cat);
+          marker.set("typ",typ);
           marker.set("id",id);
           bindInfoWindow(marker, map, infoWindow, html);
         }
@@ -87,7 +87,7 @@ var customIcons = {
         infoWindow.setContent(html);
         infoWindow.open(map, marker);
         document.getElementById("pointname").innerHTML="Name: " + marker.get("name");
-        document.getElementById("pointcat").innerHTML="Kategorie: " + marker.get("cat");
+        document.getElementById("pointtyp").innerHTML="Typ: " + marker.get("typ");
         if(document.getElementById("deletepoint")){
         document.getElementById("deletepoint").href="/admin/deletepoint/id/" + marker.get("id");
         document.getElementById("deletepoint").innerHTML="Lösche Punkt mit ID " + marker.get("id");
@@ -161,7 +161,7 @@ var customIcons = {
    </td>
   <td>
        <h2 id="pointname"></h2>
-       <p id="pointcat"></p>
+       <p id="pointtyp"></p>
        <p><a id="deletepoint" ></a></p>
        <p><a id="addpoint" href="/admin/add-point">Noch einen Punkt eingeben</a></p>
    </td>

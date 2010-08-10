@@ -19,11 +19,11 @@ foreach ($this->allPoints as $point) {
   
   $node = $dom->createElement("marker");
   $newnode = $parnode->appendChild($node);
-  $newnode->setAttribute("id",$point['G_P_ID']);
-  $newnode->setAttribute("name",$point['G_P_NAME']);
-  $newnode->setAttribute("cat",$point['G_P_CAT']);
-  $newnode->setAttribute("lat",$point['G_P_LAT']);
-  $newnode->setAttribute("lng",$point['G_P_LNG']);
+  $newnode->setAttribute("id",$point['G_ID']);
+  $newnode->setAttribute("name",$point['G_NAME']);
+  $newnode->setAttribute("typ",$point['G_TYP']);
+  $newnode->setAttribute("lat",$point['G_LAT']);
+  $newnode->setAttribute("lon",$point['G_LON']);
   
 
   }

@@ -37,9 +37,9 @@ public function loginAction()
 
         $authAdapter = new Zend_Auth_Adapter_DbTable(
                 NULL,
-                'USERS',
-                'U_NAME',
-                'U_PASSWORD'
+                'PERSONEN',
+                'P_LOGNAME',
+                'P_PASSWORT'
                 );
         $authAdapter->setCredential($this->_getParam('password'))
                 ->setIdentity($this->_getParam('username'));
