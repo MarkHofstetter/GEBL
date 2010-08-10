@@ -84,16 +84,27 @@ var customIcons = {
 
    function bindInfoWindow(marker, map, infoWindow, html) {
       google.maps.event.addListener(marker, 'click', function() {
-        infoWindow.setContent(html);
-        infoWindow.open(map, marker);
-        document.getElementById("pointname").innerHTML="Name: " + marker.get("name");
-        document.getElementById("pointtyp").innerHTML="Typ: " + marker.get("typ");
-        if(document.getElementById("deletepoint")){
-        document.getElementById("deletepoint").href="/admin/deletepoint/id/" + marker.get("id");
-        document.getElementById("deletepoint").innerHTML="Lösche Punkt mit ID " + marker.get("id");
-        }
-        });
-     
+          infoWindow.setContent(html);
+          infoWindow.open(map, marker);
+          document.getElementById("pointname").innerHTML="Name: " + marker.get("name");
+          document.getElementById("pointtyp").innerHTML="Typ: " + marker.get("typ");
+          if(document.getElementById("deletepoint")){
+             document.getElementById("deletepoint").href="/admin/deletepoint/id/" + marker.get("id");
+             document.getElementById("deletepoint").innerHTML="Lösche Punkt mit ID " + marker.get("id");
+           }
+
+                 if(marker.get("typ") == "2"){
+                      downloadUrl("http://gebl/admin/listonebrutstaette/format/xml/g_id/" + marker.get("id"), function(data) {
+                      var xml = parseXml(data);
+                      var brut = xml.documentElement.getElementsByTagName("brutstaette");
+                      var b_id = brut[0].getAttribute("b_id");
+                      document.getElementById("info").innerHTML="b_id = " + b_id;
+                      });
+                }
+                
+
+           }
+        );
     }
 
     function downloadUrl(url, callback) {
@@ -164,6 +175,7 @@ var customIcons = {
        <p id="pointtyp"></p>
        <p><a id="deletepoint" ></a></p>
        <p><a id="addpoint" href="/admin/add-point">Noch einen Punkt eingeben</a></p>
+       <p id="info"></p>
    </td>
   </tr>
   </table>
