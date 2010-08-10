@@ -408,21 +408,26 @@ BEGIN
   :new.P_nr := 'P-'||to_char(p_nr);
 END;
 /
-ALTER TABLE aktionen
-ADD CONSTRAINT a_p_id_fk FOREIGN KEY (a_p_id)
-REFERENCES personen (p_id)
-;
+--ALTER TABLE aktionen
+-- ist das sinnvoll ???
+--ADD CONSTRAINT a_p_id_fk FOREIGN KEY (a_p_id)
+--REFERENCES personen (p_id)
+--ON DELETE CASCADE
+--;
 ALTER TABLE aktionen
 ADD CONSTRAINT a_b_id_fk FOREIGN KEY (a_b_id)
 REFERENCES brutstaetten (b_id)
+ON DELETE CASCADE
 ;
 ALTER TABLE aktionen
 ADD CONSTRAINT a_f_id_fk FOREIGN KEY (a_f_id)
 REFERENCES fallen (f_id)
+ON DELETE CASCADE
 ;
 ALTER TABLE brutstaetten
 ADD CONSTRAINT b_g_id_fk FOREIGN KEY (b_g_id)
 REFERENCES geodaten (g_id)
+ON DELETE CASCADE
 ;
 ALTER TABLE brutstaetten
 ADD CONSTRAINT b_p_id_fk FOREIGN KEY (b_p_id)
@@ -431,6 +436,7 @@ REFERENCES personen (p_id)
 ALTER TABLE fallen
 ADD CONSTRAINT f_g_id_fk FOREIGN KEY (f_g_id)
 REFERENCES geodaten (g_id)
+ON DELETE CASCADE
 ;
 ALTER TABLE fallen
 ADD CONSTRAINT f_p_id_fk FOREIGN KEY (f_p_id)
@@ -439,4 +445,5 @@ REFERENCES personen (p_id)
 ALTER TABLE personen
 ADD CONSTRAINT p_g_id_fk FOREIGN KEY (p_g_id)
 REFERENCES geodaten (g_id)
+ON DELETE CASCADE
 ;
