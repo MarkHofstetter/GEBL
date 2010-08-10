@@ -1,9 +1,9 @@
 INSERT INTO geodaten 
-VALUES(999,48.221004,16.380904,1,'Rudolf home');
+VALUES(999,to_number('48,221004','99D999999','NLS_NUMERIC_CHARACTERS ='', '''),to_number('16,380904','99D999999','NLS_NUMERIC_CHARACTERS ='', '''),1,'Rudolf home');
 INSERT INTO geodaten 
-VALUES(1000,48.225962,16.455365,1,'Bernhard home');
+VALUES(1000,to_number('48,225962','99D999999','NLS_NUMERIC_CHARACTERS ='', '''),to_number('16,455365','99D999999','NLS_NUMERIC_CHARACTERS ='', '''),1,'Bernhard home');
 INSERT INTO geodaten 
-VALUES(1001,48.15748,15.89213,2,'Mannerdorf'); 
+VALUES(1001,to_number('48,15748','99D99999','NLS_NUMERIC_CHARACTERS ='', '''),to_number('15,89213','99D99999','NLS_NUMERIC_CHARACTERS ='', '''),2,'Mannerdorf');
 commit;
 INSERT INTO personen 
 VALUES(1002,'P-1','Rudolf','Thaler','1020','Wien','Castellezgasse 16','012165406','rudolf-thaler@tele2.at','rudi','xxxxx',1,999,'Zusatztext');
