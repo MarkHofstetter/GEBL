@@ -96,9 +96,18 @@ class AdminController extends Zend_Controller_Action
             //$select = $brutModel->select()->where('B_G_ID = ?', $g_id);
             //$brut = $brutModel->fetchRow($select);
             $brut = $brutModel->fetchRow('B_G_ID = ' . $g_id);
+            if ($brut['B_ID'] <> NULL) {
+                $aktionenModel = new Application_Model_DbTable_Aktionen();
+                $aktionen = $aktionenModel->fetchAll('A_B_ID = ' . $brut['B_ID']);
+            }
+
            }
         $this->view->brutst = $brut;
+        $this->view->akt= $aktionen;
+
     }
+
+
 
     /*
      * Show all Points in Map

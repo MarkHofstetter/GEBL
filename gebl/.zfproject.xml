@@ -29,6 +29,7 @@
           <dbTableFile dbTableName="GooglePoints"/>
           <dbTableFile dbTableName="Geodaten"/>
           <dbTableFile dbTableName="Brutstaetten"/>
+          <dbTableFile dbTableName="Aktionen"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>

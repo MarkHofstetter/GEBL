@@ -139,8 +139,8 @@ var customIcons = {
                       var b_g_id = brut[0].getAttribute("b_g_id");
                       var b_bek_art = brut[0].getAttribute("b_bek_art");
                       var b_text = brut[0].getAttribute("b_text");
-                      document.getElementById("info").innerHTML=
-                                   "<h2>Daten zu dieser Brutstätte:</h2>" +
+                      var aktionen = xml.documentElement.getElementsByTagName("aktion");
+                      var infohtml ="<h2>Daten zu dieser Brutstätte:</h2>" +
                                    "b_id = " + b_id + "<br>" +
                                    "b_nr = " + b_nr + "<br>" +
                                    "b_name = " + b_name + "<br>" +
@@ -151,6 +151,26 @@ var customIcons = {
                                    "b_g_id = " + b_g_id + "<br>" +
                                    "b_bek_art = " + b_bek_art + "<br>" +
                                    "b_text = " + b_text + "<br>" ;
+
+                      var aktionenhtml = "<h2>Aktionen zu dieser Brutstätte:</h2>"
+                      for (var i = 0; i < aktionen.length; i++) {
+                        aktionenhtml = aktionenhtml +
+                                       "<h3>Aktion " + i + "</h3>" +
+                                       "a_id =" + aktionen[i].getAttribute("a_id") + "<br>" +
+                                       "a_nr =" + aktionen[i].getAttribute("a_nr") + "<br>" +
+                                       "a_typ =" + aktionen[i].getAttribute("a_typ") + "<br>" +
+                                       "a_betreff =" + aktionen[i].getAttribute("a_betreff") + "<br>" +
+                                       "a_datum =" + aktionen[i].getAttribute("a_datum") + "<br>" +
+                                       "a_p_id =" + aktionen[i].getAttribute("a_p_id") + "<br>" +
+                                       "a_b_id =" + aktionen[i].getAttribute("a_b_id") + "<br>" +
+                                       "a_f_id =" + aktionen[i].getAttribute("a_f_id") + "<br>" +
+                                       "a_text =" + aktionen[i].getAttribute("a_text") + "<br>"
+                                       ;
+                                       
+                        
+                      }
+                      document.getElementById("info").innerHTML = infohtml + aktionenhtml;
+                                  
                       });
     }
 
@@ -215,11 +235,17 @@ var customIcons = {
   </tr>
 
   <tr>
+      <td colspan="3">
+          <div>
+            <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
+            <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+           </div>
+      </td>
+  </tr>
+
+  <tr>
   <td id="map">
-  <div>
-    Adresse: <input id="address" type="textbox" value="Wilfleinsdorf">
-    <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
-  </div>
+  
       <div id="map_canvas" style="height: 500px;width: 400px"></div>
    <div>
        <p id="position"></p>
