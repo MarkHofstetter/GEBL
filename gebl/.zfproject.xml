@@ -20,6 +20,7 @@
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Point"/>
+        <formFile formName="Brutstaette"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>

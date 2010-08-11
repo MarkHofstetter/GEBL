@@ -5,6 +5,8 @@ class AdminController extends Zend_Controller_Action
 
   // protected $_flashMessenger;
 
+
+
     public function init()
     {
         //Context Switch for XML
@@ -59,11 +61,70 @@ class AdminController extends Zend_Controller_Action
                         $points = new Application_Model_DbTable_Geodaten();
                         
                         $points->addPoint($typ, $name, $lat, $lon);
-        
+
+
                         $this->_helper->redirector('showallpoints','admin');
+
+
                     }
     }
     }
+  
+        public function addbrutstaetteAction()
+    {
+        $form = new Application_Form_Brutstaette();
+                $form->senden->setLabel('Hinzufügen');
+                $this->view->form = $form;
+
+
+                if ($this->getRequest()->isPost()) {
+                    $formData = $this->getRequest()->getPost();
+                    if ($form->isValid($formData)) {
+                        $typ = 3;
+                        $name = $form->getValue('G_NAME');
+                        $lat = $form->getValue('G_LAT');
+                        $lon = $form->getValue('G_LON');
+
+                        $b_name = $form->getValue('B_NAME');
+                        $b_groesse = $form->getValue('B_GROESSE');
+                        $b_gewaesser_art = $form->getValue('B_GEWAESSER_ART');
+                        $b_zugang = $form->getValue('B_ZUGANG');
+                        $b_bek_art = $form->getValue('B_BEK_ART');
+                        $b_text = $form->getValue('B_TEXT');
+
+                        $points = new Application_Model_DbTable_Geodaten();
+                        $pointdata = array(
+                              'G_TYP' => $typ,
+                              'G_NAME' => $name,
+                              'G_LAT' => $lat,
+                              'G_LON' => $lon
+                              );
+
+                        $b_g_id = $points->insert($pointdata);
+
+                        $brutstaetten = new Application_Model_DbTable_Brutstaetten();
+                        $brutdata = array(
+                              'B_NAME' => $b_name,
+                              'B_GROESSE' => $b_groesse,
+                              'B_GEWAESSER_ART' => $b_gewaesser_art,
+                              'B_ZUGANG' => $b_zugang,
+                              'B_BEK_ART' => $b_bek_art,
+                              'B_TEXT' => $b_text,
+                              'B_G_ID' => $b_g_id
+                             );
+
+                        $brutstaetten->insert($brutdata);
+                        $this->_helper->redirector('showallpoints','admin');
+
+                  }
+
+                        }
+
+                    }
+
+ 
+    
+
 
    /**
     * Generate XML File for all Points
