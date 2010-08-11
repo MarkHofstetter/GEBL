@@ -180,14 +180,16 @@ DECLARE
   b_id number;
   b_nr number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO b_id
-    FROM dual;
-  :new.B_Id := b_id;
-  SELECT gebl_seq_b.nextval
-   INTO b_nr
-    FROM dual;
-  :new.B_nr := 'B-'||to_char(b_nr);
+	if (:new.B_ID is NULL) then
+		SELECT gebl_seq.nextval
+			INTO b_id
+			FROM dual;
+		:new.B_Id := b_id;
+	end if;
+	SELECT gebl_seq_b.nextval
+		INTO b_nr
+		FROM dual;
+	:new.B_nr := 'B-'||to_char(b_nr);
 END;
 /
 COMMENT ON COLUMN brutstaetten.b_bek_art IS 'Bekämpfungsart'
@@ -248,10 +250,12 @@ REFERENCING NEW AS NEW OLD AS OLD
 DECLARE
   g_id number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO g_id
-    FROM dual;
-  :new.G_Id := g_id;
+	if (:new.G_Id is null) then
+		SELECT gebl_seq.nextval
+			INTO g_id
+			FROM dual;
+		:new.G_Id := g_id;
+	end if;
 END;
 /
 COMMENT ON COLUMN geodaten.g_name IS 'optionale Bezeichnung'
@@ -311,14 +315,16 @@ DECLARE
   f_id number;
   f_nr number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO f_id
-	FROM dual;
-  :new.F_Id := f_id;
-  SELECT gebl_seq_f.nextval
-    INTO f_nr
-    FROM dual;
-  :new.F_nr := 'F-'||to_char(f_nr);
+	if (:new.F_Id is null) then
+		SELECT gebl_seq.nextval
+			INTO f_id
+			FROM dual;
+		:new.F_Id := f_id;
+	end if;
+	SELECT gebl_seq_f.nextval
+		INTO f_nr
+		FROM dual;
+	:new.F_nr := 'F-'||to_char(f_nr);
 END;
 /
 CREATE TABLE personen
@@ -397,14 +403,16 @@ DECLARE
   p_id number;
   p_nr number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO p_id
-    FROM dual;
-  :new.P_Id := p_id;
-  SELECT gebl_seq_p.nextval
+	if (:new.P_Id is null) then
+		SELECT gebl_seq.nextval
+			INTO p_id
+			FROM dual;
+		:new.P_Id := p_id;
+	end if;
+	SELECT gebl_seq_p.nextval
     INTO p_nr
     FROM dual;
-  :new.P_nr := 'P-'||to_char(p_nr);
+	:new.P_nr := 'P-'||to_char(p_nr);
 END;
 /
 CREATE TRIGGER delete_p_g_id
