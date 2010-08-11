@@ -387,7 +387,6 @@ COMMENT ON COLUMN personen.p_text IS 'optionaler Zusatztext'
 ;
 COMMENT ON COLUMN personen.p_typ IS '1.. normal, 2.. expert, 3.. admin'
 ;
-
 CREATE OR REPLACE TRIGGER insert_personen_id_and_nr
  BEFORE
   INSERT
@@ -408,12 +407,43 @@ BEGIN
   :new.P_nr := 'P-'||to_char(p_nr);
 END;
 /
---ALTER TABLE aktionen
--- ist das sinnvoll ???
---ADD CONSTRAINT a_p_id_fk FOREIGN KEY (a_p_id)
---REFERENCES personen (p_id)
---ON DELETE CASCADE
---;
+CREATE TRIGGER delete_p_g_id
+-- when deleting row of typ 1 (adress) from geodaten -> set corresponding id in personen table to NULL 
+ BEFORE 
+ DELETE
+ ON GEODATEN
+ FOR EACH ROW 
+ WHEN (old.G_TYP = 1)
+DECLARE
+BEGIN
+  UPDATE PERSONEN
+  SET P_G_ID = NULL
+  WHERE P_G_ID = :old.G_ID;
+END;
+/
+CREATE TRIGGER delete_bpid_fpid_apid
+-- when deleting row from personen -> set corresponding ids in other tables to NULL 
+ BEFORE 
+ DELETE
+ ON PERSONEN
+ FOR EACH ROW 
+DECLARE
+BEGIN
+  UPDATE BRUTSTAETTEN
+  SET B_P_ID = NULL
+  WHERE B_P_ID = :old.P_ID;
+  UPDATE FALLEN
+  SET F_P_ID = NULL
+  WHERE F_P_ID = :old.P_ID;
+  UPDATE AKTIONEN
+  SET A_P_ID = NULL
+  WHERE A_P_ID = :old.P_ID;
+END;
+/
+ALTER TABLE aktionen
+ADD CONSTRAINT a_p_id_fk FOREIGN KEY (a_p_id)
+REFERENCES personen (p_id)
+;
 ALTER TABLE aktionen
 ADD CONSTRAINT a_b_id_fk FOREIGN KEY (a_b_id)
 REFERENCES brutstaetten (b_id)
@@ -445,5 +475,5 @@ REFERENCES personen (p_id)
 ALTER TABLE personen
 ADD CONSTRAINT p_g_id_fk FOREIGN KEY (p_g_id)
 REFERENCES geodaten (g_id)
-ON DELETE CASCADE
+--ON DELETE CASCADE
 ;
