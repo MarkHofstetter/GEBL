@@ -15,6 +15,7 @@ header("Content-type: text/xml");
 
   $node = $dom->createElement("brutstaette");
   $newnode = $parnode->appendChild($node);
+  $parnode = $newnode;
   $newnode->setAttribute("b_id",$this->brutst['B_ID']);
   $newnode->setAttribute("b_nr",$this->brutst['B_NR']);
   $newnode->setAttribute("b_name",$this->brutst['B_NAME']);
@@ -25,8 +26,20 @@ header("Content-type: text/xml");
   $newnode->setAttribute("b_g_id",$this->brutst['B_G_ID']);
   $newnode->setAttribute("b_bek_art",$this->brutst['B_BEK_ART']);
   $newnode->setAttribute("b_text",$this->brutst['B_TEXT']);
-  
-  //}
+  foreach ($this->akt as $aktion) {
+    $node = $dom->createElement("aktion");
+    $newnode = $parnode->appendChild($node);
+    $newnode->setAttribute("a_id",$aktion['A_ID']);
+    $newnode->setAttribute("a_nr",$aktion['A_NR']);
+    $newnode->setAttribute("a_typ",$aktion['A_TYP']);
+    $newnode->setAttribute("a_betreff",$aktion['A_BETREFF']);
+    $newnode->setAttribute("a_datum",$aktion['A_DATUM']);
+    $newnode->setAttribute("a_p_id",$aktion['A_P_ID']);
+    $newnode->setAttribute("a_b_id",$aktion['A_B_ID']);
+    $newnode->setAttribute("a_f_id",$aktion['A_F_ID']);
+    $newnode->setAttribute("a_text",$aktion['A_TEXT']);
+    
+  }
 
 echo $dom->saveXML();
 

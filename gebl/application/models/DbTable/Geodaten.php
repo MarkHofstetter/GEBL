@@ -4,6 +4,7 @@ class Application_Model_DbTable_Geodaten extends Zend_Db_Table_Abstract
 {
 
     protected $_name = 'GEODATEN';
+    protected $_sequence = 'GEBL_SEQ';
 
 
     public function addPoint($type, $name, $lat, $lon) {

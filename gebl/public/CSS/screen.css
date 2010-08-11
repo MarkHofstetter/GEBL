@@ -16,14 +16,28 @@ body {
     background-color: burlywood;
 }
 
+table {
+    border: 10px;
+    
+}
+
 td#map {
-    float: left;
-    width: 500px;
+    width: 400px;
     margin: 10px;
     padding: 5px;
     padding-top: 0px;
     margin-bottom: 0px;
    
+}
+
+td {
+    vertical-align: top;
+    width: 300px;
+    margin: 30px;
+    padding: 20px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+
 }
 
 

@@ -95,36 +95,37 @@ var customIcons = {
                  switch (marker.get("typ")){
 
                  case "1":
+                 document.getElementById("info").innerHTML="";
                  document.getElementById("infobutton").value="Weitere Daten zu dieser Adresse anzeigen";
+                 document.getElementById("infobutton").onclick= function(){getadresseInfo(marker.get("id"))};
+                 document.getElementById("infobutton").style.visibility = "visible";
                  break;
                  
                  case "2":
+                 document.getElementById("info").innerHTML="";
                  document.getElementById("infobutton").value="Weitere Daten zu dieser Falle anzeigen";
+                 document.getElementById("infobutton").onclick= function(){getfalleInfo(marker.get("id"))};
+                 document.getElementById("infobutton").style.visibility = "visible";
                  break;
                  
                  case "3":
+                 document.getElementById("info").innerHTML="";
                  document.getElementById("infobutton").value="Weitere Daten zu dieser Brutstätte anzeigen";
                  document.getElementById("infobutton").onclick= function(){getbrutInfo(marker.get("id"))};
                  document.getElementById("infobutton").style.visibility = "visible";
                  break;
 
                  default:
+                 document.getElementById("info").innerHTML="";
+                 document.getElementById("infobutton").style.visibility = "hidden";
                  }
-                 if(marker.get("typ") == "2"){
-                      downloadUrl("http://gebl/admin/listonebrutstaette/format/xml/g_id/" + marker.get("id"), function(data) {
-                      var xml = parseXml(data);
-                      var brut = xml.documentElement.getElementsByTagName("brutstaette");
-                      var b_id = brut[0].getAttribute("b_id");
-                      //document.getElementById("info").innerHTML="b_id = " + b_id;
-                      });
-                }
-                
 
-           }
+            }
         );
     }
 
     function getbrutInfo(g_id){
+      document.getElementById("info").innerHTML="Lade Daten ....";
       downloadUrl("http://gebl/admin/listonebrutstaette/format/xml/g_id/" + g_id, function(data){
                       var xml = parseXml(data);
                       var brut = xml.documentElement.getElementsByTagName("brutstaette");
@@ -138,17 +139,47 @@ var customIcons = {
                       var b_g_id = brut[0].getAttribute("b_g_id");
                       var b_bek_art = brut[0].getAttribute("b_bek_art");
                       var b_text = brut[0].getAttribute("b_text");
-                      document.getElementById("info").innerHTML="b_id = " + b_id + "<br>" +
-                                                                "b_nr = " + b_nr + "<br>" +
-                                                                "b_name = " + b_name + "<br>" +
-                                                                "b_groesse = " + b_groesse + "<br>" +
-                                                                "b_gewaesser_art = " + b_gewaesser_art + "<br>" +
-                                                                "b_zugang = " + b_zugang + "<br>" +
-                                                                "b_p_id = " + b_id + "<br>" +
-                                                                "b_g_id = " + b_g_id + "<br>" +
-                                                                "b_bek_art = " + b_bek_art + "<br>" +
-                                                                "b_text = " + b_text + "<br>" ;
+                      var aktionen = xml.documentElement.getElementsByTagName("aktion");
+                      var infohtml ="<h2>Daten zu dieser Brutstätte:</h2>" +
+                                   "b_id = " + b_id + "<br>" +
+                                   "b_nr = " + b_nr + "<br>" +
+                                   "b_name = " + b_name + "<br>" +
+                                   "b_groesse = " + b_groesse + "<br>" +
+                                   "b_gewaesser_art = " + b_gewaesser_art + "<br>" +
+                                   "b_zugang = " + b_zugang + "<br>" +
+                                   "b_p_id = " + b_id + "<br>" +
+                                   "b_g_id = " + b_g_id + "<br>" +
+                                   "b_bek_art = " + b_bek_art + "<br>" +
+                                   "b_text = " + b_text + "<br>" ;
+
+                      var aktionenhtml = "<h2>Aktionen zu dieser Brutstätte:</h2>"
+                      for (var i = 0; i < aktionen.length; i++) {
+                        aktionenhtml = aktionenhtml +
+                                       "<h3>Aktion " + i + "</h3>" +
+                                       "a_id =" + aktionen[i].getAttribute("a_id") + "<br>" +
+                                       "a_nr =" + aktionen[i].getAttribute("a_nr") + "<br>" +
+                                       "a_typ =" + aktionen[i].getAttribute("a_typ") + "<br>" +
+                                       "a_betreff =" + aktionen[i].getAttribute("a_betreff") + "<br>" +
+                                       "a_datum =" + aktionen[i].getAttribute("a_datum") + "<br>" +
+                                       "a_p_id =" + aktionen[i].getAttribute("a_p_id") + "<br>" +
+                                       "a_b_id =" + aktionen[i].getAttribute("a_b_id") + "<br>" +
+                                       "a_f_id =" + aktionen[i].getAttribute("a_f_id") + "<br>" +
+                                       "a_text =" + aktionen[i].getAttribute("a_text") + "<br>"
+                                       ;
+                                       
+                        
+                      }
+                      document.getElementById("info").innerHTML = infohtml + aktionenhtml;
+                                  
                       });
+    }
+
+    function getadresseInfo(g_id){
+
+    }
+
+    function getfalleInfo(g_id){
+      
     }
 
     function downloadUrl(url, callback) {
@@ -204,11 +235,17 @@ var customIcons = {
   </tr>
 
   <tr>
+      <td colspan="3">
+          <div>
+            <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
+            <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+           </div>
+      </td>
+  </tr>
+
+  <tr>
   <td id="map">
-  <div>
-    Adresse: <input id="address" type="textbox" value="Wilfleinsdorf">
-    <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
-  </div>
+  
       <div id="map_canvas" style="height: 500px;width: 400px"></div>
    <div>
        <p id="position"></p>
@@ -220,9 +257,10 @@ var customIcons = {
        <input id="infobutton" type="button" style="visibility: hidden" />
        <p><a id="deletepoint" ></a></p>
        <p><a id="addpoint" href="/admin/add-point">Noch einen Punkt eingeben</a></p>
+       <p><a id="addpoint" href="/admin/addbrutstaette">Noch eine Brutstaette eingeben</a></p>
    </td>
    <td style="width: 400px">
-        <p id="info"></p>
+        <div id="info"></div>
        
    </td>
 

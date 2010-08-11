@@ -20,6 +20,7 @@
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Point"/>
+        <formFile formName="Brutstaette"/>
       </formsDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory>
@@ -29,6 +30,7 @@
           <dbTableFile dbTableName="GooglePoints"/>
           <dbTableFile dbTableName="Geodaten"/>
           <dbTableFile dbTableName="Brutstaetten"/>
+          <dbTableFile dbTableName="Aktionen"/>
         </dbTableDirectory>
       </modelsDirectory>
       <modulesDirectory enabled="false"/>
