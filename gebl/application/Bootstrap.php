@@ -2,6 +2,13 @@
 
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
+    public function _initCache (){
+    $frontendOptions = array('automatic_serialization' => true);
+    $backendOptions = array('cache_dir'=>'../cache/');
+    $dbCache = Zend_Cache::factory('Core','File',$frontendOptions,$backendOptions);
+    Zend_Db_Table_Abstract::setDefaultMetadataCache($dbCache);
+    }
+
  protected function _initViewHelpers()
     {
         $this->bootstrap('view');

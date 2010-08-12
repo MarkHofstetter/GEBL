@@ -46,6 +46,7 @@ var marker;
   var clickedLocation = new google.maps.LatLng(location);
   marker.setMap(map);
   marker.setPosition(location);
+  marker.setIcon('http://google-maps-icons.googlecode.com/files/water.png');
   
 
    document.getElementById("position").innerHTML="Position clicked " + location.lat()

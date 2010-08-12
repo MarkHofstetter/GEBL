@@ -62,7 +62,7 @@ class Application_Form_Brutstaette extends Zend_Form
         $contact->setDecorators(array(
                     'FormElements',
                     'Fieldset',
-                    array('HtmlTag',array('tag'=>'div','style'=>'width:35;;float:left;'))
+                    array('HtmlTag',array('tag'=>'div','openOnly'=>true,'style'=>'float:left;'))
         ));
         $this->addDisplayGroup(array(
                     'B_NAME',
@@ -76,7 +76,7 @@ class Application_Form_Brutstaette extends Zend_Form
         $pass->setDecorators(array(
                 'FormElements',
                 'Fieldset',
-                array('HtmlTag',array('tag'=>'div','openOnly'=>true,'style'=>'width:50;;float:right'))
+                array('HtmlTag',array('style'=>'float:right'))
                ));
         $this->addDisplayGroup(array(
                     'senden',
@@ -84,7 +84,7 @@ class Application_Form_Brutstaette extends Zend_Form
         $pass = $this->getDisplayGroup('submitbutton');
         $pass->setDecorators(array(
                 'FormElements',
-                array('HtmlTag',array('tag'=>'div','closeOnly'=>true))
+                array('HtmlTag',array('tag'=>'div','closeOnly'=>true, 'style'=>'float:left'))
         ));
 
 
