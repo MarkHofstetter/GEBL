@@ -180,14 +180,16 @@ DECLARE
   b_id number;
   b_nr number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO b_id
-    FROM dual;
-  :new.B_Id := b_id;
-  SELECT gebl_seq_b.nextval
-   INTO b_nr
-    FROM dual;
-  :new.B_nr := 'B-'||to_char(b_nr);
+	if (:new.B_ID is NULL) then
+		SELECT gebl_seq.nextval
+			INTO b_id
+			FROM dual;
+		:new.B_Id := b_id;
+	end if;
+	SELECT gebl_seq_b.nextval
+		INTO b_nr
+		FROM dual;
+	:new.B_nr := 'B-'||to_char(b_nr);
 END;
 /
 COMMENT ON COLUMN brutstaetten.b_bek_art IS 'Bekämpfungsart'
@@ -248,10 +250,12 @@ REFERENCING NEW AS NEW OLD AS OLD
 DECLARE
   g_id number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO g_id
-    FROM dual;
-  :new.G_Id := g_id;
+	if (:new.G_Id is null) then
+		SELECT gebl_seq.nextval
+			INTO g_id
+			FROM dual;
+		:new.G_Id := g_id;
+	end if;
 END;
 /
 COMMENT ON COLUMN geodaten.g_name IS 'optionale Bezeichnung'
@@ -311,14 +315,16 @@ DECLARE
   f_id number;
   f_nr number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO f_id
-	FROM dual;
-  :new.F_Id := f_id;
-  SELECT gebl_seq_f.nextval
-    INTO f_nr
-    FROM dual;
-  :new.F_nr := 'F-'||to_char(f_nr);
+	if (:new.F_Id is null) then
+		SELECT gebl_seq.nextval
+			INTO f_id
+			FROM dual;
+		:new.F_Id := f_id;
+	end if;
+	SELECT gebl_seq_f.nextval
+		INTO f_nr
+		FROM dual;
+	:new.F_nr := 'F-'||to_char(f_nr);
 END;
 /
 CREATE TABLE personen
@@ -387,7 +393,6 @@ COMMENT ON COLUMN personen.p_text IS 'optionaler Zusatztext'
 ;
 COMMENT ON COLUMN personen.p_typ IS '1.. normal, 2.. expert, 3.. admin'
 ;
-
 CREATE OR REPLACE TRIGGER insert_personen_id_and_nr
  BEFORE
   INSERT
@@ -398,22 +403,55 @@ DECLARE
   p_id number;
   p_nr number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO p_id
-    FROM dual;
-  :new.P_Id := p_id;
-  SELECT gebl_seq_p.nextval
+	if (:new.P_Id is null) then
+		SELECT gebl_seq.nextval
+			INTO p_id
+			FROM dual;
+		:new.P_Id := p_id;
+	end if;
+	SELECT gebl_seq_p.nextval
     INTO p_nr
     FROM dual;
-  :new.P_nr := 'P-'||to_char(p_nr);
+	:new.P_nr := 'P-'||to_char(p_nr);
 END;
 /
---ALTER TABLE aktionen
--- ist das sinnvoll ???
---ADD CONSTRAINT a_p_id_fk FOREIGN KEY (a_p_id)
---REFERENCES personen (p_id)
---ON DELETE CASCADE
---;
+CREATE TRIGGER delete_p_g_id
+-- when deleting row of typ 1 (adress) from geodaten -> set corresponding id in personen table to NULL 
+ BEFORE 
+ DELETE
+ ON GEODATEN
+ FOR EACH ROW 
+ WHEN (old.G_TYP = 1)
+DECLARE
+BEGIN
+  UPDATE PERSONEN
+  SET P_G_ID = NULL
+  WHERE P_G_ID = :old.G_ID;
+END;
+/
+CREATE TRIGGER delete_bpid_fpid_apid
+-- when deleting row from personen -> set corresponding ids in other tables to NULL 
+ BEFORE 
+ DELETE
+ ON PERSONEN
+ FOR EACH ROW 
+DECLARE
+BEGIN
+  UPDATE BRUTSTAETTEN
+  SET B_P_ID = NULL
+  WHERE B_P_ID = :old.P_ID;
+  UPDATE FALLEN
+  SET F_P_ID = NULL
+  WHERE F_P_ID = :old.P_ID;
+  UPDATE AKTIONEN
+  SET A_P_ID = NULL
+  WHERE A_P_ID = :old.P_ID;
+END;
+/
+ALTER TABLE aktionen
+ADD CONSTRAINT a_p_id_fk FOREIGN KEY (a_p_id)
+REFERENCES personen (p_id)
+;
 ALTER TABLE aktionen
 ADD CONSTRAINT a_b_id_fk FOREIGN KEY (a_b_id)
 REFERENCES brutstaetten (b_id)
@@ -445,5 +483,5 @@ REFERENCES personen (p_id)
 ALTER TABLE personen
 ADD CONSTRAINT p_g_id_fk FOREIGN KEY (p_g_id)
 REFERENCES geodaten (g_id)
-ON DELETE CASCADE
+--ON DELETE CASCADE
 ;
