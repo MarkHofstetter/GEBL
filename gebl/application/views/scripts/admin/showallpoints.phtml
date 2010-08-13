@@ -126,7 +126,7 @@ var customIcons = {
 
     function getbrutInfo(g_id){
       document.getElementById("info").innerHTML="Lade Daten ....";
-      downloadUrl("http://gebl/admin/listonebrutstaette/format/xml/g_id/" + g_id, function(data){
+      downloadUrl("listonebrutstaette/format/xml/g_id/" + g_id, function(data){
                       var xml = parseXml(data);
                       var brut = xml.documentElement.getElementsByTagName("brutstaette");
                       var b_id = brut[0].getAttribute("b_id");
