@@ -25,8 +25,8 @@ class AdminController extends Zend_Controller_Action
         }
 
         //SET NLS_NUMERIC_CHARACTERS to "." for Database
-        $this->db = Zend_Db_Table::getDefaultAdapter();
-        $this->db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
+         $this->db = Zend_Db_Table::getDefaultAdapter();
+         $this->db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
         
 
         //FlashMessenger
@@ -63,7 +63,8 @@ class AdminController extends Zend_Controller_Action
                         $points->addPoint($typ, $name, $lat, $lon);
 
 
-                        $this->_helper->redirector('showallpoints','admin');
+                        $this->_helper->redirector('showallpoints','admin',
+                                         null, array ('lat' => $lat, 'lon' => $lon));
 
 
                     }
@@ -72,9 +73,18 @@ class AdminController extends Zend_Controller_Action
   
         public function addbrutstaetteAction()
     {
-        $form = new Application_Form_Brutstaette();
+        $lat = 0;
+        $lon = 0;
+        if($this->getRequest()->isGet()){
+            $lat = $this->_getParam('lat',0);
+            $lon = $this->_getParam('lon',0);
+            }
+
+         $form = new Application_Form_Brutstaette();
                 $form->senden->setLabel('Hinzufügen');
                 $this->view->form = $form;
+                $this->view->lat= $lat;
+                $this->view->lon= $lon;
 
 
                 if ($this->getRequest()->isPost()) {
@@ -114,7 +124,8 @@ class AdminController extends Zend_Controller_Action
                              );
 
                         $brutstaetten->insert($brutdata);
-                        $this->_helper->redirector('showallpoints','admin');
+                        $this->_helper->redirector('showallpoints','admin',
+                                         null, array ('lat' => $lat, 'lon' => $lon));
 
                   }
 
@@ -175,7 +186,17 @@ class AdminController extends Zend_Controller_Action
      */
     public function showallpointsAction()
     {
-       
+        $lat = 0;
+        $lon = 0;
+
+        if($this->getRequest()->isGet()){
+            $lat = (float)$this->_getParam('lat',0);
+            $lon = (float)$this->_getParam('lon',0);
+
+        }
+           $this->view->lat = $lat;
+           $this->view->lon = $lon;
+           
     }
 
 
@@ -183,10 +204,13 @@ public function deletepointAction()
     {
         if($this->getRequest()->isGet()){
             $id = $this->_getParam('id',0);
+            $lat = $this->_getParam('lat',0);
+            $lon = $this->_getParam('lon',0);
             $points = new Application_Model_DbTable_Geodaten();
             $points->deletepoint($id);
             //$this->_flashMessenger->addMessage('Löschen Erfolgreich!');
-            $this->_helper->redirector('showallpoints','admin');
+             $this->_helper->redirector('showallpoints','admin',
+                                         null, array ('lat' => $lat, 'lon' => $lon));
         }
     }
 
