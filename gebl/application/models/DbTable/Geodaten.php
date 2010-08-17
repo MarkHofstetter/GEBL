@@ -16,6 +16,7 @@ class Application_Model_DbTable_Geodaten extends Zend_Db_Table_Abstract
             'G_LON' => $lon
         );
 
+        
         $this->insert($data);
     }
 
