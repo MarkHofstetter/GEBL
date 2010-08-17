@@ -1,8 +1,8 @@
 -- sequence fuer tabellen ids
 CREATE SEQUENCE gebl_seq
   INCREMENT BY 1
-  START WITH 999
-  MINVALUE 999
+  START WITH 150000
+  MINVALUE 150000
   MAXVALUE 999999999999999999999999999
   NOCYCLE
   NOORDER
@@ -120,10 +120,12 @@ DECLARE
   a_id number;
   a_nr number;
 BEGIN
-  SELECT gebl_seq.nextval
-    INTO a_id
-    FROM dual;
-  :new.A_Id := a_id;
+	if (:new.A_Id is null) then
+		SELECT gebl_seq.nextval
+			INTO a_id
+			FROM dual;
+		:new.A_Id := a_id;
+	end if;
   SELECT gebl_seq_a.nextval
     INTO a_nr
     FROM dual;
@@ -207,11 +209,11 @@ COMMENT ON COLUMN brutstaetten.b_text IS 'optionaler Zusatztext'
 COMMENT ON COLUMN brutstaetten.b_zugang IS 'Zugaenglichkeit;leicht,mittel,schwer'
 ;
 CREATE TABLE geodaten
-    (g_id                           NUMBER ,
+    (g_id                          NUMBER ,
     g_lat                          NUMBER(8,6) NOT NULL,
     g_lon                          NUMBER(8,6) NOT NULL,
     g_typ                          NUMBER NOT NULL,
-    g_name                         VARCHAR2(50 BYTE))
+    g_checked                      NUMBER(1))
   PCTFREE     10
   INITRANS    1
   MAXTRANS    255
@@ -258,10 +260,11 @@ BEGIN
 	end if;
 END;
 /
-COMMENT ON COLUMN geodaten.g_name IS 'optionale Bezeichnung'
-;
 COMMENT ON COLUMN geodaten.g_typ IS '1..Adresse/,2..Falle,3..Brutstaette'
 ;
+COMMENT ON COLUMN geodaten.g_checked IS '0..unchecked/,1..checked'
+;
+
 CREATE TABLE fallen
     (f_id                           NUMBER ,
     f_nr                           VARCHAR2(10 BYTE),
