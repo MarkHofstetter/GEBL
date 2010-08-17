@@ -32,5 +32,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     }
 
+    /*protected function _initDBSettings() {
+        //SET NLS_NUMERIC_CHARACTERS to "." for Database
+        $resource = $bootstrap->getPluginResource('db');
+        $db = $resource->getDbAdapter();
+        $db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
+}
+*/
 }
 
