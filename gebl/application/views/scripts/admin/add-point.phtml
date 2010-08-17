@@ -3,11 +3,17 @@
 var geocoder;
 var map;
 var marker;
+var lat =  <?php echo $this->lat; ?>;
+var lon = <?php echo $this->lon; ?>;
 
 
  function initialize() {
 
-    var myLatlng = new google.maps.LatLng(48.20833, 16.373064);
+    if (lat == 0 && lon == 0){
+        lat = 48.20833;
+        lon = 16.373064;
+        }
+    var myLatlng = new google.maps.LatLng(lat, lon);
     var myOptions = {
       zoom: 12,
       center: myLatlng,

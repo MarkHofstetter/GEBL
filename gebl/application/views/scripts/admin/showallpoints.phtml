@@ -2,23 +2,30 @@
 
 var geocoder;
 var map;
+var lat =  <?php echo $this->lat; ?>;
+var lon = <?php echo $this->lon; ?>;
+
 
 var customIcons = {
       1: {
-        icon: 'http://google-maps-icons.googlecode.com/files/villa.png'
+        icon: '/images/villa.png'
         },
       2: {
-        icon: 'http://google-maps-icons.googlecode.com/files/exit.png'
+        icon: '/images/exit.png'
         },
        3: {
-        icon: 'http://google-maps-icons.googlecode.com/files/water.png'
+        icon: '/images/water.png'
         }
     };
 
 
  function initialize() {
 
-    var myLatlng = new google.maps.LatLng(48.20833, 16.373064);
+    if (lat == 0 && lon == 0){
+    lat = 48.20833;
+    lon = 16.373064;
+    }
+    var myLatlng = new google.maps.LatLng(lat, lon);
     var myOptions = {
       zoom: 12,
       center: myLatlng,
@@ -31,7 +38,7 @@ var customIcons = {
     //draw points from xml
      var infoWindow = new google.maps.InfoWindow;
     // Change this depending on the name of your PHP file
-      downloadUrl("listallpoints?format=xml", function(data) {
+      downloadUrl("/admin/listallpoints?format=xml", function(data) {
      var xml = parseXml(data);
      var markers = xml.documentElement.getElementsByTagName("marker");
      for (var i = 0; i < markers.length; i++) {
@@ -41,7 +48,6 @@ var customIcons = {
         var point = new google.maps.LatLng(
               parseFloat(markers[i].getAttribute("lat")),
               parseFloat(markers[i].getAttribute("lon")));
-        var html = "" + name + " ";
         var icon = customIcons[typ] || {};
         var marker = new google.maps.Marker({
             map: map,
@@ -52,7 +58,7 @@ var customIcons = {
           marker.set("name",name);
           marker.set("typ",typ);
           marker.set("id",id);
-          bindInfoWindow(marker, map, infoWindow, html);
+          bindInfoWindow(marker, map, infoWindow);
         }
       });
         
@@ -82,51 +88,51 @@ var customIcons = {
   //map.setCenter(location);
 }
 
-   function bindInfoWindow(marker, map, infoWindow, html) {
+   function bindInfoWindow(marker, map, infoWindow) {
       google.maps.event.addListener(marker, 'click', function() {
-          infoWindow.setContent(html);
-          infoWindow.open(map, marker);
+          
           document.getElementById("pointname").innerHTML="Name: " + marker.get("name");
-          //document.getElementById("pointtyp").innerHTML="Typ: " + marker.get("typ");
-          if(document.getElementById("deletepoint")){
-             document.getElementById("deletepoint").href="/admin/deletepoint/id/" + marker.get("id");
-             document.getElementById("deletepoint").innerHTML="Lösche Punkt mit ID " + marker.get("id");
-           }
+          var html = ""
+          var markerid = marker.get('id');
+          var markername = marker.get('name');
+           //if(document.getElementById("deletepoint")){
+             document.getElementById("deletepoint").href="/admin/deletepoint/id/" + marker.get("id")
+                                                          + "/lat/" + map.getCenter().lat()
+                                                          + "/lon/" +  map.getCenter().lng();
+             document.getElementById("deletepoint").innerHTML="Lösche Punkt mit Namen  " + marker.get('name');
+          //}
                  switch (marker.get("typ")){
 
                  case "1":
+                 html = "<h4>"+ markername + "</h4>" + "Typ: Adresse <br>";
                  document.getElementById("info").innerHTML="";
-                 document.getElementById("infobutton").value="Weitere Daten zu dieser Adresse anzeigen";
-                 document.getElementById("infobutton").onclick= function(){getadresseInfo(marker.get("id"))};
-                 document.getElementById("infobutton").style.visibility = "visible";
                  break;
                  
                  case "2":
+                 html = "<h4>"+ markername + "</h4>" + "Typ: Falle <br>";
                  document.getElementById("info").innerHTML="";
-                 document.getElementById("infobutton").value="Weitere Daten zu dieser Falle anzeigen";
-                 document.getElementById("infobutton").onclick= function(){getfalleInfo(marker.get("id"))};
-                 document.getElementById("infobutton").style.visibility = "visible";
                  break;
                  
                  case "3":
+                 html = "<h4>"+ markername + "</h4>" + "Typ: Brutstätte <br>";
+                 html = html + "<p><input type='button' value='Weitere Daten laden' onclick='getbrutInfo("+ markerid +")'/></p>";
                  document.getElementById("info").innerHTML="";
-                 document.getElementById("infobutton").value="Weitere Daten zu dieser Brutstätte anzeigen";
-                 document.getElementById("infobutton").onclick= function(){getbrutInfo(marker.get("id"))};
-                 document.getElementById("infobutton").style.visibility = "visible";
                  break;
 
                  default:
                  document.getElementById("info").innerHTML="";
                  document.getElementById("infobutton").style.visibility = "hidden";
                  }
-
+            infoWindow.setContent(html);
+            infoWindow.open(map, marker);
             }
+            
         );
     }
 
     function getbrutInfo(g_id){
       document.getElementById("info").innerHTML="Lade Daten ....";
-      downloadUrl("http://gebl/admin/listonebrutstaette/format/xml/g_id/" + g_id, function(data){
+      downloadUrl("/admin/listonebrutstaette/format/xml/g_id/" + g_id, function(data){
                       var xml = parseXml(data);
                       var brut = xml.documentElement.getElementsByTagName("brutstaette");
                       var b_id = brut[0].getAttribute("b_id");
@@ -140,22 +146,22 @@ var customIcons = {
                       var b_bek_art = brut[0].getAttribute("b_bek_art");
                       var b_text = brut[0].getAttribute("b_text");
                       var aktionen = xml.documentElement.getElementsByTagName("aktion");
-                      var infohtml ="<h2>Daten zu dieser Brutstätte:</h2>" +
+                      var infohtml ="<h4>Daten zu dieser Brutstätte:</h4>" +
                                    "b_id = " + b_id + "<br>" +
                                    "b_nr = " + b_nr + "<br>" +
                                    "b_name = " + b_name + "<br>" +
                                    "b_groesse = " + b_groesse + "<br>" +
                                    "b_gewaesser_art = " + b_gewaesser_art + "<br>" +
                                    "b_zugang = " + b_zugang + "<br>" +
-                                   "b_p_id = " + b_id + "<br>" +
+                                   "b_p_id = " + b_p_id + "<br>" +
                                    "b_g_id = " + b_g_id + "<br>" +
                                    "b_bek_art = " + b_bek_art + "<br>" +
                                    "b_text = " + b_text + "<br>" ;
 
-                      var aktionenhtml = "<h2>Aktionen zu dieser Brutstätte:</h2>"
+                      var aktionenhtml = ""
                       for (var i = 0; i < aktionen.length; i++) {
                         aktionenhtml = aktionenhtml +
-                                       "<h3>Aktion " + i + "</h3>" +
+                                       "<h4>Aktion " + i + "</h4>" +
                                        "a_id =" + aktionen[i].getAttribute("a_id") + "<br>" +
                                        "a_nr =" + aktionen[i].getAttribute("a_nr") + "<br>" +
                                        "a_typ =" + aktionen[i].getAttribute("a_typ") + "<br>" +
@@ -180,6 +186,12 @@ var customIcons = {
 
     function getfalleInfo(g_id){
       
+    }
+
+    function addBrutstaette(){
+    window.location.href="/admin/addbrutstaette"
+                            + "/lat/" + map.getCenter().lat()
+                            + "/lon/" +  map.getCenter().lng();
     }
 
     function downloadUrl(url, callback) {
@@ -252,15 +264,15 @@ var customIcons = {
    </div>
    </td>
   <td>
-       <h2 id="pointname"></h2>
+       <h3 id="pointname"></h3>
        <p><a id="pointinfo"> </a></p>
-       <input id="infobutton" type="button" style="visibility: hidden" />
+       
        <p><a id="deletepoint" ></a></p>
-       <p><a id="addpoint" href="/admin/add-point">Noch einen Punkt eingeben</a></p>
-       <p><a id="addpoint" href="/admin/addbrutstaette">Noch eine Brutstaette eingeben</a></p>
-   </td>
-   <td style="width: 400px">
-        <div id="info"></div>
+       <input id ="addbrut" type="button" value="Weitere Brutstätte eingeben" onclick="addBrutstaette()"/>
+       
+       
+   
+       <div id="info"></div>
        
    </td>
 
