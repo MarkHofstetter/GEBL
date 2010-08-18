@@ -1,0 +1,74 @@
+<?php
+$this->headScript()->appendFile(
+    '/js/gmap.js',
+    'text/javascript'
+    );
+
+$this->headScript()->appendFile(
+    '/js/guestshowallbrutstaetten.js',
+    'text/javascript'
+    );
+
+$this->headScript()->captureStart() ?>
+
+var geocoder;
+var map;
+var lat =  <?php echo $this->lat; ?>;
+var lon = <?php echo $this->lon; ?>;
+var urlmarkers = "/guest/listallbrutgeodaten?format=xml"
+
+
+var customIcons = {
+      0: {
+        icon: '/images/waterred.png'
+        },
+      1: {
+        icon: '/images/water.png'
+        }
+    };
+
+
+
+  window.onload = loadScript;
+
+ 
+
+<?php $this->headScript()->captureEnd() ?>
+
+
+  
+ <table>
+  <tr>
+  <th colspan="2">
+  <h1>GEBL-Karte: Gemeldete Brutstätten </h1>
+  </th>
+  </tr>
+
+  <tr>
+      <td >
+          <div>
+            <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
+            <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+           </div>
+      </td>
+      <td align="left">
+          <a href="/index/login">Login</a>
+      </td>
+  </tr>
+
+  <tr>
+    <td id="map" colspan="2">
+        <div id="map_canvas" style="height: 500px;width: 800px"></div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align ="center">
+                            
+       <input id ="addbrut" type="button" value="Weitere Brutstätte melden" onclick="addBrutstaette()"/>
+          
+       <div id="info"></div>
+       
+    </td>
+   </tr>
+
+  </table>
