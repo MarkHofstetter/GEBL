@@ -12,26 +12,26 @@ class Application_Form_Brutstaette extends Zend_Form
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setRequired(true);
         $lat = new Zend_Form_Element('G_LAT');
-        $lat->setLabel('Lat: ')
+        $lat->setLabel('Breitengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
               ->setRequired(true)
-              //->addValidator('Float')
-              ->addValidator('Between',true,array(0,180));
+             //->addValidator('Float')
+              ->addValidator('Between',true,array(46,49));
               //->setAttrib('disabled', 'true');
         $lon = new Zend_Form_Element('G_LON');
-        $lon->setLabel('Lon: ')
+        $lon->setLabel('Längengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
                ->setRequired(true)
-                //->addValidator('Float')
-               ->addValidator('Between',true,array(0,180));
+               //->addValidator('Float')
+               ->addValidator('Between',true,array(14,18));
                 //->setAttrib('disabled', 'true');
         $b_name = new Zend_Form_Element_Text('B_NAME');
         $b_name->setLabel('Name der Brutstaette: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setRequired(true);
         $groesse = new Zend_Form_Element('B_GROESSE');
-        $groesse->setLabel('Größe: ')
+        $groesse->setLabel('Größe in m²: ')
               ->setRequired(true)
               ->addValidator('Int')
-              ->addValidator('Between',true,array(0,100));
+              ->addValidator('Between',true,array(0,100000));
         $gewaesser_art = new Zend_Form_Element_Text('B_GEWAESSER_ART');
         $gewaesser_art->setLabel('Gewässer Art: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true));
@@ -43,7 +43,7 @@ class Application_Form_Brutstaette extends Zend_Form
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true));
         $text = new Zend_Form_Element_Textarea('B_TEXT');
         $text->setLabel('Text: ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setAttrib('rows','5')
               ->setAttrib('cols','50')
 

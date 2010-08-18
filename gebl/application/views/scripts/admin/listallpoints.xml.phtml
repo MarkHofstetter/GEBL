@@ -3,6 +3,7 @@
 
 
 
+/* Moved to Model
 $dom = new DOMDocument("1.0");
 $node = $dom->createElement("markers");
 $parnode = $dom->appendChild($node);
@@ -27,7 +28,8 @@ foreach ($this->allPoints as $point) {
   
 
   }
-
+*/
+$dom = $this->dom;
 echo $dom->saveXML();
 
 ?>

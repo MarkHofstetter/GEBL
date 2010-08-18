@@ -19,7 +19,7 @@ class IndexController extends Zend_Controller_Action
     {
       // echo $this->hrModel->getSysDate();
        //$this->_helper->redirector('showallpoints','admin');
-        $this->_helper->redirector('login','index');
+        $this->_helper->redirector('index','guest');
     }
 
 
@@ -48,6 +48,10 @@ public function loginAction()
         $result = $auth->authenticate($authAdapter);
 
         if($result->isValid()) {
+            $storage  = $auth->getStorage();
+            // die gesamte Tabellenzeile in der Session speichern,
+            // wobei das Passwort unterdrückt wird
+            $storage->write($authAdapter->getResultRowObject(null, 'password'));
             $this->_helper->redirector('index','admin');
         }
         else{
@@ -59,7 +63,7 @@ public function loginAction()
 
     public function logoutAction() {
         Zend_Auth::getInstance()->clearIdentity();
-         $this->_helper->redirector('login','index');
+         $this->_helper->redirector('guest','index');
     }
 
 

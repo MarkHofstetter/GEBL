@@ -3,14 +3,14 @@
 var geocoder;
 var map;
 var marker;
-var lat =  <?php echo $this->lat; ?>;
-var lon = <?php echo $this->lon; ?>;
+var lat =  <?php if ($this->lat) {echo $this->lat;} else {echo "48.20833";}; ?>;
+var lon = <?php if ($this->lat) {echo $this->lon;} else {echo "16.373064";}; ?>;
 
  function initialize() {
-    if (lat == 0 && lon == 0){
+   /* if (lat == 0 && lon == 0){
         lat = 48.20833;
         lon = 16.373064;
-        }
+        }*/
     var myLatlng = new google.maps.LatLng(lat, lon);
     var myOptions = {
       zoom: 12,
@@ -36,7 +36,7 @@ var lon = <?php echo $this->lon; ?>;
 
        placeMarker(results[0].geometry.location);
 
-            var infowindow = new google.maps.InfoWindow({content: 'Hier gibts bald keine Gelsen mehr!'});
+            var infowindow = new google.maps.InfoWindow({content: 'Bitte Daten zu diesem Punkt eingeben!'});
             infowindow.open(map, marker);
 
 
@@ -56,8 +56,8 @@ var lon = <?php echo $this->lon; ?>;
    document.getElementById("position").innerHTML="Position clicked " + location.lat()
         + " " + location.lng();
 
-   document.getElementById ("G_LAT").value = location.lat();
-   document.getElementById ("G_LON").value = location.lng();
+   document.getElementById ("G_LAT").value = parseFloat(location.lat());
+   document.getElementById ("G_LON").value = parseFloat(location.lng());
 
   //map.setCenter(location);
 }
@@ -75,7 +75,7 @@ var lon = <?php echo $this->lon; ?>;
   <table>
   <tr>
       <th colspan="2">
-  <h1>GEBL-Karte: Punkte eingeben</h1>
+  <h1>GEBL-Karte: Brutstätte eingeben</h1>
       </th>
   </tr>
    <tr>

@@ -17,6 +17,9 @@
           <actionMethod actionName="addPoint"/>
           <actionMethod actionName="genAllPointsXML"/>
         </controllerFile>
+        <controllerFile controllerName="Guest">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <formsDirectory>
         <formFile formName="Point"/>
@@ -50,6 +53,9 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="Admin">
             <viewScriptFile forActionName="genAllPointsXML"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="Guest">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -86,6 +92,7 @@
         <testApplicationBootstrapFile filesystemName="bootstrap.php"/>
         <testApplicationControllerDirectory>
           <testApplicationControllerFile filesystemName="AdminControllerTest.php"/>
+          <testApplicationControllerFile filesystemName="GuestControllerTest.php"/>
         </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>

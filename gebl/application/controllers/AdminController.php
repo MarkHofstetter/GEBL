@@ -5,7 +5,7 @@ class AdminController extends Zend_Controller_Action
 
   // protected $_flashMessenger;
 
-
+  protected $_auth;
 
     public function init()
     {
@@ -19,16 +19,17 @@ class AdminController extends Zend_Controller_Action
                       ->initContext();
 
         //Authentification
-        $auth = Zend_Auth::getInstance();
-        if(!$auth->hasIdentity()){
+        $this->_auth = Zend_Auth::getInstance();
+        if(!$this->_auth->hasIdentity()){
             $this->_helper->redirector('login', 'index');
         }
+        
 
-        //SET NLS_NUMERIC_CHARACTERS to "." for Database
+    /*    //SET NLS_NUMERIC_CHARACTERS to "." for Database moved to bootstrap
          $this->db = Zend_Db_Table::getDefaultAdapter();
          $this->db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
         
-
+*/
         //FlashMessenger
     //    $this->_flashMessenger = $this->_helper->getHelper('flashMessenger');
     }
@@ -73,6 +74,7 @@ class AdminController extends Zend_Controller_Action
   
         public function addbrutstaetteAction()
     {
+
         $lat = 0;
         $lon = 0;
         if($this->getRequest()->isGet()){
@@ -81,6 +83,7 @@ class AdminController extends Zend_Controller_Action
             }
 
          $form = new Application_Form_Brutstaette();
+             
                 $form->senden->setLabel('Hinzufügen');
                 $this->view->form = $form;
                 $this->view->lat= $lat;
@@ -94,40 +97,41 @@ class AdminController extends Zend_Controller_Action
                         $name = $form->getValue('G_NAME');
                         $lat = $form->getValue('G_LAT');
                         $lon = $form->getValue('G_LON');
+                       
 
                         $b_name = $form->getValue('B_NAME');
                         $b_groesse = $form->getValue('B_GROESSE');
-                        $b_gewaesser_art = $form->getValue('B_GEWAESSER_ART');
+                        $b_gew_art = $form->getValue('B_GEWAESSER_ART');
                         $b_zugang = $form->getValue('B_ZUGANG');
                         $b_bek_art = $form->getValue('B_BEK_ART');
                         $b_text = $form->getValue('B_TEXT');
 
-                        $points = new Application_Model_DbTable_Geodaten();
-                        $pointdata = array(
-                              'G_TYP' => $typ,
-                              'G_NAME' => $name,
-                              'G_LAT' => $lat,
-                              'G_LON' => $lon
-                              );
+                        if ($this->_auth->hasIdentity() &&is_object($this->_auth->getIdentity())) {
+                            $b_p_id = $this->_auth->getIdentity()->P_ID;
+                            $checked = 1;
+                           } else {
+                           $b_p_id = null;
+                           $checked = 0;
+                            }
 
-                        $b_g_id = $points->insert($pointdata);
+                        $geodaten = new Application_Model_DbTable_Geodaten();
+                        
+                        $b_g_id = $geodaten->addGeodaten($typ, $lat, $lon, $checked);
+
+
 
                         $brutstaetten = new Application_Model_DbTable_Brutstaetten();
-                        $brutdata = array(
-                              'B_NAME' => $b_name,
-                              'B_GROESSE' => $b_groesse,
-                              'B_GEWAESSER_ART' => $b_gewaesser_art,
-                              'B_ZUGANG' => $b_zugang,
-                              'B_BEK_ART' => $b_bek_art,
-                              'B_TEXT' => $b_text,
-                              'B_G_ID' => $b_g_id
-                             );
-
-                        $brutstaetten->insert($brutdata);
+                        
+                        $brutstaetten->addBrutstaette($b_name, $b_groesse, $b_gew_art,
+                                               $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id);
                         $this->_helper->redirector('showallpoints','admin',
                                          null, array ('lat' => $lat, 'lon' => $lon));
 
                   }
+                        $lat = $form->getValue('G_LAT');
+                        $lon = $form->getValue('G_LON');
+                        $this->view->lat = $lat;
+                        $this->view->lon = $lon;
 
                         }
 
@@ -143,9 +147,8 @@ class AdminController extends Zend_Controller_Action
     public function listallpointsAction()
     {
         $pointsModel = new Application_Model_DbTable_Geodaten();
-        $points = $pointsModel->fetchAll();
-
-        $this->view->allPoints = $points;
+        $this->view->dom = $pointsModel->listAllGeodatenXML();
+        
     }
 
     public function listonepointAction()
@@ -207,7 +210,7 @@ public function deletepointAction()
             $lat = $this->_getParam('lat',0);
             $lon = $this->_getParam('lon',0);
             $points = new Application_Model_DbTable_Geodaten();
-            $points->deletepoint($id);
+            $points->deleteGeodaten($id);
             //$this->_flashMessenger->addMessage('Löschen Erfolgreich!');
              $this->_helper->redirector('showallpoints','admin',
                                          null, array ('lat' => $lat, 'lon' => $lon));
