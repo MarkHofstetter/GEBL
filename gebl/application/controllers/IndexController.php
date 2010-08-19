@@ -63,7 +63,7 @@ public function loginAction()
 
     public function logoutAction() {
         Zend_Auth::getInstance()->clearIdentity();
-         $this->_helper->redirector('guest','index');
+         $this->_helper->redirector('index','guest');
     }
 
 

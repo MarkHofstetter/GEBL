@@ -27,5 +27,7 @@ function bindInfoWindow(marker, map, infoWindow) {
 function addBrutstaette(){
     window.location.href="/guest/addbrutstaette"
     + "/lat/" + map.getCenter().lat()
-    + "/lon/" +  map.getCenter().lng();
+    + "/lon/" +  map.getCenter().lng()
+    + "/zoom/" + map.getZoom();
 }
+

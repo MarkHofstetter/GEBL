@@ -16,13 +16,16 @@ class GuestController extends Zend_Controller_Action {
     public function showallbrutstaettenAction() {
         $lat = 0;
         $lon = 0;
+        $zoom = 12;
 
         if ($this->getRequest()->isGet()) {
             $lat = (float) $this->_getParam('lat', 0);
             $lon = (float) $this->_getParam('lon', 0);
+            $zoom = (float) $this->_getParam('zoom', 0);
         }
         $this->view->lat = $lat;
         $this->view->lon = $lon;
+        $this->view->zoom = $zoom;
     }
 
     public function listallbrutgeodatenAction() {
@@ -34,9 +37,12 @@ class GuestController extends Zend_Controller_Action {
 
         $lat = 0;
         $lon = 0;
+        $zoom = 12;
+
         if ($this->getRequest()->isGet()) {
             $lat = $this->_getParam('lat', 0);
             $lon = $this->_getParam('lon', 0);
+            $zoom = (float) $this->_getParam('zoom', 0);
         }
 
         $form = new Application_Form_Brutstaette();
@@ -45,6 +51,7 @@ class GuestController extends Zend_Controller_Action {
         $this->view->form = $form;
         $this->view->lat = $lat;
         $this->view->lon = $lon;
+        $this->view->zoom = $zoom;
 
 
         if ($this->getRequest()->isPost()) {
@@ -79,7 +86,7 @@ class GuestController extends Zend_Controller_Action {
                 $brutstaetten->addBrutstaette($b_name, $b_groesse, $b_gew_art,
                         $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id);
                 $this->_helper->redirector('showallbrutstaetten', 'guest',
-                        null, array('lat' => $lat, 'lon' => $lon));
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
             }
             $lat = $form->getValue('G_LAT');
             $lon = $form->getValue('G_LON');

@@ -7,6 +7,8 @@ class Application_Form_Brutstaette extends Zend_Form
     {
        $this->setMethod('post');
 
+        $g_id = new Zend_Form_Element_Hidden('G_ID');
+        $g_checked = new Zend_Form_Element_Hidden('G_CHECKED');
         $g_name = new Zend_Form_Element_Text('G_NAME');
         $g_name->setLabel('Name des Punktes: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
@@ -50,7 +52,7 @@ class Application_Form_Brutstaette extends Zend_Form
               ;
 
         $submit = new Zend_Form_Element_Submit('senden');
-        $this->addElements(array($g_name, $lat, $lon, $b_name, $groesse, $gewaesser_art, $zugang, $bek_art, $text ,$submit));
+        $this->addElements(array($g_id, $g_checked, $g_name, $lat, $lon, $b_name, $groesse, $gewaesser_art, $zugang, $bek_art, $text ,$submit));
 
         //Layout
         $this->addDisplayGroup(array(

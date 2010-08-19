@@ -4,6 +4,7 @@ var geocoder;
 var map;
 var lat =  <?php echo $this->lat; ?>;
 var lon = <?php echo $this->lon; ?>;
+var zoom = <?php echo $this->zoom; ?>;
 
 
 var customIcons = {
@@ -13,8 +14,11 @@ var customIcons = {
       2: {
         icon: '/images/exit.png'
         },
-       3: {
+      3: {
         icon: '/images/water.png'
+        },
+      4: {
+        icon: '/images/waterred.png'
         }
     };
 
@@ -25,9 +29,12 @@ var customIcons = {
     lat = 48.20833;
     lon = 16.373064;
     }
+    if (zoom == 0){
+    zoom = 12;
+    }
     var myLatlng = new google.maps.LatLng(lat, lon);
     var myOptions = {
-      zoom: 12,
+      zoom: zoom,
       center: myLatlng,
       mapTypeId: google.maps.MapTypeId.HYBRID
     }
@@ -45,6 +52,9 @@ var customIcons = {
         var id = markers[i].getAttribute("id");
         var name = markers[i].getAttribute("name");
         var typ = markers[i].getAttribute("typ");
+        var checked = markers[i].getAttribute("checked");
+        //unchecked Brutstaette is Typ 4
+        if (checked == "0" && typ == "3"){typ = "4"};
         var point = new google.maps.LatLng(
               parseFloat(markers[i].getAttribute("lat")),
               parseFloat(markers[i].getAttribute("lon")));
@@ -58,6 +68,7 @@ var customIcons = {
           marker.set("name",name);
           marker.set("typ",typ);
           marker.set("id",id);
+          marker.set("checked",checked);
           bindInfoWindow(marker, map, infoWindow);
         }
       });
@@ -98,7 +109,8 @@ var customIcons = {
            //if(document.getElementById("deletepoint")){
              document.getElementById("deletepoint").href="/admin/deletepoint/id/" + marker.get("id")
                                                           + "/lat/" + map.getCenter().lat()
-                                                          + "/lon/" +  map.getCenter().lng();
+                                                          + "/lon/" +  map.getCenter().lng()
+                                                          + "/zoom/" + map.getZoom();
              document.getElementById("deletepoint").innerHTML="Lösche Punkt mit Namen  " + marker.get('name');
           //}
                  switch (marker.get("typ")){
@@ -116,6 +128,15 @@ var customIcons = {
                  case "3":
                  html = "<h4>"+ markername + "</h4>" + "Typ: Brutstätte <br>";
                  html = html + "<p><input type='button' value='Weitere Daten laden' onclick='getbrutInfo("+ markerid +")'/></p>";
+                 html = html + "<p><input type='button' value='Brutstätte editieren' onclick='editBrut("+ markerid +")'/></p>"
+                 document.getElementById("info").innerHTML="";
+                 break;
+
+                 case "4": //unchecked Brutstaette
+                 html = "<h4>"+ markername + "</h4>" + "Typ: ungeprüfte Brutstätte <br>";
+                 html = html + "<p><input type='button' value='Weitere Daten laden' onclick='getbrutInfo("+ markerid +")'/></p>";
+                 html = html + "<p><input type='button' value='Brutstätte editieren' onclick='editBrut("+ markerid +")'/></p>"
+                 html = html + "<p><input type='button' value='Brutstätte geprüft' onclick='setBrutChecked("+ markerid +")'/></p>";
                  document.getElementById("info").innerHTML="";
                  break;
 
@@ -128,6 +149,23 @@ var customIcons = {
             }
             
         );
+    }
+
+
+    function editBrut(g_id) {
+        window.location.href="/admin/editbrutstaette"
+    + "/g_id/" + g_id
+    + "/lat/" + map.getCenter().lat()
+    + "/lon/" +  map.getCenter().lng()
+     + "/zoom/" + map.getZoom();
+    }
+
+    function setBrutChecked(g_id) {
+        window.location.href="/admin/setbrutchecked"
+    + "/g_id/" + g_id
+    + "/lat/" + map.getCenter().lat()
+    + "/lon/" +  map.getCenter().lng()
+     + "/zoom/" + map.getZoom();
     }
 
     function getbrutInfo(g_id){
@@ -193,7 +231,8 @@ var customIcons = {
     function addBrutstaette(){
     window.location.href="/admin/addbrutstaette"
                             + "/lat/" + map.getCenter().lat()
-                            + "/lon/" +  map.getCenter().lng();
+                            + "/lon/" +  map.getCenter().lng()
+                            + "/zoom/" + map.getZoom();
     }
 
     function downloadUrl(url, callback) {

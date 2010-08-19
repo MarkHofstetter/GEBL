@@ -23,6 +23,25 @@ class Application_Model_DbTable_Geodaten extends Zend_Db_Table_Abstract {
         $this->delete('G_ID =' . (int) $id);
     }
 
+    public function setChecked($id) {
+        $data = array(
+       'G_CHECKED'      => '1'
+        );
+       $where = $this->getAdapter()->quoteInto('G_ID = ?', $id);
+       $this->update($data, $where);
+       }
+
+    public function updateGeodaten($id, $typ, $lat, $lon, $checked) {
+        $data = array(
+       'G_TYP' => $typ,
+       'G_LAT' => $lat,
+       'G_LON' => $lon,
+       'G_CHECKED' => $checked
+        );
+       $where = $this->getAdapter()->quoteInto('G_ID = ?', $id);
+       $this->update($data, $where);
+       }
+
   
 
     public function geodaten2xml($geodaten) {

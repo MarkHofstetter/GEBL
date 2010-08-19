@@ -5,6 +5,7 @@ var map;
 var marker;
 var lat =  <?php echo $this->lat; ?>;
 var lon = <?php echo $this->lon; ?>;
+var zoom = <?php echo $this->zoom; ?>;;
 
 
  function initialize() {
@@ -13,9 +14,13 @@ var lon = <?php echo $this->lon; ?>;
         lat = 48.20833;
         lon = 16.373064;
         }
+    if (zoom == 0){
+        zoom = 12;
+        }
+
     var myLatlng = new google.maps.LatLng(lat, lon);
     var myOptions = {
-      zoom: 12,
+      zoom: zoom,
       center: myLatlng,
       mapTypeId: google.maps.MapTypeId.HYBRID
     }
