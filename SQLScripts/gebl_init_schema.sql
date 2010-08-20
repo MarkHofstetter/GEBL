@@ -135,14 +135,15 @@ END;
 CREATE TABLE brutstaetten
     (b_id                           NUMBER ,
     b_nr                           VARCHAR2(10 BYTE),
-    b_name                         VARCHAR2(50 BYTE),
     b_groesse                      NUMBER,
     b_gewaesser_art                VARCHAR2(50 BYTE),
     b_zugang                       VARCHAR2(100 BYTE),
     b_p_id                         NUMBER,
     b_g_id                         NUMBER,
     b_bek_art                      VARCHAR2(50 BYTE),
-    b_text                         VARCHAR2(1024 BYTE))
+    b_text                         VARCHAR2(1024 BYTE),
+	b_checked					   NUMBER,
+	b_kontaktdaten				   VARCHAR2(256 BYTE))
   PCTFREE     10
   INITRANS    1
   MAXTRANS    255
@@ -208,12 +209,16 @@ COMMENT ON COLUMN brutstaetten.b_text IS 'optionaler Zusatztext'
 ;
 COMMENT ON COLUMN brutstaetten.b_zugang IS 'Zugaenglichkeit;leicht,mittel,schwer'
 ;
+COMMENT ON COLUMN brutstaetten.b_checked IS '0..unchecked/,1..checked'
+;
+COMMENT ON COLUMN brutstaetten.b_kontaktdaten IS 'optionaler Text fuer Kontakdaten des Melders'
+;
 CREATE TABLE geodaten
     (g_id                          NUMBER ,
     g_lat                          NUMBER(8,6) NOT NULL,
     g_lon                          NUMBER(8,6) NOT NULL,
     g_typ                          NUMBER NOT NULL,
-    g_checked                      NUMBER(1))
+    g_name                         VARCHAR2(50 BYTE))
   PCTFREE     10
   INITRANS    1
   MAXTRANS    255
@@ -262,13 +267,10 @@ END;
 /
 COMMENT ON COLUMN geodaten.g_typ IS '1..Adresse/,2..Falle,3..Brutstaette'
 ;
-COMMENT ON COLUMN geodaten.g_checked IS '0..unchecked/,1..checked'
-;
 
 CREATE TABLE fallen
     (f_id                           NUMBER ,
     f_nr                           VARCHAR2(10 BYTE),
-    f_name                         VARCHAR2(50 BYTE),
     f_typ                          NUMBER,
 	f_p_id                         NUMBER,
     f_g_id                         NUMBER,
