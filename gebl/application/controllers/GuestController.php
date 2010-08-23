@@ -29,7 +29,9 @@ class GuestController extends Zend_Controller_Action {
     }
 
     public function listallbrutgeodatenAction() {
-        $pointsModel = new Application_Model_DbTable_Geodaten();
+        //$pointsModel = new Application_Model_DbTable_Geodaten();
+        //$this->view->dom = $pointsModel->listBrutGeodatenXML();
+        $pointsModel = new Application_Model_GeodatenBrutstaetten();
         $this->view->dom = $pointsModel->listBrutGeodatenXML();
     }
 
@@ -61,9 +63,7 @@ class GuestController extends Zend_Controller_Action {
                 $name = $form->getValue('G_NAME');
                 $lat = $form->getValue('G_LAT');
                 $lon = $form->getValue('G_LON');
-
-
-                $b_name = $form->getValue('B_NAME');
+                
                 $b_groesse = $form->getValue('B_GROESSE');
                 $b_gew_art = $form->getValue('B_GEWAESSER_ART');
                 $b_zugang = $form->getValue('B_ZUGANG');
@@ -83,7 +83,7 @@ class GuestController extends Zend_Controller_Action {
 
                 $brutstaetten = new Application_Model_DbTable_Brutstaetten();
 
-                $brutstaetten->addBrutstaette($b_name, $b_groesse, $b_gew_art,
+                $brutstaetten->addBrutstaette($b_groesse, $b_gew_art,
                         $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id);
                 $this->_helper->redirector('showallbrutstaetten', 'guest',
                         null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));

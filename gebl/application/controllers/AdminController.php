@@ -95,8 +95,6 @@ class AdminController extends Zend_Controller_Action {
                 $lat = $form->getValue('G_LAT');
                 $lon = $form->getValue('G_LON');
 
-
-                $b_name = $form->getValue('B_NAME');
                 $b_groesse = $form->getValue('B_GROESSE');
                 $b_gew_art = $form->getValue('B_GEWAESSER_ART');
                 $b_zugang = $form->getValue('B_ZUGANG');
@@ -113,13 +111,13 @@ class AdminController extends Zend_Controller_Action {
 
                 $geodaten = new Application_Model_DbTable_Geodaten();
 
-                $b_g_id = $geodaten->addGeodaten($typ, $lat, $lon, $checked);
+                $b_g_id = $geodaten->addGeodaten($name, $typ, $lat, $lon, $checked);
 
 
 
                 $brutstaetten = new Application_Model_DbTable_Brutstaetten();
 
-                $brutstaetten->addBrutstaette($b_name, $b_groesse, $b_gew_art,
+                $brutstaetten->addBrutstaette($b_groesse, $b_gew_art,
                         $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id);
                 $this->_helper->redirector('showallpoints', 'admin',
                         null, array('lat' => $lat, 'lon' => $lon));
@@ -152,16 +150,15 @@ class AdminController extends Zend_Controller_Action {
                 if ($form->isValid($formData)) {
                     $typ = 3;
                     $id = $form->getValue('G_ID');
-                    $checked = $form->getValue('G_CHECKED');
                     $name = $form->getValue('G_NAME');
                     $lat = $form->getValue('G_LAT');
                     $lon = $form->getValue('G_LON');
-                    $b_name = $form->getValue('B_NAME');
                     $b_groesse = $form->getValue('B_GROESSE');
                     $b_gew_art = $form->getValue('B_GEWAESSER_ART');
                     $b_zugang = $form->getValue('B_ZUGANG');
                     $b_bek_art = $form->getValue('B_BEK_ART');
                     $b_text = $form->getValue('B_TEXT');
+                    $checked = $form->getValue('B_CHECKED');
                     if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
                         $b_p_id = $this->_auth->getIdentity()->P_ID;
                         
@@ -171,12 +168,12 @@ class AdminController extends Zend_Controller_Action {
                     }
 
                     $geodaten = new Application_Model_DbTable_Geodaten();
-                    $geodaten->updateGeodaten($id, $typ, $lat, $lon, $checked);
+                    $geodaten->updateGeodaten($id, $name, $typ, $lat, $lon);
 
                     $b_g_id = $id;
                     $brutstaetten = new Application_Model_DbTable_Brutstaetten();
-                    $brutstaetten->updateBrutstaette($b_name, $b_groesse, $b_gew_art,
-                            $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id);
+                    $brutstaetten->updateBrutstaette($b_groesse, $b_gew_art,
+                            $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id, $checked);
                     $this->_helper->redirector('showallpoints', 'admin',
                             null, array('lat' => $lat, 'lon' => $lon));
                 } else {
@@ -207,8 +204,10 @@ class AdminController extends Zend_Controller_Action {
      * Generate XML File for all Points
      */
     public function listallpointsAction() {
-        $pointsModel = new Application_Model_DbTable_Geodaten();
-        $this->view->dom = $pointsModel->listAllGeodatenXML();
+        //$pointsModel = new Application_Model_DbTable_Geodaten();
+        //$this->view->dom = $pointsModel->listAllGeodatenXML();
+        $pointsModel = new Application_Model_GeodatenBrutstaetten();
+        $this->view->dom = $pointsModel->listAllGeodatenAndBrutCheckedXML();
     }
 
     public function listonepointAction() {
@@ -249,7 +248,7 @@ class AdminController extends Zend_Controller_Action {
             $lon = $this->_getParam('lon', 0);
             $zoom = $this->_getParam('zoom', 0);
 
-            $geodatenModel = new Application_Model_DbTable_Geodaten();
+            $geodatenModel = new Application_Model_DbTable_Brutstaetten();
             $geodatenModel->setChecked($g_id);
         }
         $this->_helper->redirector('showallpoints', 'admin',

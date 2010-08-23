@@ -51,6 +51,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $resource = $this->getPluginResource('db');
         $db = $resource->getDbAdapter();
         $db->setProfiler($profiler);
+        //get all data as object
+        //$db->setFetchMode(Zend_Db::FETCH_OBJ);
 
 
         //$logger->log($this, Zend_Log::INFO);

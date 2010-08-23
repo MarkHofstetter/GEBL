@@ -8,7 +8,7 @@ class Application_Form_Brutstaette extends Zend_Form
        $this->setMethod('post');
 
         $g_id = new Zend_Form_Element_Hidden('G_ID');
-        $g_checked = new Zend_Form_Element_Hidden('G_CHECKED');
+        $b_checked = new Zend_Form_Element_Hidden('B_CHECKED');
         $g_name = new Zend_Form_Element_Text('G_NAME');
         $g_name->setLabel('Name des Punktes: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
@@ -25,10 +25,6 @@ class Application_Form_Brutstaette extends Zend_Form
                //->addValidator('Float')
                ->addValidator('Between',true,array(14,18));
                 //->setAttrib('disabled', 'true');
-        $b_name = new Zend_Form_Element_Text('B_NAME');
-        $b_name->setLabel('Name der Brutstaette: ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->setRequired(true);
         $groesse = new Zend_Form_Element('B_GROESSE');
         $groesse->setLabel('Größe in m²: ')
               ->setRequired(true)
@@ -52,7 +48,7 @@ class Application_Form_Brutstaette extends Zend_Form
               ;
 
         $submit = new Zend_Form_Element_Submit('senden');
-        $this->addElements(array($g_id, $g_checked, $g_name, $lat, $lon, $b_name, $groesse, $gewaesser_art, $zugang, $bek_art, $text ,$submit));
+        $this->addElements(array($g_id, $b_checked, $g_name, $lat, $lon, $groesse, $gewaesser_art, $zugang, $bek_art, $text ,$submit));
 
         //Layout
         $this->addDisplayGroup(array(
@@ -67,7 +63,6 @@ class Application_Form_Brutstaette extends Zend_Form
                     array('HtmlTag',array('tag'=>'div','openOnly'=>true,'style'=>'float:left;'))
         ));
         $this->addDisplayGroup(array(
-                    'B_NAME',
                     'B_GROESSE',
                     'B_GEWAESSER_ART',
                     'B_ZUGANG',
