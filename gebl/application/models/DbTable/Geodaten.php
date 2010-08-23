@@ -5,13 +5,12 @@ class Application_Model_DbTable_Geodaten extends Zend_Db_Table_Abstract {
     protected $_name = 'GEODATEN';
     protected $_sequence = 'GEBL_SEQ';
 
-    public function addGeodaten($typ, $lat, $lon, $checked) {
+    public function addGeodaten($typ, $lat, $lon) {
 
         $data = array(
             'G_TYP' => $typ,
             'G_LAT' => $lat,
-            'G_LON' => $lon,
-            'G_CHECKED' => $checked
+            'G_LON' => $lon            
         );
 
 

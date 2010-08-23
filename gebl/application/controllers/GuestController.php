@@ -77,14 +77,14 @@ class GuestController extends Zend_Controller_Action {
 
                 $geodaten = new Application_Model_DbTable_Geodaten();
 
-                $b_g_id = $geodaten->addGeodaten($typ, $lat, $lon, $checked);
+                $b_g_id = $geodaten->addGeodaten($typ, $lat, $lon);
 
 
 
                 $brutstaetten = new Application_Model_DbTable_Brutstaetten();
 
                 $brutstaetten->addBrutstaette($b_groesse, $b_gew_art,
-                        $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id);
+                        $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id, $checked);
                 $this->_helper->redirector('showallbrutstaetten', 'guest',
                         null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
             }

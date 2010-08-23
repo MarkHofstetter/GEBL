@@ -81,8 +81,9 @@
           callback(request.responseText, request.status);
         }
       };
-
+            
       request.open('GET', url, true);
+      request.setRequestHeader("If-Modified-Since", "Sat, 1 Jan 2000 00:00:00 GMT");
       request.send(null);
     }
 

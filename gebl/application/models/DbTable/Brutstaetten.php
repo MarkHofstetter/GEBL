@@ -5,14 +5,15 @@ class Application_Model_DbTable_Brutstaetten extends Zend_Db_Table_Abstract
 
     protected $_name = 'BRUTSTAETTEN';
 
-    public function addBrutstaette($groesse, $gew_art, $zugang, $bek_art, $text, $g_id, $p_id) {
+    public function addBrutstaette($groesse, $gew_art, $zugang, $bek_art, $text, $g_id, $p_id, $checked) {
         $brutdata = array('B_GROESSE' => $groesse,
                           'B_GEWAESSER_ART' => $gew_art,
                           'B_ZUGANG' => $zugang,
                           'B_BEK_ART' => $bek_art,
                           'B_TEXT' => $text,
                           'B_G_ID' => $g_id,
-                          'B_P_ID' => $p_id
+                          'B_P_ID' => $p_id,
+                          'B_CHECKED' => $checked
                           );
 
                         return($this->insert($brutdata));
