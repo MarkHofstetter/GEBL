@@ -68,6 +68,9 @@ VALUES(1002,'P-1','Rudolf','Thaler','1020','Wien','Castellezgasse 16','012165406
 INSERT INTO personen 
 VALUES(1003,'P-2','Maxi','Testname',NULL,NULL,NULL,NULL,NULL,'loginname','loginpassword',2,1012,NULL);
 commit;
+INSERT INTO personen 
+VALUES(1060,'P-2','Stefan','Admin',NULL,NULL,NULL,NULL,NULL,'rule','oe1tal',3,1012,NULL);
+commit;
 INSERT INTO brutstaetten 
 VALUES(1004,'B-1',5,'1','1',1002,1001,'1','Zusatztext zu Brutstaette 1',1,'Kontaktdaten des Melders');
 INSERT INTO brutstaetten 
