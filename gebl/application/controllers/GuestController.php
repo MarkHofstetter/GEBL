@@ -50,6 +50,15 @@ class GuestController extends Zend_Controller_Action {
         $form = new Application_Form_Brutstaette();
 
         $form->senden->setLabel('Hinzufügen');
+
+        // Entferne Felder die nicht für Guest bestimmt:
+        $form->B_GEWAESSER_ART->setAttribs(array('style' => 'display:none;'))
+                              ->removeDecorator('label');
+        $form->B_BEK_ART->setAttribs(array('style' => 'display:none;'))
+                              ->removeDecorator('label');
+        $form->B_ZUGANG->setAttribs(array('style' => 'display:none;'))
+                              ->removeDecorator('label');
+        
         $this->view->form = $form;
         $this->view->lat = $lat;
         $this->view->lon = $lon;
@@ -69,6 +78,7 @@ class GuestController extends Zend_Controller_Action {
                 $b_zugang = $form->getValue('B_ZUGANG');
                 $b_bek_art = $form->getValue('B_BEK_ART');
                 $b_text = $form->getValue('B_TEXT');
+                $b_kontakt = $form->getValue('B_KONTAKTDATEN');
 
                 
                 $b_p_id = null;
@@ -77,14 +87,12 @@ class GuestController extends Zend_Controller_Action {
 
                 $geodaten = new Application_Model_DbTable_Geodaten();
 
-                $b_g_id = $geodaten->addGeodaten($typ, $lat, $lon);
-
-
+                $b_g_id = $geodaten->addGeodaten($name, $typ, $lat, $lon);
 
                 $brutstaetten = new Application_Model_DbTable_Brutstaetten();
 
                 $brutstaetten->addBrutstaette($b_groesse, $b_gew_art,
-                        $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id, $checked);
+                        $b_zugang, $b_bek_art, $b_text, $b_kontakt, $b_g_id, $b_p_id, $checked);
                 $this->_helper->redirector('showallbrutstaetten', 'guest',
                         null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
             }

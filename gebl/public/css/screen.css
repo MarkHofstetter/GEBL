@@ -11,6 +11,98 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
+/*
+*/
+* {
+margin:0;
+padding:0;
+}
+h1, h2, h3, ul, p {
+margin:0 0 0.5em;
+padding:5px;
+}
+html, body {
+height:100%;
+/*text-align:center;*/
+}
+#outer {
+    background: #ccff99/*url("/images/spointbg.jpg") repeat-y scroll right top #FFFFFF`*/;
+border-left:1px solid #000000;
+border-right:1px solid #000000;
+color:#000000;
+margin:-22px auto 0;
+min-height:100%;
+text-align:left;
+width:760px;
+}
+* html #outer {
+height:100%;
+}
+#header {
+background:none repeat scroll 0 0 #304A00;
+border-bottom:1px solid #000000;
+border-top:22px solid #000000;
+color:#FFFFFF;
+width:760px;
+}
+#header h1 {
+    text-align: center
+}
+
+#header ul {
+list-style:none outside none;
+}
+#header ul li {
+display:inline;
+}
+#header a {
+color:#FFFFFF;
+}
+#header2 {
+background:none repeat scroll 0 0 #D2DA9C;
+border-bottom:1px solid #000000;
+border-top:1px solid #000000;
+color:#FFFFFF;
+width:760px;
+text-align: center;
+}
+#centrecontent {
+width:760px;
+}
+#right {
+float:right;
+width:379px;
+}
+#left {
+float:left;
+width:379px;
+}
+#footer {
+background:none repeat scroll 0 0 #4C7300;
+border:1px solid #000000;
+clear:both;
+color:#FFFFFF;
+height:20px;
+margin:auto;
+text-align:center;
+width:760px;
+}
+* html #footer {
+height:20px;
+}
+.clearer {
+clear:both;
+height:1px;
+margin-top:-1px;
+overflow:hidden;
+}
+
+
+
+
+
+
+/*---------------------------
 body {
     
     background-color: burlywood;
@@ -40,5 +132,5 @@ td {
 
 }
 
-
+*/
 

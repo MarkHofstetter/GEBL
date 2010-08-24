@@ -1,7 +1,7 @@
 function bindInfoWindow(marker, map, infoWindow) {
     google.maps.event.addListener(marker, 'click', function() {
        
-        var html = ""
+        var html = "";
         var markername = marker.get('name');
           
         switch (marker.get("checked")){

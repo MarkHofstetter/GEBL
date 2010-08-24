@@ -100,6 +100,7 @@ class AdminController extends Zend_Controller_Action {
                 $b_zugang = $form->getValue('B_ZUGANG');
                 $b_bek_art = $form->getValue('B_BEK_ART');
                 $b_text = $form->getValue('B_TEXT');
+                $b_kontakt = $form->getValue('B_KONTAKTDATEN');
 
                 if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
                     $b_p_id = $this->_auth->getIdentity()->P_ID;
@@ -118,7 +119,7 @@ class AdminController extends Zend_Controller_Action {
                 $brutstaetten = new Application_Model_DbTable_Brutstaetten();
 
                 $brutstaetten->addBrutstaette($b_groesse, $b_gew_art,
-                        $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id, $checked);
+                        $b_zugang, $b_bek_art, $b_text, $b_kontakt,$b_g_id, $b_p_id, $checked);
                 $this->_helper->redirector('showallpoints', 'admin',
                         null, array('lat' => $lat, 'lon' => $lon));
             }
@@ -158,6 +159,7 @@ class AdminController extends Zend_Controller_Action {
                     $b_zugang = $form->getValue('B_ZUGANG');
                     $b_bek_art = $form->getValue('B_BEK_ART');
                     $b_text = $form->getValue('B_TEXT');
+                    $b_kontakt = $form->getValue('B_KONTAKTDATEN');
                     $checked = $form->getValue('B_CHECKED');
                     if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
                         $b_p_id = $this->_auth->getIdentity()->P_ID;
@@ -173,7 +175,7 @@ class AdminController extends Zend_Controller_Action {
                     $b_g_id = $id;
                     $brutstaetten = new Application_Model_DbTable_Brutstaetten();
                     $brutstaetten->updateBrutstaette($b_groesse, $b_gew_art,
-                            $b_zugang, $b_bek_art, $b_text, $b_g_id, $b_p_id, $checked);
+                            $b_zugang, $b_bek_art, $b_text, $b_kontakt,$b_g_id, $b_p_id, $checked);
                     $this->_helper->redirector('showallpoints', 'admin',
                             null, array('lat' => $lat, 'lon' => $lon));
                 } else {
@@ -191,16 +193,11 @@ class AdminController extends Zend_Controller_Action {
                     $brutModel = new Application_Model_DbTable_Brutstaetten();
                     $this->view->form->populate($brutModel->
                                     fetchRow('B_G_ID=' . $id)->toArray());
-                    
-                    
                }
             }
-        
-   
-    }
+          }
 
-    
-    /**
+     /**
      * Generate XML File for all Points
      */
     public function listallpointsAction() {

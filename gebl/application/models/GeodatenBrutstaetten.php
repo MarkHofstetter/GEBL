@@ -30,7 +30,6 @@ class Application_Model_GeodatenBrutstaetten {
                    array('G_ID', 'G_LAT', 'G_TYP', 'G_LON' , 'G_NAME'))
                ->joinLeft('BRUTSTAETTEN','GEODATEN.G_ID = BRUTSTAETTEN.B_G_ID','B_CHECKED');
          $stmt = $select->query();
-         $stmt = $select->query();
          $result = $stmt->fetchAll();
          return ($result);
 

@@ -15,10 +15,12 @@ $this->headScript()->captureStart() ?>
 
 var geocoder;
 var map;
-var lat =  <?php echo $this->lat; ?>;
-var lon = <?php echo $this->lon; ?>;
-var zoom = <?php echo $this->zoom; ?>;
-var urlmarkers = "/guest/listallbrutgeodaten?format=xml"
+var lat =  <?php if ($this->lat) {echo $this->lat;} else {echo "48.01208";}; ?>;
+var lon = <?php if ($this->lat) {echo $this->lon;} else {echo "16.722139";}; ?>;
+var zoom = <?php if ($this->zoom) {echo $this->zoom;} else {echo "12";}; ?>;
+var urlmarkers = "/guest/listallbrutgeodaten?format=xml";
+var placemarkerok = false;
+var clickedmarker;
 
 
 var customIcons = {
@@ -39,39 +41,30 @@ var customIcons = {
 <?php $this->headScript()->captureEnd() ?>
 
 
+
+
+  <div id ="outer">
   
- <table>
-  <tr>
-  <th colspan="2">
-  <h1>GEBL-Karte: Gemeldete Brutstätten </h1>
-  </th>
-  </tr>
+      <div id ="header">
+        <a href="/index/login">Login</a>
+        <h1>GEBL-Karte: Gemeldete Brutstätten </h1>
+      </div>
 
-  <tr>
-      <td >
-          <div>
-            <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
-            <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
-           </div>
-      </td>
-      <td align="left">
-          <a href="/index/login">Login</a>
-      </td>
-  </tr>
-
-  <tr>
-    <td id="map" colspan="2">
-        <div id="map_canvas" style="height: 500px;width: 800px"></div>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" align ="center">
+          <div id="header2">
+          <input id ="addbrut" type="button" value="Weitere Brutstätte melden" onclick="addBrutstaette()"/>
+          <br>
+          <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
+          <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+          </div>
+  
+      <div id="centrecontent">
+        <div id="map_canvas" style="height: 500px;width: 760px"></div>
+      </div>
                             
-       <input id ="addbrut" type="button" value="Weitere Brutstätte melden" onclick="addBrutstaette()"/>
-          
-       <div id="info"></div>
        
-    </td>
-   </tr>
-
-  </table>
+       <div id="clearer"></div>
+   </div>
+  <div id="footer">
+       Durch Clicken auf die Marker erhalten Sie weitere Informationen.
+             
+  </div>
