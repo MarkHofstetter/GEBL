@@ -30,6 +30,11 @@ var zoom = <?php if ($this->zoom) {
 } else {
     echo "12";
 }; ?>;
+var markerid = <?php if ($this->id) {
+    echo $this->id;
+} else {
+    echo "0";
+}; ?>;
 var urlmarkers = "/guest/listallbrutgeodaten?format=xml"
 var placemarkerok = true;
 var clickedmarker;
