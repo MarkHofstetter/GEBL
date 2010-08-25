@@ -275,48 +275,21 @@ var customIcons = {
   window.onload = loadScript;
 
 <?php $this->headScript()->captureEnd() ?>
-
-
   
- <table>
-  <tr>
-  <th colspan="3">
-  <h1>GEBL-Karte: Punkte anzeigen</h1>
-  </th>
-  </tr>
-
-  <tr>
-      <td colspan="2">
-          <div>
-            <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
-            <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
-           </div>
-      </td>
-      <td>
-          <a href="/index/logout">Logout</a>
-      </td>
-  </tr>
-
-  <tr>
-  <td id="map">
-  
-      <div id="map_canvas" style="height: 500px;width: 400px"></div>
-   <div>
-       <p id="position"></p>
+  <div id ="outer"> 
+      <div id ="header">
+        <a href="/index/logout">Logout</a>
+        <h1>GEBL-Karte: Punkte anzeigen</h1>
+      </div>
+          <div id="header2">
+          <input id ="addbrut" type="button" value="Weitere Brutstätte eingeben" onclick="addBrutstaette()"/>
+          <br>
+          <input id="address" type="textbox" size="50" value="Mannersdorf" onchange="codeAddress()">
+          <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+          </div>
+      <div id="centrecontent">
+        <div id="map_canvas" style="height: 500px;width: 760px"></div>
+      </div>
+       <div id="clearer"></div>
    </div>
-   </td>
-  <td>
-       <h3 id="pointname"></h3>
-       <p><a id="pointinfo"> </a></p>
-       
-       <p><a id="deletepoint" ></a></p>
-       <input id ="addbrut" type="button" value="Weitere Brutstätte eingeben" onclick="addBrutstaette()"/>
-       
-       
-   
-       <div id="info"></div>
-       
-   </td>
-
-  </tr>
-  </table>
+ 

@@ -26,8 +26,7 @@ height:100%;
 /*text-align:center;*/
 }
 #outer {
-/*background: #ccff99/*url("/images/spointbg.jpg") repeat-y scroll right top #FFFFFF`*/;
-background-color: #ccff99;
+    background: #ccff99/*url("/images/spointbg.jpg") repeat-y scroll right top #FFFFFF`*/;
 border-left:1px solid #000000;
 border-right:1px solid #000000;
 color:#000000;
@@ -73,6 +72,7 @@ width:760px;
 #right {
 float:right;
 width:379px;
+background:#D2DA9C;
 }
 #left {
 float:left;

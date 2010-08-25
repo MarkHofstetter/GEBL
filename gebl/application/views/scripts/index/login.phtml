@@ -1,7 +1,12 @@
-<h1>Login für GEBL-Karte</h1>
+<div id ="outer">
 
-<?php printf('<p> %s </p>', implode(' ',$this->message)); ?>
-<?php
-echo $this->form;
-?>
-<a href="/index/index">Als Gast anmelden</a>
+    <div id ="header">
+        <a href="/index/index">Als Gast anmelden</a>
+        <h1>GEBL-Karte: Login</h1>
+     </div>
+
+    <div id="header2">
+		<?php printf('<p> %s </p>', implode(' ',$this->message)); ?>
+		<?php echo $this->form; ?>
+    </div>
+</div>
