@@ -1,0 +1,19 @@
+<?php
+header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
+header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
+echo $this->doctype() ?>
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <?php echo $this->headMeta() ?>
+        <?php echo $this->headLink() ?>
+        <?php echo $this->headTitle() ?>
+        <?php echo $this->headScript() ?>
+        <?php echo $this->headStyle() ?>
+    </head>
+    <body>
+       <div id="content"><?php echo $this->layout()->content ?></div>
+     </body>
+
+</html>
