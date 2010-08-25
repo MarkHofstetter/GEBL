@@ -140,10 +140,8 @@ class AdminController extends Zend_Controller_Action {
         $form = new Application_Form_Brutstaette();
         $form->senden->setLabel('Ändern');
         $form->setAction('/admin/editbrutstaette');
-        $this->view->lat = $lat;
-        $this->view->lon = $lon;
-        $this->view->zoom = $zoom;
         $this->view->form = $form;
+        
 
 
         if ($this->getRequest()->isPost()) {
@@ -179,6 +177,14 @@ class AdminController extends Zend_Controller_Action {
                     $this->_helper->redirector('showallpoints', 'admin',
                             null, array('lat' => $lat, 'lon' => $lon));
                 } else {
+                    $lat = $form->getValue('G_LAT');
+                    $lon = $form->getValue('G_LON');
+                    $id = $form->getValue('G_ID');
+                    $zoom = $this->_getParam('zoom', 0);
+                    $this->view->lat = $lat;
+                    $this->view->lon = $lon;
+                    $this->view->zoom = $zoom;
+                    $this->view->id = $id;
                     $form->populate($formData);
                 }
             } else {
@@ -186,6 +192,12 @@ class AdminController extends Zend_Controller_Action {
                 $lat = $this->_getParam('lat', 0);
                 $lon = $this->_getParam('lon', 0);
                 $zoom = $this->_getParam('zoom', 0);
+                $this->view->lat = $lat;
+                $this->view->lon = $lon;
+                $this->view->zoom = $zoom;
+                $this->view->id = $id;
+
+                
                 if ($id > 0) {
                     $geodatenModel = new Application_Model_DbTable_Geodaten();
                     $this->view->form->populate($geodatenModel->

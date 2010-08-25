@@ -33,8 +33,9 @@ var zoom = <?php if ($this->zoom) {
 var urlmarkers = "/guest/listallbrutgeodaten?format=xml"
 var placemarkerok = true;
 var clickedmarker;
+var clickedmarkericon =  "/images/waterred.png";
 
-var customIcons = {
+var customIconsBrut = {
 0: {
 icon: '/images/waterred.png'
 },
@@ -47,8 +48,15 @@ icon: '/images/water.png'
 
 window.onload = loadScript;
 
+function showallBrutstaetten(){
+window.location.href="/guest/showallbrutstaetten"
++ "/lat/" + map.getCenter().lat()
++ "/lon/" +  map.getCenter().lng()
++ "/zoom/" + map.getZoom();
+}
 
-/*
+
+/* old javascript now in external js file!
 function initialize() {
 
 var myLatlng = new google.maps.LatLng(lat, lon);
@@ -128,10 +136,12 @@ window.onload = loadScript;
      </div>
 
      <div id="header2">
-        <p><input id ="showbrut" type="button" value="Alle gemeldeten Brutstätten anzeigen" onclick="showallBrutstaetten()"/></p>
-          <br>
+         <p><input id ="showbrut" type="button" 
+          value="Alle gemeldeten Brutstätten anzeigen" onclick="showallBrutstaetten()"/></p>
+         <p>
           <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
-          <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+          <input type="button" value="Setze Marker auf Adresse" onclick="codeAddress()">
+         </p>
           </div>
     
     <div id="centrecontent">
@@ -145,5 +155,5 @@ window.onload = loadScript;
      <div id="clearer"></div>
 </div>
 <div id="footer">
- Felder mit * sind Pflichtfelder
+ Bitte Koordinaten in der Karte anclicken, Daten eingeben und "Melden!"-Button drücken. Felder mit * sind Pflichtfelder.
  </div>

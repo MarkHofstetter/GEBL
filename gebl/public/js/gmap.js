@@ -12,19 +12,9 @@
       mapTypeId: google.maps.MapTypeId.HYBRID
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-        
-    google.maps.event.addListener(map, 'click', function(event) {
-    placeMarker(event.latLng)}
-    );
-    geocoder = new google.maps.Geocoder();
 
-    //marker for click
-    clickedmarker = new google.maps.Marker();
-    var clickedInfoWindow = new google.maps.InfoWindow;
-    clickedInfoWindow.setContent("Bitte Daten zu diesem Punkt eingeben!");
-    clickedInfoWindow.open(map, clickedmarker);
-
-
+    
+   
     //draw points from xml
      var infoWindow = new google.maps.InfoWindow;
     // Change this depending on the name of your PHP file
@@ -39,20 +29,47 @@
         var point = new google.maps.LatLng(
               parseFloat(markers[i].getAttribute("lat")),
               parseFloat(markers[i].getAttribute("lon")));
-        var icon = customIcons[checked] || {};
-        var marker = new google.maps.Marker({
-            map: map,
-            position: point,
-            icon: icon.icon,
-            shadow: icon.shadow
-            });
-          marker.set("name",name);
-          marker.set("typ",typ);
-          marker.set("id",id);
-          marker.set ("checked", checked);
-          bindInfoWindow(marker, map, infoWindow);
+        if (typ == "3") {
+            var icon = customIconsBrut[checked] || {};
+        }
+        else{
+            var icon = customIcons[typ] || {};
+        }
+        if(id == markerid){
+            clickedmarkericon = icon.icon;
+            placeMarker(point); //Marker to Edit!
+         }
+        else{
+            var marker = new google.maps.Marker({
+                map: map,
+                position: point,
+                icon: icon.icon,
+                shadow: icon.shadow
+                });
+            marker.set("name",name);
+            marker.set("typ",typ);
+            marker.set("id",id);
+            marker.set ("checked", checked);
+            bindInfoWindow(marker, map, infoWindow);
+          }
+
         }
       });
+
+       google.maps.event.addListener(map, 'click', function(event) {
+    placeMarker(event.latLng)}
+    );
+    geocoder = new google.maps.Geocoder();
+
+    //marker for click
+    clickedmarker = new google.maps.Marker();
+    clickedmarker.setIcon(clickedmarkericon);
+    var clickedInfoWindow = new google.maps.InfoWindow;
+    clickedInfoWindow.setContent("Positionieren Sie den Marker durch Clicken oder Ziehen");
+    clickedInfoWindow.open(map, clickedmarker);
+
+    google.maps.event.addListener(clickedmarker, 'position_changed',
+    function() {setLatLon(clickedmarker.getPosition());});
 
   }
 
@@ -63,14 +80,12 @@
       if (status == google.maps.GeocoderStatus.OK) {
         if (placemarkerok == true ){
             placeMarker(results[0].geometry.location);
-            
+            map.setCenter(results[0].geometry.location);
         }
         else{
             map.setCenter(results[0].geometry.location);
              }
-          
-        
-            
+           
       } else {
         alert("Adresse nicht gefunden! Google Maps Fehler: " + status);
       }
@@ -81,14 +96,20 @@
   if (placemarkerok == true){
     clickedmarker.setMap(map);
     clickedmarker.setPosition(location);
-    clickedmarker.setIcon('/images/waterred.png');
-    document.getElementById ("G_LAT").value = parseFloat(location.lat());
-    document.getElementById ("G_LON").value = parseFloat(location.lng());
+    clickedmarker.setDraggable(true);
+    clickedmarker.setIcon(clickedmarkericon);
+    //document.getElementById ("G_LAT").value = parseFloat(location.lat());
+    //document.getElementById ("G_LON").value = parseFloat(location.lng());
   }
   else
   {
     map.setCenter(location);
   }
+  }
+
+  function setLatLon(location){
+     document.getElementById ("G_LAT").value = parseFloat(location.lat());
+    document.getElementById ("G_LON").value = parseFloat(location.lng());
   }
 
 

@@ -8,48 +8,50 @@ class Application_Form_Brutstaette extends Zend_Form
        $this->setMethod('post');
 
         $g_id = new Zend_Form_Element_Hidden('G_ID');
+         $g_id->removeDecorator( 'Label' );
         $b_checked = new Zend_Form_Element_Hidden('B_CHECKED');
+          $b_checked ->removeDecorator( 'Label' );
         $g_name = new Zend_Form_Element_Text('G_NAME');
-        $g_name->setLabel('* Name: ')
+         $g_name->setLabel('* Name: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setRequired(true)
               ->addValidator('StringLength', false, array(0, 50));
         $lat = new Zend_Form_Element('G_LAT');
-        $lat->setLabel('* Breitengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
+         $lat->setLabel('* Breitengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
               ->setRequired(true)
              //->addValidator('Float')
               ->addValidator('Between',true,array(46,49));
               //->setAttrib('disabled', 'true');
         $lon = new Zend_Form_Element('G_LON');
-        $lon->setLabel('* Längengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
+         $lon->setLabel('* Längengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
                ->setRequired(true)
                //->addValidator('Float')
                ->addValidator('Between',true,array(14,18));
                 //->setAttrib('disabled', 'true');
         $groesse = new Zend_Form_Element('B_GROESSE');
-        $groesse->setLabel('* Größe in m²: ')
+         $groesse->setLabel('* Größe in m²: ')
               ->setRequired(true)
               ->addValidator('Int')
               ->addValidator('Between',true,array(0,100000));
         $gewaesser_art = new Zend_Form_Element_Text('B_GEWAESSER_ART');
-        $gewaesser_art->setLabel('Gewässerart: ')
+         $gewaesser_art->setLabel('Gewässerart: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 50));
         $zugang = new Zend_Form_Element_Text('B_ZUGANG');
-        $zugang->setLabel('Zugang: ')
+         $zugang->setLabel('Zugang: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 100));
         $bek_art = new Zend_Form_Element_Text('B_BEK_ART');
-        $bek_art->setLabel('Bekämpfungsart: ')
+         $bek_art->setLabel('Bekämpfungsart: ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true));
         $text = new Zend_Form_Element_Textarea('B_TEXT');
-        $text->setLabel('Text (maximal 1024 Zeichen):')
+         $text->setLabel('Text (maximal 1024 Zeichen):')
               //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->setAttrib('rows','5')
+              ->setAttrib('rows','3')
               ->setAttrib('cols','40')
               ->addValidator('StringLength', false, array(0, 1024));
         $kontaktdaten = new Zend_Form_Element_Textarea('B_KONTAKTDATEN');
-        $kontaktdaten->setLabel('Kontaktdaten (maximal 256 Zeichen):')
+         $kontaktdaten->setLabel('Kontaktdaten (maximal 256 Zeichen):')
               //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setAttrib('rows','3')
               ->setAttrib('cols','40')
@@ -59,7 +61,14 @@ class Application_Form_Brutstaette extends Zend_Form
         $this->addElements(array($g_id, $b_checked, $g_name, $lat, $lon, 
          $groesse, $gewaesser_art, $zugang, $bek_art, $text, $kontaktdaten ,$submit));
 
-        //Layout
+      // remove decorators fron hidden fields
+  /*    $this->addDisplayGroup(
+            array('G_ID', 'B_CHECKED'),
+             'hiddenfields',
+            array('disableLoadDefaultDecorators' => true)
+            );
+*/
+ /*       //Layout
         $this->addDisplayGroup(array(
                     'G_NAME',
                     'G_LAT',
@@ -68,8 +77,8 @@ class Application_Form_Brutstaette extends Zend_Form
         $contact = $this->getDisplayGroup('geopoint');
         $contact->setDecorators(array(
                     'FormElements',
-                    'Fieldset',
-                    array('HtmlTag',array('tag'=>'div','openOnly'=>true))
+                    'Fieldset'
+                   // array('HtmlTag',array('tag'=>'div','openOnly'=>true))
         ));
         $this->addDisplayGroup(array(
                     'B_GROESSE',
@@ -83,7 +92,7 @@ class Application_Form_Brutstaette extends Zend_Form
         $pass->setDecorators(array(
                 'FormElements',
                 'Fieldset',
-                array('HtmlTag',array('style'=>''))
+                //array('HtmlTag',array('style'=>''))
                ));
         $this->addDisplayGroup(array(
                     'senden',
@@ -100,7 +109,7 @@ class Application_Form_Brutstaette extends Zend_Form
                 array('HtmlTag',array('tag'=>'div','style'=>'width:379px')),
                 'Form'
         ));
-
+*/
     }
 
 

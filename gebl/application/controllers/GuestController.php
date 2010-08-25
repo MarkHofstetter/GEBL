@@ -49,7 +49,7 @@ class GuestController extends Zend_Controller_Action {
 
         $form = new Application_Form_Brutstaette();
 
-        $form->senden->setLabel('Hinzufügen');
+        $form->senden->setLabel('Melden!');
 
         // Entferne Felder die nicht für Guest bestimmt:
         $form->B_GEWAESSER_ART->setAttribs(array('style' => 'display:none;'))

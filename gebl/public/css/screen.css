@@ -26,7 +26,8 @@ height:100%;
 /*text-align:center;*/
 }
 #outer {
-    background: #ccff99/*url("/images/spointbg.jpg") repeat-y scroll right top #FFFFFF`*/;
+/*background: #ccff99/*url("/images/spointbg.jpg") repeat-y scroll right top #FFFFFF`*/;
+background-color: #ccff99;
 border-left:1px solid #000000;
 border-right:1px solid #000000;
 color:#000000;
