@@ -12,9 +12,7 @@
       mapTypeId: google.maps.MapTypeId.HYBRID
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-    
-   
+  
     //draw points from xml
      var infoWindow = new google.maps.InfoWindow;
     // Change this depending on the name of your PHP file
@@ -56,9 +54,16 @@
         }
       });
 
-       google.maps.event.addListener(map, 'click', function(event) {
+    google.maps.event.addListener(map, 'click', function(event) {
     placeMarker(event.latLng)}
     );
+
+    if (document.getElementById("ZOOM")){
+    document.getElementById("ZOOM").value = map.getZoom();
+    google.maps.event.addListener(map, 'zoom_changed', function() {
+    document.getElementById("ZOOM").value = map.getZoom()});
+    }
+
     geocoder = new google.maps.Geocoder();
 
     //marker for click
@@ -70,8 +75,7 @@
 
     google.maps.event.addListener(clickedmarker, 'position_changed',
     function() {setLatLon(clickedmarker.getPosition());});
-
-  }
+}
 
    function codeAddress() {
     var address = document.getElementById("address").value;

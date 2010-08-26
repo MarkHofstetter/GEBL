@@ -184,6 +184,7 @@ var customIcons = {
                       var b_g_id = brut[0].getAttribute("b_g_id");
                       var b_bek_art = brut[0].getAttribute("b_bek_art");
                       var b_text = brut[0].getAttribute("b_text");
+                      var b_kontaktdaten = brut[0].getAttribute("b_kontaktdaten");
                       var aktionen = xml.documentElement.getElementsByTagName("aktion");
                       var infohtml ="<h4>Daten zu dieser Brutstätte:</h4>" +
                                    "b_id = " + b_id + "<br>" +
@@ -193,23 +194,23 @@ var customIcons = {
                                    "b_zugang = " + b_zugang + "<br>" +
                                    "b_p_id = " + b_p_id + "<br>" +
                                    "b_g_id = " + b_g_id + "<br>" +
-                                   "b_bek_art = " + b_bek_art + "<br>" +
-                                   "b_text = " + b_text + "<br>" ;
+                                   "b_bek_art = " + b_bek_art + "<br>" +                                   
+                                   "b_text = " + b_text + "<br>" +
+                                   "b_kontaktdaten = " + b_kontaktdaten + "<br>";
 
                       var aktionenhtml = ""
                       for (var i = 0; i < aktionen.length; i++) {
                         aktionenhtml = aktionenhtml +
-                                       "<h4>Aktion " + i + "</h4>" +
-                                       "a_id =" + aktionen[i].getAttribute("a_id") + "<br>" +
-                                       "a_nr =" + aktionen[i].getAttribute("a_nr") + "<br>" +
-                                       "a_typ =" + aktionen[i].getAttribute("a_typ") + "<br>" +
-                                       "a_betreff =" + aktionen[i].getAttribute("a_betreff") + "<br>" +
-                                       "a_datum =" + aktionen[i].getAttribute("a_datum") + "<br>" +
-                                       "a_p_id =" + aktionen[i].getAttribute("a_p_id") + "<br>" +
-                                       "a_b_id =" + aktionen[i].getAttribute("a_b_id") + "<br>" +
-                                       "a_f_id =" + aktionen[i].getAttribute("a_f_id") + "<br>" +
-                                       "a_text =" + aktionen[i].getAttribute("a_text") + "<br>"
-                                       ;
+                         "<h4>Aktion " + i + "</h4>" +
+                         "a_id =" + aktionen[i].getAttribute("a_id") + "<br>" +
+                         "a_nr =" + aktionen[i].getAttribute("a_nr") + "<br>" +
+                         "a_typ =" + aktionen[i].getAttribute("a_typ") + "<br>" +
+                         "a_betreff =" + aktionen[i].getAttribute("a_betreff") + "<br>" +
+                         "a_datum =" + aktionen[i].getAttribute("a_datum") + "<br>" +
+                         "a_p_id =" + aktionen[i].getAttribute("a_p_id") + "<br>" +
+                         "a_b_id =" + aktionen[i].getAttribute("a_b_id") + "<br>" +
+                         "a_f_id =" + aktionen[i].getAttribute("a_f_id") + "<br>" +
+                         "a_text =" + aktionen[i].getAttribute("a_text") + "<br>";
                                        
                         
                       }
@@ -282,14 +283,32 @@ var customIcons = {
         <h1>GEBL-Karte: Punkte anzeigen</h1>
       </div>
           <div id="header2">
+          <p>
           <input id ="addbrut" type="button" value="Weitere Brutstätte eingeben" onclick="addBrutstaette()"/>
-          <br>
+          </p>
+          <p>
           <input id="address" type="textbox" size="50" value="Mannersdorf" onchange="codeAddress()">
           <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
+          </p>
           </div>
       <div id="centrecontent">
-        <div id="map_canvas" style="height: 500px;width: 760px"></div>
+          
+	  <div id="left">
+            <div id="map_canvas" style="height: 500px;width: 379px"></div>
+          </div>
+	  
+	  <div id="right">
+	     <h3 id="pointname"></h3>
+              <p><a id="pointinfo"> </a></p>
+       
+               <p><a id="deletepoint" ></a></p>
+                 <div id="info"></div>
+	   
+           </div>
       </div>
-       <div id="clearer"></div>
+       <div class="clearer"></div>
    </div>
+  <div id="footer">
+      Um weitere Informationen und Optionen zu den Punkten zu erhalten bitte auf den Marker Klicken.
+  </div>
  

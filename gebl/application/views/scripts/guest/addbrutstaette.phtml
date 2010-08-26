@@ -20,7 +20,7 @@ var lat =  <?php if ($this->lat) {
 } else {
     echo "48.01208";
 }; ?>;
-var lon = <?php if ($this->lat) {
+var lon = <?php if ($this->lon) {
     echo $this->lon;
 } else {
     echo "16.722139";
@@ -157,7 +157,7 @@ window.onload = loadScript;
         <?php echo $this->form; ?>
         </div>
     </div>
-     <div id="clearer"></div>
+     <div class="clearer"></div>
 </div>
 <div id="footer">
  Bitte Koordinaten in der Karte anclicken, Daten eingeben und "Melden!"-Button drücken. Felder mit * sind Pflichtfelder.

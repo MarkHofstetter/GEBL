@@ -2,11 +2,12 @@
 
 class AdminController extends Zend_Controller_Action {
 
-    // protected $_flashMessenger;
+   
 
     protected $_auth;
 
     public function init() {
+                
         //Context Switch for XML
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('listallpoints', 'xml')
@@ -79,9 +80,7 @@ class AdminController extends Zend_Controller_Action {
         }
 
         $form = new Application_Form_Brutstaette();
-
         $form->senden->setLabel('Hinzufügen');
-		
 		// Entferne Felder die nicht für Admin bestimmt:
         $form->B_KONTAKTDATEN->setAttribs(array('style' => 'display:none;'))
                               ->removeDecorator('label');
@@ -107,6 +106,8 @@ class AdminController extends Zend_Controller_Action {
                 $b_text = $form->getValue('B_TEXT');
                 $b_kontakt = $form->getValue('B_KONTAKTDATEN');
 
+                $zoom = $form->getValue('ZOOM');
+
                 if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
                     $b_p_id = $this->_auth->getIdentity()->P_ID;
                     $checked = 1;
@@ -125,14 +126,18 @@ class AdminController extends Zend_Controller_Action {
 
                 $brutstaetten->addBrutstaette($b_groesse, $b_gew_art,
                         $b_zugang, $b_bek_art, $b_text, $b_kontakt,$b_g_id, $b_p_id, $checked);
+
+                //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
                 $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon));
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
             }
             $lat = $form->getValue('G_LAT');
             $lon = $form->getValue('G_LON');
+            $zoom = $form->getValue('ZOOM');
             $this->view->lat = $lat;
             $this->view->lon = $lon;
             $this->view->zoom = $zoom;
+            //$this->_flashMessenger->addMessage('Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben!');
         }
     }
 
@@ -145,9 +150,6 @@ class AdminController extends Zend_Controller_Action {
         $form = new Application_Form_Brutstaette();
         $form->senden->setLabel('Ändern');
         $form->setAction('/admin/editbrutstaette');
-        $this->view->lat = $lat;
-        $this->view->lon = $lon;
-        $this->view->zoom = $zoom;
         $this->view->form = $form;
 
 
@@ -166,6 +168,9 @@ class AdminController extends Zend_Controller_Action {
                     $b_text = $form->getValue('B_TEXT');
                     $b_kontakt = $form->getValue('B_KONTAKTDATEN');
                     $checked = $form->getValue('B_CHECKED');
+
+                    $zoom = $form->getValue('ZOOM');
+
                     if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
                         $b_p_id = $this->_auth->getIdentity()->P_ID;
                         
@@ -182,15 +187,27 @@ class AdminController extends Zend_Controller_Action {
                     $brutstaetten->updateBrutstaette($b_groesse, $b_gew_art,
                             $b_zugang, $b_bek_art, $b_text, $b_kontakt,$b_g_id, $b_p_id, $checked);
                     $this->_helper->redirector('showallpoints', 'admin',
-                            null, array('lat' => $lat, 'lon' => $lon));
+                            null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
                 } else {
-                    $form->populate($formData);
+                    $lat = $form->getValue('G_LAT');
+                    $lon = $form->getValue('G_LON');
+                    $id = $form->getValue('G_ID');
+                    $zoom = $form->getValue('ZOOM');
+                    $this->view->lat = $lat;
+                    $this->view->lon = $lon;
+                    $this->view->zoom = $zoom;
+                    $this->view->id = $id;
+                    //$form->populate($formData);
                 }
             } else {
                 $id = $this->_getParam('g_id', 0);
                 $lat = $this->_getParam('lat', 0);
                 $lon = $this->_getParam('lon', 0);
                 $zoom = $this->_getParam('zoom', 0);
+                $this->view->lat = $lat;
+                $this->view->lon = $lon;
+                $this->view->zoom = $zoom;
+                $this->view->id = $id;
                 if ($id > 0) {
                     $geodatenModel = new Application_Model_DbTable_Geodaten();
                     $this->view->form->populate($geodatenModel->

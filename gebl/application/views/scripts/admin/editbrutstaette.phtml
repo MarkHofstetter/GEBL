@@ -5,7 +5,7 @@ $this->headScript()->appendFile(
 );
 
 $this->headScript()->appendFile(
-        '/js/guestshowallbrutstaetten.js',
+        '/js/adminshowallpoints.js',
         'text/javascript'
 );
 
@@ -173,6 +173,7 @@ var zoom = <?php if ($this->zoom) {echo $this->zoom;} else {echo "12";}; ?>;
     </div>
 
     <div id="centrecontent">
+        
         <div id ="left">
         <div id="map_canvas" style="height: 500px;width: 379px"></div>
         </div>
@@ -182,8 +183,9 @@ var zoom = <?php if ($this->zoom) {echo $this->zoom;} else {echo "12";}; ?>;
         <?php echo $this->form; ?>
         </div>
     </div>
+      <div class="clearer"></div>
   </div>
-  <div id="clearer"></div>
+  
   <div id="footer">
   Ändern der Koordinaten: Karte clicken. Daten korrigieren und "Ändern"-Button drücken. Felder mit * sind Pflichtfelder.
   </div>

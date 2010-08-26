@@ -25,6 +25,7 @@ header("Content-type: text/xml");
   $newnode->setAttribute("b_g_id",$this->brutst['B_G_ID']);
   $newnode->setAttribute("b_bek_art",$this->brutst['B_BEK_ART']);
   $newnode->setAttribute("b_text",$this->brutst['B_TEXT']);
+  $newnode->setAttribute("b_kontaktdaten",$this->brutst['B_KONTAKTDATEN']);
   foreach ($this->akt as $aktion) {
     $node = $dom->createElement("aktion");
     $newnode = $parnode->appendChild($node);

@@ -74,5 +74,11 @@ class Application_Model_DbTable_Geodaten extends Zend_Db_Table_Abstract {
         return ($this->geodaten2xml($brutgeodaten));
     }
 
+     public function getPersonenGeodaten($p_g_id) {
+
+        $personengeodaten = $this->fetchRow('G_ID=' . $p_g_id)->toArray();
+        return ($personengeodaten);
+    }
+
 }
 

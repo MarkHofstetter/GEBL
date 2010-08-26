@@ -45,6 +45,10 @@ class GuestController extends Zend_Controller_Action {
             $lat = $this->_getParam('lat', 0);
             $lon = $this->_getParam('lon', 0);
             $zoom = (float) $this->_getParam('zoom', 0);
+        }else{
+            $lat = 0;
+            $lon = 0;
+            $zoom = 12;
         }
 
         $form = new Application_Form_Brutstaette();
@@ -80,6 +84,8 @@ class GuestController extends Zend_Controller_Action {
                 $b_text = $form->getValue('B_TEXT');
                 $b_kontakt = $form->getValue('B_KONTAKTDATEN');
 
+                $zoom = $form->getValue('ZOOM');
+
                 
                 $b_p_id = null;
                 $checked = 0;
@@ -98,8 +104,10 @@ class GuestController extends Zend_Controller_Action {
             }
             $lat = $form->getValue('G_LAT');
             $lon = $form->getValue('G_LON');
+            $zoom = $form->getValue('ZOOM');
             $this->view->lat = $lat;
             $this->view->lon = $lon;
+            $this->view->zoom = $zoom;
         }
     }
 
