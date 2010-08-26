@@ -21,13 +21,13 @@ class Application_Form_Brutstaette extends Zend_Form
               ->addValidator('StringLength', false, array(0, 50))
               ->setAttrib('size','50');
         $lat = new Zend_Form_Element('G_LAT');
-         $lat->setLabel('* Breitengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
+         $lat->setLabel('* Breitengrad (Auf Karte klicken oder Eingabe in Dezimalgrad):')
               ->setRequired(true)
              //->addValidator('Float')
               ->addValidator('Between',true,array(46,49));
               //->setAttrib('disabled', 'true');
         $lon = new Zend_Form_Element('G_LON');
-         $lon->setLabel('* Längengrad (Click auf Karte oder Eingabe in Dezimalgrad):')
+         $lon->setLabel('* Längengrad (Auf Karte klicken oder Eingabe in Dezimalgrad):')
                ->setRequired(true)
                //->addValidator('Float')
                ->addValidator('Between',true,array(14,18));
