@@ -70,7 +70,7 @@
     clickedmarker = new google.maps.Marker();
     clickedmarker.setIcon(clickedmarkericon);
     var clickedInfoWindow = new google.maps.InfoWindow;
-    clickedInfoWindow.setContent("Positionieren Sie den Marker durch Clicken oder Ziehen");
+    clickedInfoWindow.setContent("Positionieren Sie den Marker durch Klicken oder Ziehen");
     clickedInfoWindow.open(map, clickedmarker);
 
     google.maps.event.addListener(clickedmarker, 'position_changed',
