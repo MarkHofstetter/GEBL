@@ -1,3 +1,4 @@
 gebl/cache/*
 gebl/application/configs/db/*
+gebl/public/.htaccess
 
