@@ -14,7 +14,7 @@ class Application_Form_Auth extends Zend_Form
         $pass->setLabel('Passwort: ')
                 ->setRequired(true);
 
-        $submit = new Zend_Form_Element_Submit('Login');
+        $submit = new Zend_Form_Element_Submit('login');
 
         $this->addElements(array($user, $pass, $submit));
     }

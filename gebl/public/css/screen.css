@@ -101,8 +101,13 @@ overflow:hidden;
     background-color: red
 }
 
+#password-label{
+    color: #000000
+}
 
-
+#username-label{
+    color: #000000
+}
 
 
 /*---------------------------
