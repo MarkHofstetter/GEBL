@@ -1,0 +1,9 @@
+
+<table>
+    <th>Datum</th>
+    <th>Aktion</th>
+    <th>Kommentar</th>
+<?php
+    echo $this->partialLoop('aktionenLoop.phtml', $this->aktionen);
+?>
+</table>
