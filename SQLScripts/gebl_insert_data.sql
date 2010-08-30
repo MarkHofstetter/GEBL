@@ -119,6 +119,10 @@ VALUES(1058,'F-10',1,1003,1028,'Fallenzusatztext');
 INSERT INTO fallen 
 VALUES(1059,'F-11',1,1003,1029,'Zusatztext zu Falle F-11');
 commit;
+INSERT INTO aktionstyp VALUES(1,'Beobachtung');
+INSERT INTO aktionstyp VALUES(2,'Bekaempfung');
+INSERT INTO aktionstyp VALUES(3,'Sonstiges');
+commit;
 INSERT INTO aktionen 
 VALUES(1006,'A-1',1,'Brutstaette1',TO_DATE('2010-08-09 00:00:00', 'YYYY-MM-DD HH24:MI:SS'),1002,1004,NULL,'1. Aktionstext fuer Brutstaette 1');
 INSERT INTO aktionen 

@@ -8,4 +8,5 @@ DROP TABLE geodaten CASCADE constraints;
 DROP TABLE brutstaetten CASCADE constraints;
 DROP TABLE fallen CASCADE constraints;
 DROP TABLE aktionen CASCADE constraints;
+DROP TABLE aktionstyp CASCADE constraints;
 

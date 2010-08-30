@@ -49,6 +49,44 @@ CREATE SEQUENCE gebl_seq_a
   NOCACHE
 ;
 --create tables
+CREATE TABLE aktionstyp
+    (at_nr                         NUMBER ,
+    at_name                        VARCHAR2(50 BYTE))
+  PCTFREE     10
+  INITRANS    1
+  MAXTRANS    255
+  TABLESPACE  users
+  STORAGE   (
+    INITIAL     65536
+    NEXT        1048576
+    MINEXTENTS  1
+    MAXEXTENTS  2147483645
+  )
+  NOCACHE
+  MONITORING
+  NOPARALLEL
+  LOGGING
+;
+ALTER TABLE aktionstyp
+ADD CONSTRAINT at_nr_pk PRIMARY KEY (at_nr)
+USING INDEX
+  PCTFREE     10
+  INITRANS    2
+  MAXTRANS    255
+  TABLESPACE  users
+  STORAGE   (
+    INITIAL     65536
+    NEXT        1048576
+    MINEXTENTS  1
+    MAXEXTENTS  2147483645
+  )
+;
+COMMENT ON TABLE aktionstyp IS 'Enthält Zuordnung Aktionstyp zu Aktionsname'
+;
+COMMENT ON COLUMN aktionstyp.at_nr IS 'Numerischer Wert fuer Aktionstyp'
+;
+COMMENT ON COLUMN aktionstyp.at_name IS 'Beobachtung..1, Bekaempfung..2, Sonstiges..3'
+;
 CREATE TABLE aktionen
     (a_id                           NUMBER ,
     a_nr                           VARCHAR2(10 BYTE),
@@ -256,12 +294,19 @@ REFERENCING NEW AS NEW OLD AS OLD
  FOR EACH ROW
 DECLARE
   g_id number;
+  b_nr number;
 BEGIN
 	if (:new.G_Id is null) then
 		SELECT gebl_seq.nextval
 			INTO g_id
 			FROM dual;
 		:new.G_Id := g_id;
+	end if;
+	if (:new.G_Name is null AND :new.G_Typ = 3) then
+		SELECT gebl_seq_b.currval
+			INTO b_nr
+			FROM dual;
+		:new.G_Name := 'Brutstaette-'||to_char(b_nr);
 	end if;
 END;
 /
@@ -453,6 +498,10 @@ BEGIN
   WHERE A_P_ID = :old.P_ID;
 END;
 /
+ALTER TABLE aktionen
+ADD CONSTRAINT a_typ_fk FOREIGN KEY (a_typ)
+REFERENCES aktionstyp (at_nr)
+;
 ALTER TABLE aktionen
 ADD CONSTRAINT a_p_id_fk FOREIGN KEY (a_p_id)
 REFERENCES personen (p_id)
