@@ -15,9 +15,9 @@ class Application_Form_Brutstaette extends Zend_Form
         $b_checked = new Zend_Form_Element_Hidden('B_CHECKED');
           $b_checked ->removeDecorator( 'Label' );
         $g_name = new Zend_Form_Element_Text('G_NAME');
-         $g_name->setLabel('* Name: ')
+         $g_name->setLabel('Name (optional): ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->setRequired(true)
+              //->setRequired(true)
               ->addValidator('StringLength', false, array(0, 50))
               ->setAttrib('size','50');
         $lat = new Zend_Form_Element('G_LAT');
@@ -33,32 +33,33 @@ class Application_Form_Brutstaette extends Zend_Form
                ->addValidator('Between',true,array(14,18));
                 //->setAttrib('disabled', 'true');
         $groesse = new Zend_Form_Element('B_GROESSE');
-         $groesse->setLabel('* Geschätzte Größe in m² zwischen 1 und 100000 : ')
+         $groesse->setLabel('* Geschätzte Größe in m² zwischen 1 und 100000 (falls unbekannt 0 eintragen) : ')
+              ->setValue("0")
               ->setRequired(true)
               ->addValidator('Int')
               ->addValidator('Between',true,array(0,100000));
         $gewaesser_art = new Zend_Form_Element_Text('B_GEWAESSER_ART');
-         $gewaesser_art->setLabel('Gewässerart: ')
+         $gewaesser_art->setLabel('Gewässerart (optional): ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 50))
               ->setAttrib('size','50');;
         $zugang = new Zend_Form_Element_Text('B_ZUGANG');
-         $zugang->setLabel('Zugang: ')
+         $zugang->setLabel('Zugang (optional): ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 100))
               ->setAttrib('size','50');;
         $bek_art = new Zend_Form_Element_Text('B_BEK_ART');
-         $bek_art->setLabel('Bekämpfungsart: ')
+         $bek_art->setLabel('Bekämpfungsart (optional): ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setAttrib('size','50');;
         $text = new Zend_Form_Element_Textarea('B_TEXT');
-         $text->setLabel('Text (maximal 1024 Zeichen):')
+         $text->setLabel('Kommentar (optional, maximal 1024 Zeichen):')
               //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setAttrib('rows','3')
               ->setAttrib('cols','40')
               ->addValidator('StringLength', false, array(0, 1024));
         $kontaktdaten = new Zend_Form_Element_Textarea('B_KONTAKTDATEN');
-         $kontaktdaten->setLabel('Kontaktdaten (maximal 256 Zeichen):')
+         $kontaktdaten->setLabel('Kontaktdaten (optional, maximal 256 Zeichen):')
               //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->setAttrib('rows','3')
               ->setAttrib('cols','40')

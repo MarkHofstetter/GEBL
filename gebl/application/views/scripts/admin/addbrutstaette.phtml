@@ -39,7 +39,7 @@ var markerid = <?php if ($this->id) {
 var urlmarkers = "/admin/listallpoints?format=xml"
 var placemarkerok = true;
 var clickedmarker;
-var clickedmarkericon =  "/images/water.png";
+var clickedmarkericon =  "/images/watergreenanimated.gif";
 
 var customIconsBrut = {
 0: {
@@ -95,7 +95,11 @@ window.onload = loadScript;
     <div id="centrecontent">
        
         <div id="left">
-            <div id="map_canvas" style="height: 500px;width: 379px"></div>
+            <div id="map_canvas" class="maphalf"></div>
+            <img src="/images/waterredsmall.png" alt="roter_marker" align="middle"/> ungeprüfte Brutstätte
+            <img src="/images/watersmall.png" alt="gruener_marker" align="middle"/> geprüfte Brutstätte
+            <img src="/images/villasmall.png" alt="blauer_marker" align="middle"/> Adresse
+            <img src="/images/exitsmall.png" alt="brauner_marker" align="middle"/> Falle
         </div>
         <div id="right">
         <?php echo $this->form; ?>

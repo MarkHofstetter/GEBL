@@ -38,7 +38,7 @@ var markerid = <?php if ($this->id) {
 var urlmarkers = "/guest/listallbrutgeodaten?format=xml"
 var placemarkerok = true;
 var clickedmarker;
-var clickedmarkericon =  "/images/waterred.png";
+var clickedmarkericon =  "/images/waterredanimated.gif";
 
 var customIconsBrut = {
 0: {
@@ -61,75 +61,7 @@ window.location.href="/guest/showallbrutstaetten"
 }
 
 
-/* old javascript now in external js file!
-function initialize() {
 
-var myLatlng = new google.maps.LatLng(lat, lon);
-var myOptions = {
-zoom: zoom,
-center: myLatlng,
-mapTypeId: google.maps.MapTypeId.HYBRID
-}
-map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-geocoder = new google.maps.Geocoder();
-marker = new google.maps.Marker();
-
-google.maps.event.addListener(map, 'click', function(event) {
-placeMarker(event.latLng);
-});
-
-
-}
-
-
-function codeAddress() {
-var address = document.getElementById("address").value;
-geocoder.geocode( { 'address': address,'region': 'at'}, function(results, status) {
-if (status == google.maps.GeocoderStatus.OK) {
-map.setCenter(results[0].geometry.location);
-
-placeMarker(results[0].geometry.location);
-
-var infowindow = new google.maps.InfoWindow({content: 'Bitte Daten zu diesem Punkt eingeben!'});
-infowindow.open(map, marker);
-
-
-} else {
-alert("Geocode was not successful for the following reason: " + status);
-}
-});
-}
-
-function placeMarker(location) {
-marker.setMap(map);
-marker.setPosition(location);
-marker.setIcon('/images/waterred.png');
-
-
-
-document.getElementById ("G_LAT").value = parseFloat(location.lat());
-document.getElementById ("G_LON").value = parseFloat(location.lng());
-
-//map.setCenter(location);
-}
-
-
-function loadScript() {
-var script = document.createElement("script");
-script.type = "text/javascript";
-script.src = "http://maps.google.com/maps/api/js?sensor=false&callback=initialize";
-document.body.appendChild(script);
-}
-
-function showallBrutstaetten(){
-window.location.href="/guest/showallbrutstaetten"
-+ "/lat/" + map.getCenter().lat()
-+ "/lon/" +  map.getCenter().lng()
-+ "/zoom/" + map.getZoom();
-}
-
-window.onload = loadScript;
-*/
 <?php $this->headScript()->captureEnd() ?>
 
 
@@ -151,7 +83,9 @@ window.onload = loadScript;
     
     <div id="centrecontent">
         <div id="left">
-            <div id="map_canvas" style="height: 500px;width: 379px"></div>
+            <div id="map_canvas" class="maphalf"></div>
+            <img src="/images/waterredsmall.png" alt="roter_marker" align="middle"/> ungeprüfte Brutstätte
+            <img src="/images/watersmall.png" alt="gruener_marker" align="middle"/> geprüfte Brutstätte
         </div>
         <div id="right">
         <?php echo $this->form; ?>
@@ -160,5 +94,5 @@ window.onload = loadScript;
      <div class="clearer"></div>
 </div>
 <div id="footer">
- Bitte Koordinaten in der Karte anklicken, Daten eingeben und "Melden!"-Button drücken. Felder mit * sind Pflichtfelder.
+ Bitte Koordinaten in der Karte anklicken, Daten eingeben und "Speichern" drücken. Felder mit * sind Pflichtfelder.
  </div>

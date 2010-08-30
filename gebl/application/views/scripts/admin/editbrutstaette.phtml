@@ -175,7 +175,11 @@ var zoom = <?php if ($this->zoom) {echo $this->zoom;} else {echo "12";}; ?>;
     <div id="centrecontent">
         
         <div id ="left">
-        <div id="map_canvas" style="height: 500px;width: 379px"></div>
+        <div id="map_canvas" class="maphalf"></div>
+        <img src="/images/waterredsmall.png" alt="roter_marker" align="middle"/> ungeprüfte Brutstätte
+        <img src="/images/watersmall.png" alt="gruener_marker" align="middle"/> geprüfte Brutstätte
+        <img src="/images/villasmall.png" alt="blauer_marker" align="middle"/> Adresse
+        <img src="/images/exitsmall.png" alt="brauner_marker" align="middle"/> Falle
         </div>
 
 
@@ -187,5 +191,5 @@ var zoom = <?php if ($this->zoom) {echo $this->zoom;} else {echo "12";}; ?>;
   </div>
   
   <div id="footer">
-  Ändern der Koordinaten: Auf Karte klicken, Daten korrigieren und "Ändern"-Button drücken. Felder mit "*" sind Pflichtfelder.
+  Ändern der Koordinaten: Auf Karte klicken, Daten korrigieren und "Ändern" drücken. Felder mit "*" sind Pflichtfelder.
   </div>
