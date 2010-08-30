@@ -12,6 +12,17 @@
       mapTypeId: google.maps.MapTypeId.HYBRID
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    //marker for edit or add
+    clickedmarker = new google.maps.Marker();
+    clickedmarker.setIcon(clickedmarkericon);
+    var clickedInfoWindow = new google.maps.InfoWindow;
+    clickedInfoWindow.setContent("Positionieren Sie den Marker durch Klicken oder Ziehen");
+    clickedInfoWindow.open(map, clickedmarker);
+    if (markerid == 0) {// marker not to edit -> set marker in center of map
+        placeMarker(myLatlng)
+    }
+    
   
     //draw points from xml
      var infoWindow = new google.maps.InfoWindow;
@@ -34,6 +45,13 @@
             var icon = customIcons[typ] || {};
         }
         if(id == markerid){
+            if (typ == "3") {
+              var icon = customIconsBrutAnimated[checked] || {};
+            }
+           // else{
+           //   var icon = customIcons[typ] || {};
+           // }
+
             clickedmarkericon = icon.icon;
             placeMarker(point); //Marker to Edit!
          }
@@ -66,15 +84,10 @@
 
     geocoder = new google.maps.Geocoder();
 
-    //marker for click
-    clickedmarker = new google.maps.Marker();
-    clickedmarker.setIcon(clickedmarkericon);
-    var clickedInfoWindow = new google.maps.InfoWindow;
-    clickedInfoWindow.setContent("Positionieren Sie den Marker durch Klicken oder Ziehen");
-    clickedInfoWindow.open(map, clickedmarker);
-
     google.maps.event.addListener(clickedmarker, 'position_changed',
     function() {setLatLon(clickedmarker.getPosition());});
+
+
 }
 
    function codeAddress() {

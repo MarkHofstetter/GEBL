@@ -238,6 +238,18 @@ class AdminController extends Zend_Controller_Action {
         $this->view->allPoints = $points;
     }
 
+    public function listonebrutstaetteaktionenAction() {
+        if ($this->getRequest()->isGet()) {
+            $id = $this->_getParam('id', 0);
+            $aktionenModel = new Application_Model_AktionenAktionstyp();
+            $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($id);
+        }
+        var_dump($aktionen);
+        $this->view->aktionen = $aktionen;
+         
+    }
+
+
     public function listonebrutstaetteAction() {
         if ($this->getRequest()->isGet()) {
             $g_id = $this->_getParam('g_id', 0);
