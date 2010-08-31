@@ -37,6 +37,11 @@ class Application_Model_DbTable_Brutstaetten extends Zend_Db_Table_Abstract
        $this->update($data, $where);
        }
 
+   public function getBrutstaettebyGeopoint ($g_id){
+       $brut = $this->fetchRow('B_G_ID = ' . $g_id);
+       return($brut);
+   }
+
     public function deleteBrutstätte($id) {
 
         $this->delete('B_ID =' . (int) $id);

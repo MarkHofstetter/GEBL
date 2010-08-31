@@ -80,5 +80,11 @@ class Application_Model_DbTable_Geodaten extends Zend_Db_Table_Abstract {
         return ($personengeodaten);
     }
 
+     public function getGeodaten($g_id) {
+
+        $geodaten = $this->fetchRow('G_ID=' . $g_id)->toArray();
+        return ($geodaten);
+    }
+
 }
 

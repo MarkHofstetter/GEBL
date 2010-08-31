@@ -1,4 +1,91 @@
-<?php $this->headScript()->captureStart() ?>
+<?php
+$this->headScript()->appendFile(
+        '/js/gmap.js',
+        'text/javascript'
+);
+
+$this->headScript()->appendFile(
+        '/js/admincudallpoints.js',
+        'text/javascript'
+);
+
+
+$this->headScript()->captureStart();
+?>
+
+var geocoder;
+var map;
+var lat =  <?php if ($this->lat) {
+    echo $this->lat;
+} else {
+    echo "48.01208";
+}; ?>;
+var lon = <?php if ($this->lat) {
+    echo $this->lon;
+} else {
+    echo "16.722139";
+}; ?>;
+var zoom = <?php if ($this->zoom) {
+    echo $this->zoom;
+} else {
+    echo "12";
+}; ?>;
+var markerid = "-1"; //No Marker !!!!;
+
+var urlmarkers = "/admin/listallpoints?format=xml";
+var placemarkerok = false;
+var clickedmarker;
+var clickedmarkericon =  "/images/waterred.png";
+
+var customIconsBrut = {
+0: {
+icon: '/images/waterred.png'
+},
+1: {
+icon: '/images/watergreen.png'
+}
+};
+
+var customIconsBrutAnimated = {
+0: {
+icon: '/images/waterredanimated.gif'
+},
+1: {
+icon: '/images/watergreenanimated.gif'
+}
+};
+
+var customIcons = {
+      1: {
+        icon: '/images/villa.png'
+        },
+      2: {
+        icon: '/images/exit.png'
+        },
+      3: {
+        icon: '/images/watergreen.png'
+        }
+
+    };
+
+function showall(){
+    window.location.href="/admin/showallpoints"
+    + "/lat/" + map.getCenter().lat()
+    + "/lon/" +  map.getCenter().lng()
+    + "/zoom/" + map.getZoom();
+  }
+
+window.onload = loadScript;
+
+
+
+
+
+
+/*
+old code moved to js files
+-----------------------------------------
+
 
 var geocoder;
 var map;
@@ -274,7 +361,7 @@ var customIcons = {
 
 
   window.onload = loadScript;
-
+*/
 <?php $this->headScript()->captureEnd() ?>
   
   <div id ="outer"> 
@@ -303,10 +390,7 @@ var customIcons = {
 	  
 	  <div id="right">
 	     <h3 id="pointname"></h3>
-              <p><a id="pointinfo"> </a></p>
-       
-               <p><a id="deletepoint" ></a></p>
-                 <div id="info"></div>
+             <div id="info"></div>
 	   
            </div>
       </div>

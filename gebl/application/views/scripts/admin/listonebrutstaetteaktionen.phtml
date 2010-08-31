@@ -1,9 +1,140 @@
-
-<table>
-    <th>Datum</th>
-    <th>Aktion</th>
-    <th>Kommentar</th>
 <?php
-    echo $this->partialLoop('aktionenLoop.phtml', $this->aktionen);
+$this->headScript()->appendFile(
+        '/js/gmap.js',
+        'text/javascript'
+);
+
+$this->headScript()->appendFile(
+        '/js/adminshowallpoints.js',
+        'text/javascript'
+);
+
+
+$this->headScript()->captureStart();
 ?>
-</table>
+
+var geocoder;
+var map;
+var lat =  <?php if ($this->lat) {
+    echo $this->lat;
+} else {
+    echo "48.01208";
+}; ?>;
+var lon = <?php if ($this->lat) {
+    echo $this->lon;
+} else {
+    echo "16.722139";
+}; ?>;
+var zoom = <?php if ($this->zoom) {
+    echo $this->zoom;
+} else {
+    echo "12";
+}; ?>;
+var markerid =  <?php if ($this->id) {
+    echo $this->id;
+} else {
+    echo "-1";
+}; ?>;
+
+var urlmarkers = "/admin/listallpoints?format=xml";
+var placemarkerok = false;
+var clickedmarker;
+var clickedmarkericon =  "/images/waterred.png";
+
+var customIconsBrut = {
+0: {
+icon: '/images/waterred.png'
+},
+1: {
+icon: '/images/watergreen.png'
+}
+};
+
+var customIconsBrutAnimated = {
+0: {
+icon: '/images/waterredanimated.gif'
+},
+1: {
+icon: '/images/watergreenanimated.gif'
+}
+};
+
+var customIcons = {
+      1: {
+        icon: '/images/villa.png'
+        },
+      2: {
+        icon: '/images/exit.png'
+        },
+      3: {
+        icon: '/images/watergreen.png'
+        }
+
+    };
+
+function showall(){
+    window.location.href="/admin/showallpoints"
+    + "/lat/" + map.getCenter().lat()
+    + "/lon/" +  map.getCenter().lng()
+    + "/zoom/" + map.getZoom();
+  }
+
+window.onload = loadScript;
+
+
+
+
+<?php $this->headScript()->captureEnd() ?>
+
+  <div id="outer">
+
+    <div id="header">
+        <a href="/index/logout">Logout</a>
+        <h1>GEBL-Karte: Brutstättendaten editieren</h1>
+    </div>
+
+    <div id="header2">
+          <p><input id ="showbrut" type="button"
+          value="Alle gespeicherten Punkte anzeigen" onclick="showall()"/></p>
+         <p>
+            <p>
+            <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
+            <input type="button" value="Setze Marker auf Adresse" onclick="codeAddress()">
+            </p>
+    </div>
+
+    <div id="centrecontent">
+
+        <div id ="left">
+        <div id="map_canvas" class="maphalf"></div>
+        <img src="/images/waterredsmall.png" alt="roter_marker" align="middle"/> ungeprüfte Brutstätte
+        <img src="/images/watersmall.png" alt="gruener_marker" align="middle"/> geprüfte Brutstätte
+        <img src="/images/villasmall.png" alt="blauer_marker" align="middle"/> Adresse
+        <img src="/images/exitsmall.png" alt="brauner_marker" align="middle"/> Falle
+        </div>
+
+
+        <div id="right">
+              <h3 id="pointname"> Aktionen zu <?php
+                                  echo $this->geodaten['G_NAME'];?>
+              </h3>
+              <p><a id="pointinfo"> </a></p>
+            <table>
+                <th>Datum</th>
+                <th>Aktion</th>
+                <th>Kommentar</th>
+                <?php
+                echo $this->partialLoop('aktionenLoop.phtml', $this->aktionen);
+                ?>
+            </table>
+         <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/></p>
+         <p>
+        </div>
+    </div>
+      <div class="clearer"></div>
+  </div>
+
+  <div id="footer">
+  Ändern der Koordinaten: Auf Karte klicken, Daten korrigieren und "Ändern" drücken. Felder mit "*" sind Pflichtfelder.
+  </div>
+

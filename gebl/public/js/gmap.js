@@ -16,9 +16,11 @@
     //marker for edit or add
     clickedmarker = new google.maps.Marker();
     clickedmarker.setIcon(clickedmarkericon);
-    var clickedInfoWindow = new google.maps.InfoWindow;
-    clickedInfoWindow.setContent("Positionieren Sie den Marker durch Klicken oder Ziehen");
-    clickedInfoWindow.open(map, clickedmarker);
+    if (placemarkerok == true){
+        var clickedInfoWindow = new google.maps.InfoWindow;
+        clickedInfoWindow.setContent("Positionieren Sie den Marker durch Klicken oder Ziehen");
+        clickedInfoWindow.open(map, clickedmarker);
+    }
     if (markerid == 0) {// marker not to edit -> set marker in center of map
         placeMarker(myLatlng)
     }
@@ -84,8 +86,10 @@
 
     geocoder = new google.maps.Geocoder();
 
+    if (placemarkerok == true){
     google.maps.event.addListener(clickedmarker, 'position_changed',
     function() {setLatLon(clickedmarker.getPosition());});
+    }
 
 
 }
@@ -121,6 +125,15 @@
   else
   {
     map.setCenter(location);
+    if (markerid > 0){
+        var clickedInfoWindow = new google.maps.InfoWindow;
+        clickedInfoWindow.setContent("Infos zu diesem Marker!");
+        clickedInfoWindow.open(map, clickedmarker);
+        clickedmarker.setMap(map);
+        clickedmarker.setPosition(location);
+        clickedmarker.setIcon(clickedmarkericon);
+        markerid = 0; //Do not move marker!
+    }
   }
   }
 

@@ -24,6 +24,28 @@ class Application_Model_AktionenAktionstyp {
 
     }
 
+    public function aktionen2xml ($aktionen){
+        $dom = new DOMDocument("1.0");
+        $node = $dom->createElement("aktionen");
+        $parnode = $dom->appendChild($node);
+        header("Content-type: text/xml");
+        if (count($aktionen)>0){
+        foreach ($aktionen as $aktion) {
+          $node = $dom->createElement("aktion");
+          $newnode = $parnode->appendChild($node);
+          $newnode->setAttribute("a_id",$aktion['A_ID']);
+          $newnode->setAttribute("a_nr",$aktion['A_NR']);
+          $newnode->setAttribute("a_datum",$aktion['A_DATUM']);
+          $newnode->setAttribute("a_text",$aktion['A_TEXT']);
+          $newnode->setAttribute("at_text",$aktion['AT_NAME']);
+
+          }
+        }
+    return ($dom);
+
+    }
+
+
 
 
     function getSysDate() { //for test only

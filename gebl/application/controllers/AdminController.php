@@ -16,6 +16,8 @@ class AdminController extends Zend_Controller_Action {
                 ->initContext();
         $contextSwitch->addActionContext('listonebrutstaette', 'xml')
                 ->initContext();
+        $contextSwitch->addActionContext('listonebrutstaetteaktionen', 'xml')
+                ->initContext();
 
         //Authentification
         $this->_auth = Zend_Auth::getInstance();
@@ -238,14 +240,48 @@ class AdminController extends Zend_Controller_Action {
         $this->view->allPoints = $points;
     }
 
-    public function listonebrutstaetteaktionenAction() {
+
+      public function listonebrutstaetteaktionenAction() {
         if ($this->getRequest()->isGet()) {
-            $id = $this->_getParam('id', 0);
-            $aktionenModel = new Application_Model_AktionenAktionstyp();
-            $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($id);
+                $id = $this->_getParam('g_id', 0);
+
+                if ($id > 0) {
+                   $brutModel = new Application_Model_DbTable_Brutstaetten();
+                   $brut = $brutModel->getBrutstaettebyGeopoint($id);
+                   $b_id = $brut['B_ID'];
+                   $aktionenModel = new Application_Model_AktionenAktionstyp();
+                   $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
+                   $this->view->dom = $aktionenModel->aktionen2xml($aktionen);
+                 }
         }
-        var_dump($aktionen);
-        $this->view->aktionen = $aktionen;
+      }
+      
+    
+    public function listonebrutstaetteaktionenhtmlAction() {
+        if ($this->getRequest()->isGet()) {
+                $id = $this->_getParam('g_id', 0);
+                $lat = $this->_getParam('lat', 0);
+                $lon = $this->_getParam('lon', 0);
+                $zoom = $this->_getParam('zoom', 0);
+                $this->view->lat = $lat;
+                $this->view->lon = $lon;
+                $this->view->zoom = $zoom;
+                $this->view->id = $id;
+                if ($id > 0) {
+                   $geodatenModel = new Application_Model_DbTable_Geodaten();
+                   $geodaten = $geodatenModel->getGeodaten($id);
+                   $brutModel = new Application_Model_DbTable_Brutstaetten();
+                   $brut = $brutModel->getBrutstaettebyGeopoint($id);
+                   $b_id = $brut['B_ID'];
+                   $aktionenModel = new Application_Model_AktionenAktionstyp();
+                   $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
+                   $this->view->geodaten=$geodaten;
+                   $this->view->brut=$brut;
+                   $this->view->aktionen=$aktionen;
+                }
+        }
+
+        
          
     }
 
