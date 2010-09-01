@@ -70,6 +70,88 @@ class AdminController extends Zend_Controller_Action {
         }
     }
 
+       public function addaktionAction() {
+        $lat = 0;
+        $lon = 0;
+        $zoom = 0;
+        $g_id = 0;
+        if ($this->getRequest()->isGet()) {
+            $lat = $this->_getParam('lat', 0);
+            $lon = $this->_getParam('lon', 0);
+            $zoom = $this->_getParam('zoom', 0);
+            $g_id = $this->_getParam('g_id', 0);
+        }
+
+        $form = new Application_Form_Aktion();
+        $form->senden->setLabel('Speichern');
+        $form->G_ID->setValue($g_id);
+
+        $this->view->form = $form;
+        $this->view->lat = $lat;
+        $this->view->lon = $lon;
+        $this->view->zoom = $zoom;
+        $this->view->id = $g_id;
+
+
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+                $a_datum = $form->getValue('A_DATUM');
+                $a_typ = $form->getValue('A_TYP');
+                $a_text = $form->getValue('A_TEXT');
+                $g_id = $form->getValue('G_ID');
+
+                $zoom = $form->getValue('ZOOM');
+
+                $a_betreff = null;
+                $a_p_id = null;
+                $a_b_id = null;
+                $a_f_id = null;
+
+
+                $geodaten = new Application_Model_DbTable_Geodaten();
+                $geopoint = $geodaten->getGeodaten($g_id);
+
+
+
+                switch ($geopoint['G_TYP'])
+                    {
+                    case 1:
+                      //Adresse
+                      break;
+                    case 2:
+                      //Falle
+                      break;
+                    case 3:
+                      //Brutstaette
+                     $brutstaetten = new Application_Model_DbTable_Brutstaetten();
+                     $brut = $brutstaetten->getBrutstaettebyGeopoint($g_id);
+                     $a_b_id = $brut['B_ID'];
+                     break;
+                     }
+
+                $aktionen = new Application_Model_DbTable_Aktionen();
+
+                $aktionen->addAktion($a_typ, $a_betreff, $a_datum, $a_p_id,
+                           $a_b_id, $a_f_id, $a_text);
+
+                //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
+                //$this->_helper->redirector('showallpoints', 'admin',
+                //        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+            }
+
+            $zoom = $form->getValue('ZOOM');
+            $this->view->lat = $lat;
+            $this->view->lon = $lon;
+            $this->view->zoom = $zoom;
+            $this->view->id = $g_id;
+            //$this->_flashMessenger->addMessage('Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben!');
+        }
+      
+
+       }
+
     public function addbrutstaetteAction() {
 
         $lat = 0;

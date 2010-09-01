@@ -48,10 +48,8 @@ class Application_Model_AktionenAktionstyp {
 
 
 
-    function getSysDate() { //for test only
-
-
-    $res = $this->db->fetchAll("SELECT sysdate FROM dual");
+    function getSysDate() { 
+    $res = $this->_db->fetchRow("SELECT sysdate FROM dual");
     return $res['SYSDATE'];
       }
 }

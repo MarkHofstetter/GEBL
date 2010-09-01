@@ -117,13 +117,13 @@ border-collapse:collapse;
 }
 #aktionen td, #aktionen th
 {
-font-size:0.8em;
+font-size:0.75em;
 border:1px solid #98bf21;
-/*padding:3px 7px 2px 7px;*/
+padding:2px 5px 1px 5px;
 }
 #aktionen th
 {
-font-size:0.8em;
+font-size:0.75em;
 text-align:left;
 padding-top:5px;
 padding-bottom:4px;

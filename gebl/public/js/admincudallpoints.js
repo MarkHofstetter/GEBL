@@ -80,19 +80,41 @@
                                              "<th>Aktion</th>"+
                                              "<th>Kommentar</th>";
                           for (var i = 0; i < aktionen.length; i++) {
+                            var a_datum = aktionen[i].getAttribute("a_datum");
+                            var at_text = aktionen[i].getAttribute("at_text");
+                            var a_text = aktionen[i].getAttribute("a_text");
+                            if (a_text.length > 60){
+                            a_text = "<span title=\"" +
+                                     a_text + "\">" +
+                                     a_text.substr(0,59) +
+                                     "...<br> <em>Alles zeigen: Cursor über den Text bewegen!</em> " +
+                                     "</span>";
+                                     
+                            }
+
                             aktionenhtml = aktionenhtml +
                              "<tr>" +
-                             "<td>" + aktionen[i].getAttribute("a_datum") + "</td>" +
-                             "<td>" + aktionen[i].getAttribute("at_text") + "</td>" +
-                             "<td>" + aktionen[i].getAttribute("a_text") + "</td>";
+                             "<td>" + a_datum + "</td>" +
+                             "<td>" + at_text + "</td>" +
+                             "<td>" + a_text + "</td>";
                           }
                             aktionenhtml = aktionenhtml + "</table>";
+                            aktionenhtml = aktionenhtml +
+                            "<input type='button' value='Neue Aktion eingeben' onclick='addAktion("+ g_id +")'/>";
                        }
                       document.getElementById("info").innerHTML = aktionenhtml;
 
                       });
     }
 
+
+    function addAktion(g_id) {
+    window.location.href="/admin/addaktion"
+    + "/g_id/" + g_id
+    + "/lat/" + map.getCenter().lat()
+    + "/lon/" +  map.getCenter().lng()
+     + "/zoom/" + map.getZoom();
+    }
 
     function editBrut(g_id) {
         window.location.href="/admin/editbrutstaette"

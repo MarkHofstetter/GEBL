@@ -82,7 +82,7 @@ class Application_Model_DbTable_Geodaten extends Zend_Db_Table_Abstract {
 
      public function getGeodaten($g_id) {
 
-        $geodaten = $this->fetchRow('G_ID=' . $g_id)->toArray();
+        $geodaten = $this->fetchRow('G_ID=' . $g_id);
         return ($geodaten);
     }
 
