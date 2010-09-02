@@ -50,9 +50,9 @@
             if (typ == "3") {
               var icon = customIconsBrutAnimated[checked] || {};
             }
-           // else{
-           //   var icon = customIcons[typ] || {};
-           // }
+           else{
+           var icon = customIconsAnimated[typ] || {};
+           }
 
             clickedmarkericon = icon.icon;
             placeMarker(point); //Marker to Edit!

@@ -51,17 +51,16 @@ icon: '/images/watergreen.png'
 };
 
 var customIcons = {
-      1: {
-        icon: '/images/villa.png'
-        },
-      2: {
-        icon: '/images/exit.png'
-        },
-      3: {
-        icon: '/images/watergreen.png'
-        }
-
-    };
+1: {
+icon: '/images/villa.png'
+},
+2: {
+icon: '/images/exit.png'
+},
+3: {
+icon: '/images/watergreen.png'
+}
+};
 
 function showall(){
     window.location.href="/admin/showallpoints"
@@ -87,7 +86,7 @@ window.onload = loadScript;
 	      <p><input id ="showbrut" type="button" value="Alle Punkte anzeigen" onclick="showall()"/></p>
 		
           <p>
-           <input id="address" type="textbox" size="50" value="Mannersdorf" onchange="codeAddress()">
+           <input id="address" type="textbox" size="50" value="2452 Mannersdorf" onchange="codeAddress()">
           <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()"> 
           </p>
           

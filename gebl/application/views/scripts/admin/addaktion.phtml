@@ -71,6 +71,20 @@ icon: '/images/watergreen.png'
 }
 };
 
+var customIconsAnimated = {
+1: {
+icon: '/images/villa.png'
+},
+2: {
+icon: '/images/exitanimated.gif'
+},
+3: {
+icon: '/images/watergreenanimated.gif'
+}
+};
+
+
+
 function showall(){
     window.location.href="/admin/showallpoints"
     + "/lat/" + map.getCenter().lat()
@@ -97,7 +111,7 @@ window.onload = loadScript;
                   value="Alle gespeicherten Punkte anzeigen" onclick="showall()"/></p>
         <p>
         <p>
-            <input id="address" type="textbox" size="50" value="Mannersdorf" onchange="codeAddress()">
+            <input id="address" type="textbox" size="50" value="2452 Mannersdorf" onchange="codeAddress()">
             <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
         </p>
     </div>
@@ -115,8 +129,7 @@ window.onload = loadScript;
 
         <div id="right">
 
-            <h4>Bitte geben Sie Aktions-Daten zu "
-                <?php echo $this->geodaten['G_NAME'];?>" ein:
+            <h4>Bitte geben Sie Aktions-Daten zu "<?php echo $this->geodaten['G_NAME'];?>" ein:
             </h4>
             <?php echo $this->form; ?>
             <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>

@@ -17,6 +17,7 @@
                  case "2":
                  html = "<h4>"+ markername + "</h4>" + "Typ: Falle <br>";
                  document.getElementById("info").innerHTML="";
+                 html = html + "<input type='button' value='Aktionen' onclick='getAktionen("+ markerid +")'/> <br>";
                  html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/>"
                  break;
 
@@ -26,7 +27,7 @@
                      case "1":
                        html = "<h4>"+ markername + "</h4>" + "Typ: Brutstätte <br>";
                        html = html + "<input type='button' value='Alle Daten zeigen' onclick='getbrutInfo("+ markerid +")'/> <br>";
-                       html = html + "<input type='button' value='Aktionen' onclick='getBrutAktionen("+ markerid +")'/> <br>";
+                       html = html + "<input type='button' value='Aktionen' onclick='getAktionen("+ markerid +")'/> <br>";
                        html = html + "<input type='button' value='Editieren' onclick='editBrut("+ markerid +")'/><br>"
                        html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/><br>"
                        document.getElementById("info").innerHTML="";
@@ -64,10 +65,10 @@
     }
   */
 
-    function getBrutAktionen(g_id){
+    function getAktionen(g_id){
       document.getElementById("info").innerHTML="Lade Daten ....";
 
-      downloadUrl("/admin/listonebrutstaetteaktionen/format/xml/g_id/" + g_id, function(data){
+      downloadUrl("/admin/listonepointaktionen/format/xml/g_id/" + g_id, function(data){
 
                       var xml = parseXml(data);
                       var aktionen = xml.documentElement.getElementsByTagName("aktion");
@@ -161,33 +162,35 @@
                       var b_kontaktdaten = brut[0].getAttribute("b_kontaktdaten");
                       var aktionen = xml.documentElement.getElementsByTagName("aktion");
                       var infohtml ="<h4>Daten zu dieser Brutstätte:</h4>" +
-                                   "b_id = " + b_id + "<br>" +
-                                   "b_nr = " + b_nr + "<br>" +
-                                   "b_groesse = " + b_groesse + "<br>" +
-                                   "b_gewaesser_art = " + b_gewaesser_art + "<br>" +
-                                   "b_zugang = " + b_zugang + "<br>" +
-                                   "b_p_id = " + b_p_id + "<br>" +
-                                   "b_g_id = " + b_g_id + "<br>" +
-                                   "b_bek_art = " + b_bek_art + "<br>" +
-                                   "b_text = " + b_text + "<br>" +
-                                   "b_kontaktdaten = " + b_kontaktdaten + "<br>";
+                       "<table id='info'>" +
+                       "<tr>" +
+                       "<td>Nummer: </td><td>" + b_nr + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Größe: </td><td>" + b_groesse + "m²" + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Gewässer: </td><td>" + b_gewaesser_art + "</td>" +
+                       "</tr>" + 
+                       "<tr>" +
+                       "<td>Zugang: </td><td>" + b_zugang + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Bekämpfung: </td><td>" + b_bek_art + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Kommentar: </td><td>" + b_text + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Kontaktdaten des Melders: </td><td>" + b_kontaktdaten + "</td>" +
+                       "</tr>" + 
+                       "<tr>" + 
+                       "<td>Anzahl der Aktionen: </td><td>" + aktionen.length + "</td>" +
+                       "</tr>" + 
+                       "</table>";
 
-                      var aktionenhtml = ""
-                      for (var i = 0; i < aktionen.length; i++) {
-                        aktionenhtml = aktionenhtml +
-                         "<h4>Aktion " + i + "</h4>" +
-                         "a_id =" + aktionen[i].getAttribute("a_id") + "<br>" +
-                         "a_nr =" + aktionen[i].getAttribute("a_nr") + "<br>" +
-                         "a_typ =" + aktionen[i].getAttribute("a_typ") + "<br>" +
-                         "a_betreff =" + aktionen[i].getAttribute("a_betreff") + "<br>" +
-                         "a_datum =" + aktionen[i].getAttribute("a_datum") + "<br>" +
-                         "a_p_id =" + aktionen[i].getAttribute("a_p_id") + "<br>" +
-                         "a_b_id =" + aktionen[i].getAttribute("a_b_id") + "<br>" +
-                         "a_f_id =" + aktionen[i].getAttribute("a_f_id") + "<br>" +
-                         "a_text =" + aktionen[i].getAttribute("a_text") + "<br>";
-
-
-                      }
+                      var aktionenhtml = "";
+                      
                       document.getElementById("info").innerHTML = infohtml + aktionenhtml;
 
                       });

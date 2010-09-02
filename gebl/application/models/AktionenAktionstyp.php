@@ -21,7 +21,19 @@ class Application_Model_AktionenAktionstyp {
          $stmt = $select->query();
          $result = $stmt->fetchAll();
          return ($result);
+    }
 
+     public function getOneFalleAllAktionen($f_id){
+
+       $select = $this->_db->select();
+       $select->from(('AKTIONEN'),
+                   array('A_ID', 'A_NR', 'A_DATUM', 'A_TEXT'))
+               ->join('AKTIONSTYP','AKTIONEN.A_TYP = AKTIONSTYP.AT_NR','AT_NAME')
+               ->where('A_F_ID = ?', $f_id)
+               ->order('A_DATUM ASC');
+         $stmt = $select->query();
+         $result = $stmt->fetchAll();
+         return ($result);
     }
 
     public function aktionen2xml ($aktionen){

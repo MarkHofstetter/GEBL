@@ -60,17 +60,28 @@ icon: '/images/watergreenanimated.gif'
 };
 
 var customIcons = {
-      1: {
-        icon: '/images/villa.png'
-        },
-      2: {
-        icon: '/images/exit.png'
-        },
-      3: {
-        icon: '/images/watergreen.png'
-        }
+1: {
+icon: '/images/villa.png'
+},
+2: {
+icon: '/images/exit.png'
+},
+3: {
+icon: '/images/watergreen.png'
+}
+};
 
-    };
+var customIconsAnimated = {
+1: {
+icon: '/images/villa.png'
+},
+2: {
+icon: '/images/exitanimated.gif'
+},
+3: {
+icon: '/images/watergreenanimated.gif'
+}
+};
 
 function showall(){
     window.location.href="/admin/showallpoints"
@@ -98,7 +109,7 @@ window.onload = loadScript;
           value="Alle gespeicherten Punkte anzeigen" onclick="showall()"/></p>
          <p>
             <p>
-            <input id="address" type="textbox" size="50" value="Wilfleinsdorf" onchange="codeAddress()">
+            <input id="address" type="textbox" size="50" value="2452 Mannersdorf" onchange="codeAddress()">
             <input type="button" value="Setze Marker auf Adresse" onclick="codeAddress()">
             </p>
     </div>

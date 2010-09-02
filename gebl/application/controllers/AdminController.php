@@ -18,6 +18,8 @@ class AdminController extends Zend_Controller_Action {
                 ->initContext();
         $contextSwitch->addActionContext('listonebrutstaetteaktionen', 'xml')
                 ->initContext();
+        $contextSwitch->addActionContext('listonepointaktionen', 'xml')
+                ->initContext();
 
         //Authentification
         $this->_auth = Zend_Auth::getInstance();
@@ -118,6 +120,11 @@ class AdminController extends Zend_Controller_Action {
                 $a_b_id = null;
                 $a_f_id = null;
 
+               if ($this->_auth->hasIdentity() &&
+                       is_object($this->_auth->getIdentity())) {
+                           $a_p_id = $this->_auth->getIdentity()->P_ID;
+                        }
+
 
                 $geodaten = new Application_Model_DbTable_Geodaten();
                 $geopoint = $geodaten->getGeodaten($g_id);
@@ -131,6 +138,9 @@ class AdminController extends Zend_Controller_Action {
                       break;
                     case 2:
                       //Falle
+                     $fallen = new Application_Model_DbTable_Fallen();
+                     $falle = $fallen->getFallebyGeopoint($g_id);
+                     $a_f_id = $falle['F_ID'];
                       break;
                     case 3:
                       //Brutstaette
@@ -347,6 +357,41 @@ class AdminController extends Zend_Controller_Action {
                    $b_id = $brut['B_ID'];
                    $aktionenModel = new Application_Model_AktionenAktionstyp();
                    $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
+                   $this->view->dom = $aktionenModel->aktionen2xml($aktionen);
+                 }
+        }
+      }
+
+      public function listonepointaktionenAction() {
+        if ($this->getRequest()->isGet()) {
+                $g_id = $this->_getParam('g_id', 0);
+
+                if ($g_id > 0) {
+                $geodaten = new Application_Model_DbTable_Geodaten();
+                $geopoint = $geodaten->getGeodaten($g_id);
+                switch ($geopoint['G_TYP'])
+                    {
+                    case 1:
+                      //Adresse
+                      break;
+                    case 2:
+                      //Falle
+                     $fallen = new Application_Model_DbTable_Fallen();
+                     $falle = $fallen->getFallebyGeopoint($g_id);
+                     $f_id = $falle['F_ID'];
+                     $aktionenModel = new Application_Model_AktionenAktionstyp();
+                     $aktionen = $aktionenModel->getOneFalleAllAktionen($f_id);
+                      break;
+                    case 3:
+                      //Brutstaette
+                     $brutstaetten = new Application_Model_DbTable_Brutstaetten();
+                     $brut = $brutstaetten->getBrutstaettebyGeopoint($g_id);
+                     $b_id = $brut['B_ID'];
+                     $aktionenModel = new Application_Model_AktionenAktionstyp();
+                     $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
+                     break;
+                     }
+
                    $this->view->dom = $aktionenModel->aktionen2xml($aktionen);
                  }
         }
