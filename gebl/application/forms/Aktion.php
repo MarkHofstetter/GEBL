@@ -13,8 +13,15 @@ class Application_Form_Aktion extends Zend_Form
          //store zoom for redraw in case of wrong input
 
         $g_id = new Zend_Form_Element_Hidden('G_ID');
-         $zoom->removeDecorator( 'Label' );
-         //store zoom for redraw in case of wrong input
+        $g_id->removeDecorator( 'Label' );
+         //store g_id for storing in db
+
+        $g_lat = new Zend_Form_Element_Hidden('G_LAT');
+        $g_lat->removeDecorator( 'Label' );
+         //store lat for redraw in case of wrong input
+        $g_lon = new Zend_Form_Element_Hidden('G_LON');
+        $g_lon->removeDecorator( 'Label' );
+         //store lon for redraw in case of wrong input
 
         $aktionen = new Application_Model_AktionenAktionstyp;
         $date = $aktionen->getSysDate();
@@ -22,6 +29,13 @@ class Application_Form_Aktion extends Zend_Form
         $a_datum->setLabel('* Datum (Format TT.MM.JJ): ')
               ->setRequired(true)
               ->addValidator('Date',false, array('format'=>'dd.MM.yy'))
+              ->addValidator('regex', false, 
+                array('pattern' => '/^[0-3][0-9]\.[0-1][0-9]\.[0-9][0-9]$/',
+                'messages' => array(
+                'regexInvalid'   => "Ungültiger Wert!",
+                'regexNotMatch' => "Ungültige Eingabe!",
+                'regexErrorous'  => "There was an internal error while using the pattern '%pattern%'"
+                )))
               ->setAttrib('size','8')
               ->setValue($date);
 
@@ -33,15 +47,16 @@ class Application_Form_Aktion extends Zend_Form
               ->addMultiOptions($aktionenList);
          
         $a_text = new Zend_Form_Element_Textarea('A_TEXT');
-        $a_text->setLabel('Kommentar (optional, maximal 1024 Zeichen):')
+        $a_text->setLabel('* Kommentar (maximal 1024 Zeichen):')
               //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->setAttrib('rows','3')
-              ->setAttrib('cols','40')
+              ->setRequired(true)
+              ->setAttrib('rows','5')
+              ->setAttrib('cols','60')
               ->addValidator('StringLength', false, array(0, 1024));
         
         $submit = new Zend_Form_Element_Submit('senden');
 
-        $this->addElements(array($g_id, $zoom, $a_datum, $a_typ, $a_text, $submit));
+        $this->addElements(array($g_lat, $g_lon, $g_id, $zoom, $a_datum, $a_typ, $a_text, $submit));
 
         $this->addDisplayGroup(array('A_DATUM', 'A_TYP'), 'datetyp');
         $this->addDisplayGroup(array('A_TEXT', 'senden'), 'textsubmit');

@@ -19,7 +19,7 @@ class Application_Form_Brutstaette extends Zend_Form
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               //->setRequired(true)
               ->addValidator('StringLength', false, array(0, 50))
-              ->setAttrib('size','50');
+              ->setAttrib('size','70');
         $lat = new Zend_Form_Element('G_LAT');
          $lat->setLabel('* Breitengrad (Auf Karte klicken oder Eingabe in Dezimalgrad):')
               ->setRequired(true)
@@ -42,27 +42,27 @@ class Application_Form_Brutstaette extends Zend_Form
          $gewaesser_art->setLabel('Gewässerart (optional): ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 50))
-              ->setAttrib('size','50');;
+              ->setAttrib('size','70');;
         $zugang = new Zend_Form_Element_Text('B_ZUGANG');
          $zugang->setLabel('Zugang (optional): ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 100))
-              ->setAttrib('size','50');;
+              ->setAttrib('size','70');;
         $bek_art = new Zend_Form_Element_Text('B_BEK_ART');
          $bek_art->setLabel('Bekämpfungsart (optional): ')
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->setAttrib('size','50');;
+              ->setAttrib('size','70');;
         $text = new Zend_Form_Element_Textarea('B_TEXT');
          $text->setLabel('Kommentar (optional, maximal 1024 Zeichen):')
               //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->setAttrib('rows','3')
-              ->setAttrib('cols','40')
+              ->setAttrib('rows','2')
+              ->setAttrib('cols','60')
               ->addValidator('StringLength', false, array(0, 1024));
         $kontaktdaten = new Zend_Form_Element_Textarea('B_KONTAKTDATEN');
          $kontaktdaten->setLabel('Kontaktdaten (optional, maximal 256 Zeichen):')
               //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->setAttrib('rows','3')
-              ->setAttrib('cols','40')
+              ->setAttrib('rows','2')
+              ->setAttrib('cols','60')
               ->addValidator('StringLength', false, array(0, 256));
 
         $submit = new Zend_Form_Element_Submit('senden');

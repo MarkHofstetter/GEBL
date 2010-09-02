@@ -26,7 +26,7 @@
                      case "1":
                        html = "<h4>"+ markername + "</h4>" + "Typ: Brutstätte <br>";
                        html = html + "<input type='button' value='Alle Daten zeigen' onclick='getbrutInfo("+ markerid +")'/> <br>";
-                       html = html + "<input type='button' value='Aktionen zeigen' onclick='getBrutAktionen("+ markerid +")'/> <br>";
+                       html = html + "<input type='button' value='Aktionen' onclick='getBrutAktionen("+ markerid +")'/> <br>";
                        html = html + "<input type='button' value='Editieren' onclick='editBrut("+ markerid +")'/><br>"
                        html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/><br>"
                        document.getElementById("info").innerHTML="";
@@ -72,7 +72,7 @@
                       var xml = parseXml(data);
                       var aktionen = xml.documentElement.getElementsByTagName("aktion");
                       if (aktionen.length==0){
-                        var aktionenhtml = "Für diesen Punkt wurden noch keine Aktionen gemeldet!";
+                        var aktionenhtml = "Für diesen Punkt wurden noch keine Aktionen gemeldet!<br>";
                         }
                       else{
                           var aktionenhtml = "<table id='aktionen'>"+
@@ -99,9 +99,11 @@
                              "<td>" + a_text + "</td>";
                           }
                             aktionenhtml = aktionenhtml + "</table>";
-                            aktionenhtml = aktionenhtml +
-                            "<input type='button' value='Neue Aktion eingeben' onclick='addAktion("+ g_id +")'/>";
+                            
                        }
+                      aktionenhtml = aktionenhtml +
+                      "<input type='button' value='Neue Aktion eingeben' onclick='addAktion("
+                      + g_id +")'/>";
                       document.getElementById("info").innerHTML = aktionenhtml;
 
                       });

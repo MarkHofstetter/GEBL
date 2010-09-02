@@ -50,18 +50,26 @@ icon: '/images/watergreen.png'
 }
 };
 
-var customIcons = {
-      1: {
-        icon: '/images/villa.png'
-        },
-      2: {
-        icon: '/images/exit.png'
-        },
-      3: {
-        icon: '/images/watergreen.png'
-        }
+var customIconsBrutAnimated = {
+0: {
+icon: '/images/waterredanimated.gif'
+},
+1: {
+icon: '/images/watergreenanimated.gif'
+}
+};
 
-    };
+var customIcons = {
+1: {
+icon: '/images/villa.png'
+},
+2: {
+icon: '/images/exit.png'
+},
+3: {
+icon: '/images/watergreen.png'
+}
+};
 
 function showall(){
     window.location.href="/admin/showallpoints"
@@ -107,6 +115,9 @@ window.onload = loadScript;
 
         <div id="right">
 
+            <h4>Bitte geben Sie Aktions-Daten zu "
+                <?php echo $this->geodaten['G_NAME'];?>" ein:
+            </h4>
             <?php echo $this->form; ?>
             <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>
          </div>

@@ -127,7 +127,7 @@
     map.setCenter(location);
     if (markerid > 0){
         var clickedInfoWindow = new google.maps.InfoWindow;
-        clickedInfoWindow.setContent("Infos zu diesem Marker!");
+        clickedInfoWindow.setContent("Information zu diesem Marker!");
         clickedInfoWindow.open(map, clickedmarker);
         clickedmarker.setMap(map);
         clickedmarker.setPosition(location);
@@ -135,6 +135,10 @@
         markerid = 0; //Do not move marker!
     }
   }
+  if (document.getElementById("G_LAT") && document.getElementById ("G_LON")){
+     document.getElementById ("G_LAT").value = parseFloat(location.lat());
+     document.getElementById ("G_LON").value = parseFloat(location.lng());
+     }
   }
 
   function setLatLon(location){

@@ -85,12 +85,18 @@ class AdminController extends Zend_Controller_Action {
         $form = new Application_Form_Aktion();
         $form->senden->setLabel('Speichern');
         $form->G_ID->setValue($g_id);
+        $form->G_LAT->setValue($lat);
+        $form->G_LON->setValue($lon);
+
+        $geodaten = new Application_Model_DbTable_Geodaten();
+        $geopoint = $geodaten->getGeodaten($g_id);
 
         $this->view->form = $form;
         $this->view->lat = $lat;
         $this->view->lon = $lon;
         $this->view->zoom = $zoom;
         $this->view->id = $g_id;
+        $this->view->geodaten = $geopoint;
 
 
 
@@ -101,6 +107,9 @@ class AdminController extends Zend_Controller_Action {
                 $a_typ = $form->getValue('A_TYP');
                 $a_text = $form->getValue('A_TEXT');
                 $g_id = $form->getValue('G_ID');
+                $lat = $form->getValue('G_LAT');
+                $lon = $form->getValue('G_LON');
+
 
                 $zoom = $form->getValue('ZOOM');
 
@@ -132,20 +141,25 @@ class AdminController extends Zend_Controller_Action {
                      }
 
                 $aktionen = new Application_Model_DbTable_Aktionen();
-
                 $aktionen->addAktion($a_typ, $a_betreff, $a_datum, $a_p_id,
                            $a_b_id, $a_f_id, $a_text);
 
                 //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
-                //$this->_helper->redirector('showallpoints', 'admin',
-                //        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+                $this->_helper->redirector('showallpoints', 'admin',
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
             }
-
+            //wrong input: data for redraw of map:
             $zoom = $form->getValue('ZOOM');
+            $lat = $form->getValue('G_LAT');
+            $lon = $form->getValue('G_LON');
+            $g_id = $form->getValue('G_ID');
             $this->view->lat = $lat;
             $this->view->lon = $lon;
             $this->view->zoom = $zoom;
             $this->view->id = $g_id;
+            $geodaten = new Application_Model_DbTable_Geodaten();
+            $geopoint = $geodaten->getGeodaten($g_id);
+            $this->view->geodaten = $geopoint;
             //$this->_flashMessenger->addMessage('Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben!');
         }
       
