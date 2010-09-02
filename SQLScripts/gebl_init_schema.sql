@@ -28,6 +28,16 @@ CREATE SEQUENCE gebl_seq_b
   NOORDER
   NOCACHE
 ;
+-- sequence fuer tabelle geodaten default fuer g_name
+CREATE SEQUENCE gebl_seq_b_name
+  INCREMENT BY 1
+  START WITH 1
+  MINVALUE 1
+  MAXVALUE 9999999999999999999
+  NOCYCLE
+  NOORDER
+  NOCACHE
+;
 -- sequence fuer tabelle fallen f_nr
 CREATE SEQUENCE gebl_seq_f
   INCREMENT BY 1
@@ -303,7 +313,7 @@ BEGIN
 		:new.G_Id := g_id;
 	end if;
 	if (:new.G_Name is null AND :new.G_Typ = 3) then
-		SELECT gebl_seq_b.currval
+		SELECT gebl_seq_b_name.nextval
 			INTO b_nr
 			FROM dual;
 		:new.G_Name := 'Brutstaette-'||to_char(b_nr);
