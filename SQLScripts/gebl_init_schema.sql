@@ -326,7 +326,7 @@ COMMENT ON COLUMN geodaten.g_typ IS '1..Adresse/,2..Falle,3..Brutstaette'
 CREATE TABLE fallen
     (f_id                           NUMBER ,
     f_nr                           VARCHAR2(10 BYTE),
-    f_typ                          NUMBER,
+    f_typ                          VARCHAR2(100 BYTE),
 	f_p_id                         NUMBER,
     f_g_id                         NUMBER,
     f_text                         VARCHAR2(1024 BYTE))

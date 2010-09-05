@@ -97,27 +97,27 @@ INSERT INTO brutstaetten
 VALUES(1049,'B-12',47,'Tuempel','leicht',1002,1039,'Handspritze','Zusatztext zu dieser Brutstaette',1,NULL);
 commit;
 INSERT INTO fallen 
-VALUES(1005,'F-1',1,1003,1000,'Fallenzusatztext');
+VALUES(1005,'F-1',NULL,1003,1000,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1050,'F-2',1,1003,1020,'Zusatztext zu Falle F-2Zusatztext zu Falle F-2');
+VALUES(1050,'F-2',NULL,1003,1020,'Zusatztext zu Falle F-2Zusatztext zu Falle F-2');
 INSERT INTO fallen 
-VALUES(1051,'F-3',1,1003,1021,'Fallenzusatztext');
+VALUES(1051,'F-3',NULL,1003,1021,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1052,'F-4',1,1003,1022,'Fallenzusatztext');
+VALUES(1052,'F-4',NULL,1003,1022,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1053,'F-5',1,1003,1023,'Fallenzusatztext');
+VALUES(1053,'F-5',NULL,1003,1023,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1054,'F-6',1,1003,1024,'Fallenzusatztext');
+VALUES(1054,'F-6',NULL,1003,1024,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1055,'F-7',1,1003,1025,'Zusatztext zu Falle F-7');
+VALUES(1055,'F-7',NULL,1003,1025,'Zusatztext zu Falle F-7');
 INSERT INTO fallen 
-VALUES(1056,'F-8',1,1003,1026,'Fallenzusatztext');
+VALUES(1056,'F-8',NULL,1003,1026,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1057,'F-9',1,1003,1027,'Fallenzusatztext');
+VALUES(1057,'F-9',NULL,1003,1027,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1058,'F-10',1,1003,1028,'Fallenzusatztext');
+VALUES(1058,'F-10',NULL,1003,1028,'Fallenzusatztext');
 INSERT INTO fallen 
-VALUES(1059,'F-11',1,1003,1029,'Zusatztext zu Falle F-11');
+VALUES(1059,'F-11',NULL,1003,1029,'Zusatztext zu Falle F-11');
 commit;
 INSERT INTO aktionstyp VALUES(1,'Beobachtung');
 INSERT INTO aktionstyp VALUES(2,'Bekaempfung');
