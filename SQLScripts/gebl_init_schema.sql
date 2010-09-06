@@ -316,19 +316,19 @@ BEGIN
 		SELECT gebl_seq_b_name.nextval
 			INTO b_nr
 			FROM dual;
-		:new.G_Name := 'Brutstaette-'||to_char(b_nr);
+		:new.G_Name := 'Brutstaette '||to_char(b_nr);
 	end if;
 	if (:new.G_Name is null AND :new.G_Typ = 2) then
 		SELECT gebl_seq_b_name.nextval
 			INTO b_nr
 			FROM dual;
-		:new.G_Name := 'Falle-'||to_char(b_nr);
+		:new.G_Name := 'Falle '||to_char(b_nr);
 	end if;
 	if (:new.G_Name is null AND :new.G_Typ = 1) then
 		SELECT gebl_seq_b_name.nextval
 			INTO b_nr
 			FROM dual;
-		:new.G_Name := 'Adresse-'||to_char(b_nr);
+		:new.G_Name := 'Adresse '||to_char(b_nr);
 	end if;
 END;
 /
