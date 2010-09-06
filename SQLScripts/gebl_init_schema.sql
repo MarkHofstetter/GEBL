@@ -318,6 +318,18 @@ BEGIN
 			FROM dual;
 		:new.G_Name := 'Brutstaette-'||to_char(b_nr);
 	end if;
+	if (:new.G_Name is null AND :new.G_Typ = 2) then
+		SELECT gebl_seq_b_name.nextval
+			INTO b_nr
+			FROM dual;
+		:new.G_Name := 'Falle-'||to_char(b_nr);
+	end if;
+	if (:new.G_Name is null AND :new.G_Typ = 1) then
+		SELECT gebl_seq_b_name.nextval
+			INTO b_nr
+			FROM dual;
+		:new.G_Name := 'Adresse-'||to_char(b_nr);
+	end if;
 END;
 /
 COMMENT ON COLUMN geodaten.g_typ IS '1..Adresse/,2..Falle,3..Brutstaette'
@@ -490,7 +502,7 @@ BEGIN
 END;
 /
 CREATE TRIGGER delete_bpid_fpid_apid
--- when deleting row from personen -> set corresponding ids in other tables to NULL 
+-- when deleting row from personen -> set corresponding ids in other tables to NULL and remove row from geodaten
  BEFORE 
  DELETE
  ON PERSONEN
@@ -506,6 +518,9 @@ BEGIN
   UPDATE AKTIONEN
   SET A_P_ID = NULL
   WHERE A_P_ID = :old.P_ID;
+  UPDATE GEODATEN
+  SET G_NAME = 'unused'
+  WHERE G_ID = :old.P_G_ID;
 END;
 /
 ALTER TABLE aktionen
