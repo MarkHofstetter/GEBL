@@ -15,9 +15,9 @@ $this->headScript()->captureStart() ?>
 
 var geocoder;
 var map;
-var lat =  <?php if ($this->lat) {echo $this->lat;} else {echo "48.01208";}; ?>;
-var lon = <?php if ($this->lat) {echo $this->lon;} else {echo "16.722139";}; ?>;
-var zoom = <?php if ($this->zoom) {echo $this->zoom;} else {echo "12";}; ?>;
+var lat =  <?php if ($this->lat) {echo $this->lat;} else {echo "0";}; ?>;
+var lon = <?php if ($this->lat) {echo $this->lon;} else {echo "0";}; ?>;
+var zoom = <?php if ($this->zoom) {echo $this->zoom;} else {echo "0";}; ?>;
 var markerid = <?php if ($this->id) {echo $this->id;} else {echo "0";}; ?>;
 var urlmarkers = "/guest/listallbrutgeodaten?format=xml";
 var placemarkerok = false;

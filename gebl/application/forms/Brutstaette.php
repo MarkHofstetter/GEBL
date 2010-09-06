@@ -23,13 +23,25 @@ class Application_Form_Brutstaette extends Zend_Form
         $lat = new Zend_Form_Element('G_LAT');
          $lat->setLabel('* Breitengrad (Auf Karte klicken oder Eingabe in Dezimalgrad):')
               ->setRequired(true)
-             //->addValidator('Float')
+             ->addValidator('regex', true,
+                array('pattern' => '/^(\+?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+-]?[0-9]+)?))$/',
+                'messages' => array(
+                'regexInvalid'   => "Ungültiger Wert!",
+                'regexNotMatch' => "Ungültige Eingabe!",
+                'regexErrorous'  => "There was an internal error while using the pattern '%pattern%'"
+                )))
               ->addValidator('Between',true,array(46,49));
               //->setAttrib('disabled', 'true');
         $lon = new Zend_Form_Element('G_LON');
          $lon->setLabel('* Längengrad (Auf Karte klicken oder Eingabe in Dezimalgrad):')
                ->setRequired(true)
-               //->addValidator('Float')
+               ->addValidator('regex', true,
+                array('pattern' => '/^(\+?((([0-9]+(\.)?)|([0-9]*\.[0-9]+))([eE][+-]?[0-9]+)?))$/',
+                'messages' => array(
+                'regexInvalid'   => "Ungültiger Wert!",
+                'regexNotMatch' => "Ungültige Eingabe!",
+                'regexErrorous'  => "There was an internal error while using the pattern '%pattern%'"
+                )))
                ->addValidator('Between',true,array(14,18));
                 //->setAttrib('disabled', 'true');
         $groesse = new Zend_Form_Element('B_GROESSE');
