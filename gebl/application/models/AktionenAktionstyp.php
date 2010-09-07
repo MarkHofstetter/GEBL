@@ -16,6 +16,7 @@ class Application_Model_AktionenAktionstyp {
        $select->from(('AKTIONEN'),
                    array('A_ID', 'A_NR', 'A_DATUM', 'A_TEXT'))
                ->join('AKTIONSTYP','AKTIONEN.A_TYP = AKTIONSTYP.AT_NR','AT_NAME')
+               ->joinLeft('PERSONEN','AKTIONEN.A_P_ID = PERSONEN.P_ID','P_LOGNAME')
                ->where('A_B_ID = ?', $b_id)
                ->order('A_DATUM ASC');
          $stmt = $select->query();
@@ -29,6 +30,7 @@ class Application_Model_AktionenAktionstyp {
        $select->from(('AKTIONEN'),
                    array('A_ID', 'A_NR', 'A_DATUM', 'A_TEXT'))
                ->join('AKTIONSTYP','AKTIONEN.A_TYP = AKTIONSTYP.AT_NR','AT_NAME')
+               ->joinLeft('PERSONEN','AKTIONEN.A_P_ID = PERSONEN.P_ID','P_LOGNAME')
                ->where('A_F_ID = ?', $f_id)
                ->order('A_DATUM ASC');
          $stmt = $select->query();
@@ -50,6 +52,7 @@ class Application_Model_AktionenAktionstyp {
           $newnode->setAttribute("a_datum",$aktion['A_DATUM']);
           $newnode->setAttribute("a_text",$aktion['A_TEXT']);
           $newnode->setAttribute("at_text",$aktion['AT_NAME']);
+          $newnode->setAttribute("p_logname",$aktion['P_LOGNAME']);
 
           }
         }

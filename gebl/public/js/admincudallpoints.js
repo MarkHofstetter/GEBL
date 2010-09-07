@@ -17,6 +17,7 @@
                  case "2":
                  html = "<h4>"+ markername + "</h4>" + "Typ: Falle <br>";
                  document.getElementById("info").innerHTML="";
+                 html = html + "<input type='button' value='Daten' onclick='getfallenInfo("+ markerid +")'/> <br>";
                  html = html + "<input type='button' value='Aktionen' onclick='getAktionen("+ markerid +")'/> <br>";
                  html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/>"
                  break;
@@ -26,7 +27,7 @@
                      switch (marker.get("checked")){
                      case "1":
                        html = "<h4>"+ markername + "</h4>" + "Typ: Brutstätte <br>";
-                       html = html + "<input type='button' value='Alle Daten zeigen' onclick='getbrutInfo("+ markerid +")'/> <br>";
+                       html = html + "<input type='button' value='Daten' onclick='getbrutInfo("+ markerid +")'/> <br>";
                        html = html + "<input type='button' value='Aktionen' onclick='getAktionen("+ markerid +")'/> <br>";
                        html = html + "<input type='button' value='Editieren' onclick='editBrut("+ markerid +")'/><br>"
                        html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/><br>"
@@ -35,9 +36,9 @@
                      
                      case "0":
                        html = "<h4>"+ markername + "</h4>" + "Typ: ungeprüfte Brutstätte <br>";
-                       html = html + "<input type='button' value='Alle Daten zeigen' onclick='getbrutInfo("+ markerid +")'/><br>";
+                       html = html + "<input type='button' value='Daten' onclick='getbrutInfo("+ markerid +")'/><br>";
                        html = html + "<input type='button' value='Editieren' onclick='editBrut("+ markerid +")'/><br>"
-                       html = html + "<input type='button' value='Status Geprüft setzen'  onclick='setBrutChecked("+ markerid +")'/><br>";
+                       html = html + "<input type='button' value='Status \"Geprüft\" setzen'  onclick='setBrutChecked("+ markerid +")'/><br>";
                        html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/>"
                        document.getElementById("info").innerHTML="";
                      }
@@ -79,15 +80,17 @@
                           var aktionenhtml = "<table id='aktionen'>"+
                                              "<th>Datum</th>"+
                                              "<th>Aktion</th>"+
+                                             "<th>Name</th>"+
                                              "<th>Kommentar</th>";
                           for (var i = 0; i < aktionen.length; i++) {
                             var a_datum = aktionen[i].getAttribute("a_datum");
                             var at_text = aktionen[i].getAttribute("at_text");
                             var a_text = aktionen[i].getAttribute("a_text");
-                            if (a_text.length > 60){
+                            var p_logname = aktionen[i].getAttribute("p_logname");
+                            if (a_text.length > 50){
                             a_text = "<span title=\"" +
                                      a_text + "\">" +
-                                     a_text.substr(0,59) +
+                                     a_text.substr(0,49) +
                                      "...<br> <em>Alles zeigen: Cursor über den Text bewegen!</em> " +
                                      "</span>";
                                      
@@ -97,6 +100,7 @@
                              "<tr>" +
                              "<td>" + a_datum + "</td>" +
                              "<td>" + at_text + "</td>" +
+                             "<td>" + p_logname + "</td>" +
                              "<td>" + a_text + "</td>";
                           }
                             aktionenhtml = aktionenhtml + "</table>";
@@ -116,7 +120,7 @@
     + "/g_id/" + g_id
     + "/lat/" + map.getCenter().lat()
     + "/lon/" +  map.getCenter().lng()
-     + "/zoom/" + map.getZoom();
+    + "/zoom/" + map.getZoom();
     }
 
     function editBrut(g_id) {
@@ -160,6 +164,7 @@
                       var b_bek_art = brut[0].getAttribute("b_bek_art");
                       var b_text = brut[0].getAttribute("b_text");
                       var b_kontaktdaten = brut[0].getAttribute("b_kontaktdaten");
+                      var p_logname = brut[0].getAttribute("p_logname");
                       var aktionen = xml.documentElement.getElementsByTagName("aktion");
                       var infohtml ="<h4>Daten zu dieser Brutstätte:</h4>" +
                        "<table id='info'>" +
@@ -183,7 +188,10 @@
                        "</tr>" +
                        "<tr>" +
                        "<td>Kontaktdaten des Melders: </td><td>" + b_kontaktdaten + "</td>" +
-                       "</tr>" + 
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Eingetragen bzw. Geprüft von: </td><td>" + p_logname + "</td>" +
+                       "</tr>" +
                        "<tr>" + 
                        "<td>Anzahl der Aktionen: </td><td>" + aktionen.length + "</td>" +
                        "</tr>" + 
@@ -191,6 +199,44 @@
 
                       var aktionenhtml = "";
                       
+                      document.getElementById("info").innerHTML = infohtml + aktionenhtml;
+
+                      });
+    }
+
+      function getfallenInfo(g_id){
+      document.getElementById("info").innerHTML="Lade Daten ....";
+
+      downloadUrl("/admin/listonefalle/format/xml/g_id/" + g_id, function(data){
+
+                      var xml = parseXml(data);
+                      var falle = xml.documentElement.getElementsByTagName("falle");
+                      var f_nr = falle[0].getAttribute("f_nr");
+                      var f_typ = falle[0].getAttribute("f_typ");
+                      var f_text = falle[0].getAttribute("f_text");
+                      var p_logname = falle[0].getAttribute("p_logname");
+                      var aktionen = xml.documentElement.getElementsByTagName("aktion");
+                      var infohtml ="<h4>Daten zu dieser Falle:</h4>" +
+                       "<table id='info'>" +
+                       "<tr>" +
+                       "<td>Nummer: </td><td>" + f_nr + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Typ: </td><td>" + f_typ + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Kommentar: </td><td>" + f_text + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Eingetragen von: </td><td>" + p_logname + "</td>" +
+                       "</tr>" +
+                       "<tr>" +
+                       "<td>Anzahl der Aktionen: </td><td>" + aktionen.length + "</td>" +
+                       "</tr>" +
+                       "</table>";
+
+                      var aktionenhtml = "";
+
                       document.getElementById("info").innerHTML = infohtml + aktionenhtml;
 
                       });
@@ -207,6 +253,13 @@
 
     function addBrutstaette(){
     window.location.href="/admin/addbrutstaette"
+                            + "/lat/" + map.getCenter().lat()
+                            + "/lon/" +  map.getCenter().lng()
+                            + "/zoom/" + map.getZoom();
+    }
+
+    function addFalle(){
+    window.location.href="/admin/addfalle"
                             + "/lat/" + map.getCenter().lat()
                             + "/lon/" +  map.getCenter().lng()
                             + "/zoom/" + map.getZoom();

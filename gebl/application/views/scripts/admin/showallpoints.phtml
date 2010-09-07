@@ -34,6 +34,11 @@ var zoom = <?php if ($this->zoom) {
 } else {
     echo "0";
 }; ?>;
+var showAktion = <?php if ($this->showaktion) {
+    echo $this->showaktion;
+} else {
+    echo "0";
+}; ?>;
 var markerid = "-1"; //No Marker !!!!;
 
 var urlmarkers = "/admin/listallpoints?format=xml";
@@ -108,6 +113,7 @@ window.onload = loadScript;
           <div id="header2">
           <p>
           <input id ="addbrut" type="button" value="Weitere Brutstätte eingeben" onclick="addBrutstaette()"/>
+           <input id ="addfalle" type="button" value="Weitere Falle eingeben" onclick="addFalle()"/>
           </p>
           <p>
           <input id="address" type="textbox" size="50" value="2452 Mannersdorf" onchange="codeAddress()">

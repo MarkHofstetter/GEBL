@@ -18,17 +18,17 @@ var map;
 var lat =  <?php if ($this->lat) {
     echo $this->lat;
 } else {
-    echo "48.01208";
+    echo "0";
 }; ?>;
 var lon = <?php if ($this->lat) {
     echo $this->lon;
 } else {
-    echo "16.722139";
+    echo "0";
 }; ?>;
 var zoom = <?php if ($this->zoom) {
     echo $this->zoom;
 } else {
-    echo "12";
+    echo "0";
 }; ?>;
 var markerid = <?php if ($this->id) {
     echo $this->id;
@@ -36,12 +36,10 @@ var markerid = <?php if ($this->id) {
     echo "0";
 }; ?>;
 
-
-
 var urlmarkers = "/admin/listallpoints?format=xml"
-var placemarkerok = false;
+var placemarkerok = true;
 var clickedmarker;
-var clickedmarkericon =  "/images/watergreenanimated.gif";
+var clickedmarkericon =  "/images/exitanimated.gif";
 
 var customIconsBrut = {
 0: {
@@ -49,15 +47,6 @@ icon: '/images/waterred.png'
 },
 1: {
 icon: '/images/watergreen.png'
-}
-};
-
-var customIconsBrutAnimated = {
-0: {
-icon: '/images/waterredanimated.gif'
-},
-1: {
-icon: '/images/watergreenanimated.gif'
 }
 };
 
@@ -73,21 +62,6 @@ icon: '/images/watergreen.png'
 }
 };
 
-var customIconsAnimated = {
-1: {
-icon: '/images/villa.png'
-},
-2: {
-icon: '/images/exitanimated.gif'
-},
-3: {
-icon: '/images/watergreenanimated.gif'
-}
-};
-
-
-
-
 function showall(){
     window.location.href="/admin/showallpoints"
     + "/lat/" + map.getCenter().lat()
@@ -101,49 +75,44 @@ window.onload = loadScript;
 
 <?php $this->headScript()->captureEnd() ?>
 
+ 
+<div id ="outer">
 
-<div id="outer">
-
-    <div id="header">
+    <div id ="header">
         <a href="/index/logout">Logout</a>
-        <h1>GEBL-Karte: Aktion eingeben</h1>
+        <h1>GEBL-Karte: Falle eingeben</h1>
     </div>
-
     <div id="header2">
-        <p><input id ="showbrut" type="button"
-                  value="Alle gespeicherten Punkte anzeigen" onclick="showall()"/></p>
-        <p>
-        <p>
-            <input id="address" type="textbox" size="50" value="2452 Mannersdorf" onchange="codeAddress()">
-            <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()">
-        </p>
+	      <p><input id ="showbrut" type="button" value="Alle Punkte anzeigen" onclick="showall()"/></p>
+		
+          <p>
+           <input id="address" type="textbox" size="50" value="2452 Mannersdorf" onchange="codeAddress()">
+          <input type="button" value="Zentriere Karte auf Adresse" onclick="codeAddress()"> 
+          </p>
+          
     </div>
-
     <div id="centrecontent">
-
-        <div id ="left">
+       
+        <div id="left">
             <div id="map_canvas" class="maphalf"></div>
             <img src="/images/waterredsmall.png" alt="roter_marker" align="middle"/> ungeprüfte Brutstätte
             <img src="/images/watersmall.png" alt="gruener_marker" align="middle"/> geprüfte Brutstätte
             <img src="/images/villasmall.png" alt="blauer_marker" align="middle"/> Adresse
             <img src="/images/exitsmall.png" alt="brauner_marker" align="middle"/> Falle
         </div>
-
-
         <div id="right">
-
-            <h4>Bitte geben Sie Aktions-Daten zu "<?php echo $this->geodaten['G_NAME'];?>" ein:
-            </h4>
-            <?php echo $this->form; ?>
-            <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>
-
-         </div>
+        <?php echo $this->form; ?>
+        <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>
+        </div>
     </div>
-    <div class="clearer"></div>
+     <div class="clearer"></div>
 </div>
-
 <div id="footer">
-    Daten eingeben und "Speichern" drücken. Felder mit "*" sind Pflichtfelder.
-</div>
-
-
+ Felder mit * sind Pflichtfelder
+ </div>  
+  
+  
+  
+  
+  
+  

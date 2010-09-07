@@ -39,7 +39,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
 }
 
-/*    protected function _initFirebug() {
+    protected function _initFirebug() {
         $writer = new Zend_Log_Writer_Firebug();
         $logger = new Zend_Log($writer);
 
@@ -57,6 +57,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         //$logger->log($this, Zend_Log::INFO);
     }
-*/
+
 }
 

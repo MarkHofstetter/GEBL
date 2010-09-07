@@ -95,9 +95,9 @@ function initialize() {
     }
 
     //write map lat,lon and zoom every 30 seconds into cookies
-    window.setInterval("setMapCookies()",30000);
+    window.setInterval("setMapCookies()",10000);
 
-
+    
 
 }
 
@@ -183,17 +183,25 @@ function setCookie(c_name,value,expiredays)
     ((expiredays==null) ? "" : ";expires="+exdate.toUTCString());
 }
 
+function deleteCookie (c_name)
+{
+  var cookie_date = new Date ( );  // current date & time
+  cookie_date.setTime ( cookie_date.getTime() - 1 );
+  document.cookie = c_name += "=; expires=" + cookie_date.toGMTString();
+}
+
+
 function setMapCookies (){
-     setCookie ('lat',map.getCenter().lat(),365);
-     setCookie ('lon',map.getCenter().lng(),365);
-     setCookie ('zoom',map.getZoom(),365);
+     setCookie ('latCookie',map.getCenter().lat(),365);
+     setCookie ('lonCookie',map.getCenter().lng(),365);
+     setCookie ('zoomCookie',map.getZoom(),365);
 }
 
 function checkMapCookies()
 {
-    lat=getCookie('lat');
-    lon=getCookie('lon');
-    zoom= getCookie('zoom');
+    lat=getCookie('latCookie');
+    lon=getCookie('lonCookie');
+    zoom= getCookie('zoomCookie');
     if (lat==null || lat=="" || lat=="0" )
     {
         lat = 48.01208;

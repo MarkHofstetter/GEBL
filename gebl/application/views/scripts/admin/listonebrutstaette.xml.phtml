@@ -1,5 +1,9 @@
 <?php
 
+$dom = $this->dom;
+echo $dom->saveXML();
+/*
+
 $dom = new DOMDocument("1.0");
 $node = $dom->createElement("brutstaetten");
 $parnode = $dom->appendChild($node);
@@ -42,5 +46,5 @@ header("Content-type: text/xml");
   }
 
 echo $dom->saveXML();
-
+*/
 ?>

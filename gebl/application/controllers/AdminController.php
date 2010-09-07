@@ -16,6 +16,8 @@ class AdminController extends Zend_Controller_Action {
                 ->initContext();
         $contextSwitch->addActionContext('listonebrutstaette', 'xml')
                 ->initContext();
+         $contextSwitch->addActionContext('listonefalle', 'xml')
+                ->initContext();
         $contextSwitch->addActionContext('listonebrutstaetteaktionen', 'xml')
                 ->initContext();
         $contextSwitch->addActionContext('listonepointaktionen', 'xml')
@@ -155,8 +157,10 @@ class AdminController extends Zend_Controller_Action {
                            $a_b_id, $a_f_id, $a_text);
 
                 //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
+                
+               
                 $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom, 'showaktion' => $g_id ));
             }
             //wrong input: data for redraw of map:
             $zoom = $form->getValue('ZOOM');
@@ -248,6 +252,72 @@ class AdminController extends Zend_Controller_Action {
             //$this->_flashMessenger->addMessage('Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben!');
         }
     }
+    
+    public function addfalleAction() {
+
+        $lat = 0;
+        $lon = 0;
+        $zoom = 0;
+        if ($this->getRequest()->isGet()) {
+            $lat = $this->_getParam('lat', 0);
+            $lon = $this->_getParam('lon', 0);
+            $zoom = $this->_getParam('zoom', 0);
+        }
+
+        $form = new Application_Form_Falle();
+        $form->senden->setLabel('Hinzufügen');
+								  
+        $this->view->form = $form;
+        $this->view->lat = $lat;
+        $this->view->lon = $lon;
+        $this->view->zoom = $zoom;
+
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+                
+                $typ = 2; //Falle
+                $name = $form->getValue('G_NAME');
+                $lat = $form->getValue('G_LAT');
+                $lon = $form->getValue('G_LON');
+                $zoom = $form->getValue('ZOOM');
+
+                $f_typ = $form->getValue('F_TYP');
+                $f_text = $form->getValue('F_TEXT');
+
+                if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
+                    $f_p_id = $this->_auth->getIdentity()->P_ID;
+                    } else {
+                    $f_p_id = null;
+                    }
+
+                $geodaten = new Application_Model_DbTable_Geodaten();
+
+                $f_g_id = $geodaten->addGeodaten($name, $typ, $lat, $lon);
+
+
+
+                $fallen = new Application_Model_DbTable_Fallen();
+
+                $fallen->addFalle($f_typ, $f_text, $f_g_id, $f_p_id);
+
+                //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
+                $this->_helper->redirector('showallpoints', 'admin',
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+            }
+            $lat = $form->getValue('G_LAT');
+            $lon = $form->getValue('G_LON');
+            $zoom = $form->getValue('ZOOM');
+            $this->view->lat = $lat;
+            $this->view->lon = $lon;
+            $this->view->zoom = $zoom;
+            //$this->_flashMessenger->addMessage('Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben!');
+        }
+    }
+
+
+
 
     public function editbrutstaetteAction() {
         $id = 0;
@@ -431,18 +501,28 @@ class AdminController extends Zend_Controller_Action {
         if ($this->getRequest()->isGet()) {
             $g_id = $this->_getParam('g_id', 0);
             $g_id = (int) $g_id;
-            $brutModel = new Application_Model_DbTable_Brutstaetten();
-            //$select = $brutModel->select()->where('B_G_ID = ?', $g_id);
-            //$brut = $brutModel->fetchRow($select);
-            $brut = $brutModel->fetchRow('B_G_ID = ' . $g_id);
-            if ($brut['B_ID'] <> NULL) {
-                $aktionenModel = new Application_Model_DbTable_Aktionen();
-                $aktionen = $aktionenModel->fetchAll('A_B_ID = ' . $brut['B_ID']);
-            }
+            $brutstaettenpersonen = new Application_Model_BrutstaettenPersonenAktionen();
+            $brutpers = $brutstaettenpersonen->getOneBrutPersonen($g_id);
+            $dom = $brutstaettenpersonen->BrutPersonenAktionen2xml($brutpers);
+            $this->view->dom = $dom;
+    
         }
-        $this->view->brutst = $brut;
-        $this->view->akt = $aktionen;
     }
+
+     public function listonefalleAction() {
+        if ($this->getRequest()->isGet()) {
+            $g_id = $this->_getParam('g_id', 0);
+            $g_id = (int) $g_id;
+            $fallenpersonen = new Application_Model_FallenPersonenAktionen();
+            $fallepers = $fallenpersonen->getOneFallenPersonen($g_id);
+            $dom = $fallenpersonen->FallenPersonenAktionen2xml($fallepers);
+            $this->view->dom = $dom;
+
+        }
+    }
+
+
+
 
     public function setbrutcheckedAction() {
         $lat = 0;
@@ -471,15 +551,18 @@ class AdminController extends Zend_Controller_Action {
         $lat = 0;
         $lon = 0;
         $zoom = 0;
+        $showaktion = 0;
 
         if ($this->getRequest()->isGet()) {
             $lat = (float) $this->_getParam('lat', 0);
             $lon = (float) $this->_getParam('lon', 0);
-            $zoom = (float) $this->_getParam('zoom', 0);
+            $zoom = (int) $this->_getParam('zoom', 0);
+            $showaktion = $this->_getParam('showaktion', 0);
         }
         $this->view->lat = $lat;
         $this->view->lon = $lon;
         $this->view->zoom = $zoom;
+        $this->view->showaktion = $showaktion;
     }
 
     public function deletepointAction() {
