@@ -46,14 +46,14 @@ class Application_Form_Falle extends Zend_Form {
         //->setAttrib('disabled', 'true');
  
         $f_typ = new Zend_Form_Element('F_TYP');
-        $f_typ->setLabel('Fallen-Typ (maximal 100 Zeichen):')
+        $f_typ->setLabel('Fallen-Typ (optional, maximal 100 Zeichen):')
                 ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
                 //->setRequired(true)
                 ->setAttrib('size', '70')
                 ->addValidator('StringLength', false, array(0, 100));
 
         $f_text = new Zend_Form_Element_Textarea('F_TEXT');
-        $f_text->setLabel('Kommentar (maximal 1024 Zeichen):')
+        $f_text->setLabel('Kommentar (optional, maximal 1024 Zeichen):')
                 //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
                 //->setRequired(true)
                 ->setAttrib('rows', '5')

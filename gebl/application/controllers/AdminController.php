@@ -397,6 +397,80 @@ class AdminController extends Zend_Controller_Action {
             }
           }
 
+    public function editfalleAction() {
+        $id = 0;
+        $lat = 0;
+        $lon = 0;
+        $zoom = 0;
+
+        $form = new Application_Form_Falle();
+        $form->senden->setLabel('Ändern');
+        $form->setAction('/admin/editfalle');
+        $this->view->form = $form;
+
+
+        if ($this->getRequest()->isPost()) {
+               $formData = $this->getRequest()->getPost();
+                if ($form->isValid($formData)) {
+                    $typ = 2;
+                    $id = $form->getValue('G_ID');
+                    $name = $form->getValue('G_NAME');
+                    $lat = $form->getValue('G_LAT');
+                    $lon = $form->getValue('G_LON');
+                    $f_typ = $form->getValue('F_TYP');
+                    $f_text = $form->getValue('F_TEXT');
+
+                    $zoom = $form->getValue('ZOOM');
+
+                    if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
+                        $f_p_id = $this->_auth->getIdentity()->P_ID;
+
+                    } else {
+                        $f_p_id = null;
+
+                    }
+
+                    $geodaten = new Application_Model_DbTable_Geodaten();
+                    $geodaten->updateGeodaten($id, $name, $typ, $lat, $lon);
+
+                    $f_g_id = $id;
+                    $fallen = new Application_Model_DbTable_Fallen();
+                    $fallen->updateFalle($f_typ, $f_text, $f_g_id, $f_p_id);
+                    $this->_helper->redirector('showallpoints', 'admin',
+                            null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
+                } else {
+                    $lat = $form->getValue('G_LAT');
+                    $lon = $form->getValue('G_LON');
+                    $id = $form->getValue('G_ID');
+                    $zoom = $form->getValue('ZOOM');
+                    $this->view->lat = $lat;
+                    $this->view->lon = $lon;
+                    $this->view->zoom = $zoom;
+                    $this->view->id = $id;
+                    //$form->populate($formData);
+                }
+            } else {
+                $id = $this->_getParam('g_id', 0);
+                $lat = $this->_getParam('lat', 0);
+                $lon = $this->_getParam('lon', 0);
+                $zoom = $this->_getParam('zoom', 0);
+                $this->view->lat = $lat;
+                $this->view->lon = $lon;
+                $this->view->zoom = $zoom;
+                $this->view->id = $id;
+                if ($id > 0) {
+                    $geodatenModel = new Application_Model_DbTable_Geodaten();
+                    $this->view->form->populate($geodatenModel->
+                                    fetchRow('G_ID=' . $id)->toArray());
+                    $fallenModel = new Application_Model_DbTable_Fallen();
+                    $this->view->form->populate($fallenModel->
+                                    fetchRow('F_G_ID=' . $id)->toArray());
+               }
+            }
+          }
+
+
+
      /**
      * Generate XML File for all Points
      */

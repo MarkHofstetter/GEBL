@@ -19,6 +19,7 @@
                  document.getElementById("info").innerHTML="";
                  html = html + "<input type='button' value='Daten' onclick='getfallenInfo("+ markerid +")'/> <br>";
                  html = html + "<input type='button' value='Aktionen' onclick='getAktionen("+ markerid +")'/> <br>";
+                 html = html + "<input type='button' value='Editieren' onclick='editFalle("+ markerid +")'/><br>"
                  html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/>"
                  break;
 
@@ -125,6 +126,14 @@
 
     function editBrut(g_id) {
         window.location.href="/admin/editbrutstaette"
+    + "/g_id/" + g_id
+    + "/lat/" + map.getCenter().lat()
+    + "/lon/" +  map.getCenter().lng()
+     + "/zoom/" + map.getZoom();
+    }
+
+     function editFalle(g_id) {
+        window.location.href="/admin/editfalle"
     + "/g_id/" + g_id
     + "/lat/" + map.getCenter().lat()
     + "/lon/" +  map.getCenter().lng()
