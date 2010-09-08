@@ -37,6 +37,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $resource = $this->getPluginResource('db');
         $db = $resource->getDbAdapter();
         $db->query("alter session set NLS_NUMERIC_CHARACTERS = '. '");
+        $db->query("alter session set NLS_DATE_FORMAT = 'DD.MM.YY'");
 }
 
     protected function _initFirebug() {
