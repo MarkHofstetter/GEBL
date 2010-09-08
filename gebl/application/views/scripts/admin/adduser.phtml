@@ -1,0 +1,104 @@
+$this->headScript()->appendFile(
+        '/js/gmap.js',
+        'text/javascript'
+);
+
+$this->headScript()->appendFile(
+        '/js/adminshowallpoints.js',
+        'text/javascript'
+);
+
+
+$this->headScript()->captureStart()
+?>
+
+var geocoder;
+var map;
+var lat =  <?php if ($this->lat) {
+    echo $this->lat;
+} else {
+    echo "0";
+}; ?>;
+var lon = <?php if ($this->lat) {
+    echo $this->lon;
+} else {
+    echo "0";
+}; ?>;
+var zoom = <?php if ($this->zoom) {
+    echo $this->zoom;
+} else {
+    echo "0";
+}; ?>;
+var markerid = <?php if ($this->id) {
+    echo $this->id;
+} else {
+    echo "0";
+}; ?>;
+
+var urlmarkers = "/admin/listallpoints?format=xml"
+var placemarkerok = true;
+var clickedmarker;
+var clickedmarkericon =  "/images/exitanimated.gif";
+
+var customIconsBrut = {
+0: {
+icon: '/images/waterred.png'
+},
+1: {
+icon: '/images/watergreen.png'
+}
+};
+
+var customIcons = {
+1: {
+icon: '/images/villa.png'
+},
+2: {
+icon: '/images/exit.png'
+},
+3: {
+icon: '/images/watergreen.png'
+}
+};
+
+function showall(){
+    window.location.href="/admin/showallpoints"
+    + "/lat/" + map.getCenter().lat()
+    + "/lon/" +  map.getCenter().lng()
+    + "/zoom/" + map.getZoom();
+  }
+
+window.onload = loadScript;
+
+
+
+<?php $this->headScript()->captureEnd() ?>
+
+
+
+
+
+<div id ="outer">
+
+    <div id ="header">
+        <a href="/index/logout">Logout</a>
+        <h1>GEBL-Karte: Benutzerverwaltung</h1>
+    </div>
+    
+    <div id="centrecontent">
+        <div id="right">
+        <?php echo $this->form; ?>
+        <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>
+        </div>
+    </div>
+     <div class="clearer"></div>
+</div>
+<div id="footer">
+ Felder mit * sind Pflichtfelder
+ </div>  
+  
+  
+  
+  
+  
+  

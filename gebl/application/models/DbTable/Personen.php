@@ -1,0 +1,52 @@
+<?php
+
+class Application_Model_DbTable_Personen extends Zend_Db_Table_Abstract
+{
+
+    protected $_name = 'PERSONEN';
+
+    public function addPerson($vorname, $nachname, $plz, $ort, $strasse,
+                              $tel, $email, $logname, $passwort, $typ, $text) {
+                                            
+        $persondata = array('P_VORNAME' => $vorname,
+                            'P_NACHNAME' => $nachname,
+                            'P_PLZ' => $plz,
+                            'P_ORT' => $ort,
+                            'P_STRASSE' => $strasse,
+                            'P_TEL' => $tel,
+                            'P_EMAIL' => $email,
+                            'P_LOGNAME' => $logname,
+                            'P_PASSWORT' => $passwort,
+                            'P_TYP' => $typ,
+            // P_G_ID  to do
+                            'P_TEXT' => $text
+                          );
+
+                        return($this->insert($persondata));
+    }
+
+    public function updatePerson($vorname, $nachname, $plz, $ort, $strasse,
+                              $tel, $email, $logname, $passwort, $typ, $text) {
+        $data = array('P_VORNAME' => $vorname,
+                            'P_NACHNAME' => $nachname,
+                            'P_PLZ' => $plz,
+                            'P_ORT' => $ort,
+                            'P_STRASSE' => $strasse,
+                            'P_TEL' => $tel,
+                            'P_EMAIL' => $email,
+                            'P_LOGNAME' => $logname,
+                            'P_PASSWORT' => $passwort,
+                            'P_TYP' => $typ,
+            // P_G_ID  to do
+                            'P_TEXT' => $text
+                          );
+       $where = $this->getAdapter()->quoteInto('P_ID = ?', $p_id);
+       $this->update($data, $where);
+       }
+
+    public function deletePerson($id) {
+
+        $this->delete('P_ID =' . (int) $id);
+    }
+}
+
