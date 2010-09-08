@@ -316,7 +316,42 @@ class AdminController extends Zend_Controller_Action {
         }
     }
 
+    public function adduserAction() {
 
+        $form = new Application_Form_User();
+        $form->senden->setLabel('Hinzufügen');
+
+        $this->view->form = $form;
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+                $p_vorname = $form->getValue('P_VORNAME');
+                $p_nachname = $form->getValue('P_NACHNAHME');
+                $p_plz = $form->getValue('P_PLZ');
+                $p_ort = $form->getValue('P_ORT');
+                $p_strasse = $form->getValue('P_STRASSE');
+                $p_tel = $form->getValue('P_TEL');
+                $p_email = $form->getValue('P_EMAIL');
+                $p_logname = $form->getValue('P_LOGNAME');
+                $p_passwort = $form->getValue('P_PASSWORT');
+                $p_typ = $form->getValue('P_TYP');
+      //          $p_g_id = $form->getValue('P_G_ID'); to do !
+                $p_text = $form->getValue('P_TEXT');
+
+
+
+                $personen = new Application_Model_DbTable_Personen();
+
+                $personen->addPerson($p_vorname, $p_nachname, $p_plz, $p_ort,
+                                   $p_strasse, $p_tel, $p_email, $p_logname,
+                                   $p_passwort, $p_typ, $p_text );
+
+                $this->_helper->redirector('showallpoints', 'admin',
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+            }
+        }
+    }
 
 
     public function editbrutstaetteAction() {
