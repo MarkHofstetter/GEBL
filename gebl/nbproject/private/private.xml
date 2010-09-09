@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/xampp/htdocs/gebl/application/views/scripts/admin/showallpoints.phtml</file>
+        <file>file:/C:/xampp/htdocs/gebl/application/controllers/AdminController.php</file>
+        <file>file:/C:/xampp/htdocs/gebl/public/js/admincudallpoints.js</file>
+    </open-files>
 </project-private>

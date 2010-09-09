@@ -316,7 +316,7 @@ class AdminController extends Zend_Controller_Action {
         }
     }
 
-    public function adduserAction() {
+    public function addpersonAction() {
 
         $form = new Application_Form_User();
         $form->senden->setLabel('Hinzufügen');
@@ -327,7 +327,7 @@ class AdminController extends Zend_Controller_Action {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
                 $p_vorname = $form->getValue('P_VORNAME');
-                $p_nachname = $form->getValue('P_NACHNAHME');
+                $p_nachname = $form->getValue('P_NACHNAME');
                 $p_plz = $form->getValue('P_PLZ');
                 $p_ort = $form->getValue('P_ORT');
                 $p_strasse = $form->getValue('P_STRASSE');

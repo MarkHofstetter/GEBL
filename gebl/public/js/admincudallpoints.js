@@ -274,4 +274,11 @@
                             + "/zoom/" + map.getZoom();
     }
 
+    function addPerson(){
+    window.location.href="/admin/addperson"
+                            + "/lat/" + map.getCenter().lat()
+                            + "/lon/" +  map.getCenter().lng()
+                            + "/zoom/" + map.getZoom();
+    }
+
 

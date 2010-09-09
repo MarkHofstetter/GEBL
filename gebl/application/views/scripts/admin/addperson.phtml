@@ -1,0 +1,38 @@
+<?php
+$this->headScript()->captureStart()
+?>
+
+
+
+function showall(){
+    window.location.href="/admin/showallpoints"
+  }
+<?php $this->headScript()->captureEnd() ?>
+
+
+
+
+
+<div id ="outer">
+
+    <div id ="header">
+        <a href="/index/logout">Logout</a>
+        <h1>GEBL-Karte: Benutzerverwaltung</h1>
+    </div>
+    
+    <div id="centrecontent">
+        <?php echo $this->form; ?>
+        <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>
+        
+    </div>
+     <div class="clearer"></div>
+</div>
+<div id="footer">
+ Felder mit * sind Pflichtfelder
+ </div>  
+  
+  
+  
+  
+  
+  
