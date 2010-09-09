@@ -333,43 +333,41 @@ class AdminController extends Zend_Controller_Action {
                 $p_typ = $form->getValue('P_TYP');
                 $p_text = $form->getValue('P_TEXT');
 
-
-                $address = $p_plz." ".$p_ort." ".$p_strasse;
-                $search  = array ('ä', 'ö', 'ü', 'ß');
-                $replace = array ('ae', 'oe', 'ue', 'ss');
+                if (!($p_plz == null AND $p_ort == NULL AND $p_strasse == NULL)){
+                // Koordinaten nur ermitteln, wenn Adresse vorhanden
+                    $address = $p_plz." ".$p_ort." ".$p_strasse;
+                    $search  = array ('ä', 'ö', 'ü', 'ß');
+                    $replace = array ('ae', 'oe', 'ue', 'ss');
                 
-                $address  = str_replace($search, $replace, $address);
-                $address = preg_replace('/ {2,}/', ' ', $address); //mehrere Leerzeichen entfernen
-                
-
-                //$address = htmlentities($address, ENT_QUOTES, "UTF-8");
-                //$address= iconv("UTF-8", "ASCII//TRANSLIT", $address);
-                $address= urlencode(utf8_encode($address));
-                // Desired address
-                $address = "http://maps.google.com/maps/api/geocode/xml?address=$address?region=at&sensor=false";
+                    $address  = str_replace($search, $replace, $address);
+                    $address = preg_replace('/ {2,}/', ' ', $address); //mehrere Leerzeichen entfernen
+                    $address= urlencode(utf8_encode($address));
+                    // Desired address
+                    $address = "http://maps.google.com/maps/api/geocode/xml?address=$address?region=at&sensor=false";
                
-
-                
-                // Retrieve the URL contents
-               $page = file_get_contents($address) or die("url not loading");
+                    // Retrieve the URL contents
+                    $page = file_get_contents($address) or die("url not loading");
                
-                // Parse the returned XML file
-                $xml = new SimpleXMLElement($page);
-                // Retrieve the desired XML node
-                $status = $xml->status;
+                    // Parse the returned XML file
+                    $xml = new SimpleXMLElement($page);
+                    // Retrieve the desired XML node
+                    $status = $xml->status;
                 
                 
-                if ($status == "OK"){
-                    $googleLat = $xml->result->geometry->location->lat;
-                    $googleLon = $xml->result->geometry->location->lng;
-                    $geodaten = new Application_Model_DbTable_Geodaten();
-                    $typ = 1; //Typ Adresse
-                    $p_g_id = $geodaten->addGeodaten($p_logname, $typ, $googleLat, $googleLon);
-                 }
-                 else
-                 {
-                     $p_g_id = null;
-                 }
+                    if ($status == "OK"){
+                        $googleLat = $xml->result->geometry->location->lat;
+                        $googleLon = $xml->result->geometry->location->lng;
+                        $geodaten = new Application_Model_DbTable_Geodaten();
+                        $typ = 1; //Typ Adresse
+                        $p_g_id = $geodaten->addGeodaten($p_logname, $typ, $googleLat, $googleLon);
+                    } else {
+                        $p_g_id = null;
+                    }
+                    } //end not null
+                    else
+                    {
+                    $p_g_id = null;
+                    }
 
                 $personen = new Application_Model_DbTable_Personen();
 
@@ -379,12 +377,9 @@ class AdminController extends Zend_Controller_Action {
 
                 $this->_helper->redirector('showallpoints', 'admin',
                         null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
-                
+             }
             }
-
         }
-
-    }
 
     public function editbrutstaetteAction() {
         $id = 0;

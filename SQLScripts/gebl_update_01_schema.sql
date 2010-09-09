@@ -60,3 +60,5 @@ BEGIN
   WHERE G_ID = :old.P_G_ID;
 END;
 /
+alter table personen rename column p_nachnahme to p_nachname;
+alter table personen modify ( p_strasse varchar2(50));

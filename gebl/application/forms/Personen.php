@@ -33,7 +33,7 @@ class Application_Form_Personen extends Zend_Form
         $p_strasse = new Zend_Form_Element_Text('P_STRASSE');
          $p_strasse->setLabel('Strasse (optional): ')
               //->addValidator('Alpha', true, array('allowWhiteSpace' => true))
-              ->addValidator('StringLength', false, array(0, 30))
+              ->addValidator('StringLength', false, array(0, 50))
               ->setAttrib('size','70');			  			  
 			  
         $p_tel = new Zend_Form_Element_Text('P_TEL');
@@ -51,6 +51,11 @@ class Application_Form_Personen extends Zend_Form
         $p_logname = new Zend_Form_Element_Text('P_LOGNAME');
          $p_logname->setLabel('* Login Name: ')
 		      ->setRequired(true)
+              ->addValidator('Db_NoRecordExists', true,
+                      array('table' => 'PERSONEN','field' => 'P_LOGNAME',
+                          'messages' =>
+                          array(Zend_Validate_Db_NoRecordExists::ERROR_RECORD_FOUND =>
+                              "Login Name '%value%' existiert bereits!")))
               ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 20))
               ->setAttrib('size','70');			  			  
