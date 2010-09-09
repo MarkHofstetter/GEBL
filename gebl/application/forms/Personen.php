@@ -1,5 +1,5 @@
 <?php
-class Application_Form_User extends Zend_Form
+class Application_Form_Personen extends Zend_Form
 {
 
     public function init()
@@ -26,19 +26,19 @@ class Application_Form_User extends Zend_Form
 			  
         $p_ort = new Zend_Form_Element_Text('P_ORT');
          $p_ort->setLabel('Ort (optional): ')
-              ->addValidator('Alpha', true, array('allowWhiteSpace' => true))
+              //->addValidator('Alpha', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 20))
               ->setAttrib('size','70');			  			  
 			  
         $p_strasse = new Zend_Form_Element_Text('P_STRASSE');
          $p_strasse->setLabel('Strasse (optional): ')
-              ->addValidator('Alpha', true, array('allowWhiteSpace' => true))
+              //->addValidator('Alpha', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 30))
               ->setAttrib('size','70');			  			  
 			  
         $p_tel = new Zend_Form_Element_Text('P_TEL');
          $p_tel->setLabel('Telefon (optional): ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 20))
               ->setAttrib('size','70');			  			  
 			  
@@ -58,7 +58,7 @@ class Application_Form_User extends Zend_Form
         $p_passwort = new Zend_Form_Element_Text('P_PASSWORT');
          $p_passwort->setLabel('* Login Passwort: ')
 		      ->setRequired(true)
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 20))
               ->setAttrib('size','70');			  			  
 			  

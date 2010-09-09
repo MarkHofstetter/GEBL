@@ -2,12 +2,10 @@
 
 class AdminController extends Zend_Controller_Action {
 
-   
-
     protected $_auth;
 
     public function init() {
-                
+
         //Context Switch for XML
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('listallpoints', 'xml')
@@ -16,7 +14,7 @@ class AdminController extends Zend_Controller_Action {
                 ->initContext();
         $contextSwitch->addActionContext('listonebrutstaette', 'xml')
                 ->initContext();
-         $contextSwitch->addActionContext('listonefalle', 'xml')
+        $contextSwitch->addActionContext('listonefalle', 'xml')
                 ->initContext();
         $contextSwitch->addActionContext('listonebrutstaetteaktionen', 'xml')
                 ->initContext();
@@ -74,7 +72,7 @@ class AdminController extends Zend_Controller_Action {
         }
     }
 
-       public function addaktionAction() {
+    public function addaktionAction() {
         $lat = 0;
         $lon = 0;
         $zoom = 0;
@@ -122,10 +120,10 @@ class AdminController extends Zend_Controller_Action {
                 $a_b_id = null;
                 $a_f_id = null;
 
-               if ($this->_auth->hasIdentity() &&
-                       is_object($this->_auth->getIdentity())) {
-                           $a_p_id = $this->_auth->getIdentity()->P_ID;
-                        }
+                if ($this->_auth->hasIdentity() &&
+                        is_object($this->_auth->getIdentity())) {
+                    $a_p_id = $this->_auth->getIdentity()->P_ID;
+                }
 
 
                 $geodaten = new Application_Model_DbTable_Geodaten();
@@ -133,34 +131,33 @@ class AdminController extends Zend_Controller_Action {
 
 
 
-                switch ($geopoint['G_TYP'])
-                    {
+                switch ($geopoint['G_TYP']) {
                     case 1:
-                      //Adresse
-                      break;
+                        //Adresse
+                        break;
                     case 2:
-                      //Falle
-                     $fallen = new Application_Model_DbTable_Fallen();
-                     $falle = $fallen->getFallebyGeopoint($g_id);
-                     $a_f_id = $falle['F_ID'];
-                      break;
+                        //Falle
+                        $fallen = new Application_Model_DbTable_Fallen();
+                        $falle = $fallen->getFallebyGeopoint($g_id);
+                        $a_f_id = $falle['F_ID'];
+                        break;
                     case 3:
-                      //Brutstaette
-                     $brutstaetten = new Application_Model_DbTable_Brutstaetten();
-                     $brut = $brutstaetten->getBrutstaettebyGeopoint($g_id);
-                     $a_b_id = $brut['B_ID'];
-                     break;
-                     }
+                        //Brutstaette
+                        $brutstaetten = new Application_Model_DbTable_Brutstaetten();
+                        $brut = $brutstaetten->getBrutstaettebyGeopoint($g_id);
+                        $a_b_id = $brut['B_ID'];
+                        break;
+                }
 
                 $aktionen = new Application_Model_DbTable_Aktionen();
                 $aktionen->addAktion($a_typ, $a_betreff, $a_datum, $a_p_id,
-                           $a_b_id, $a_f_id, $a_text);
+                        $a_b_id, $a_f_id, $a_text);
 
                 //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
-                
-               
+
+
                 $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom, 'showaktion' => $g_id ));
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom, 'showaktion' => $g_id));
             }
             //wrong input: data for redraw of map:
             $zoom = $form->getValue('ZOOM');
@@ -176,9 +173,7 @@ class AdminController extends Zend_Controller_Action {
             $this->view->geodaten = $geopoint;
             //$this->_flashMessenger->addMessage('Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben!');
         }
-      
-
-       }
+    }
 
     public function addbrutstaetteAction() {
 
@@ -193,10 +188,10 @@ class AdminController extends Zend_Controller_Action {
 
         $form = new Application_Form_Brutstaette();
         $form->senden->setLabel('Hinzufügen');
-		// Entferne Felder die nicht für Admin bestimmt:
+        // Entferne Felder die nicht für Admin bestimmt:
         $form->B_KONTAKTDATEN->setAttribs(array('style' => 'display:none;'))
-                              ->removeDecorator('label');
-							  
+                ->removeDecorator('label');
+
         $this->view->form = $form;
         $this->view->lat = $lat;
         $this->view->lon = $lon;
@@ -237,11 +232,11 @@ class AdminController extends Zend_Controller_Action {
                 $brutstaetten = new Application_Model_DbTable_Brutstaetten();
 
                 $brutstaetten->addBrutstaette($b_groesse, $b_gew_art,
-                        $b_zugang, $b_bek_art, $b_text, $b_kontakt,$b_g_id, $b_p_id, $checked);
+                        $b_zugang, $b_bek_art, $b_text, $b_kontakt, $b_g_id, $b_p_id, $checked);
 
                 //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
                 $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
             }
             $lat = $form->getValue('G_LAT');
             $lon = $form->getValue('G_LON');
@@ -252,7 +247,7 @@ class AdminController extends Zend_Controller_Action {
             //$this->_flashMessenger->addMessage('Ungültige Daten! Bitte überprüfen Sie Ihre Eingaben!');
         }
     }
-    
+
     public function addfalleAction() {
 
         $lat = 0;
@@ -266,7 +261,7 @@ class AdminController extends Zend_Controller_Action {
 
         $form = new Application_Form_Falle();
         $form->senden->setLabel('Hinzufügen');
-								  
+
         $this->view->form = $form;
         $this->view->lat = $lat;
         $this->view->lon = $lon;
@@ -276,7 +271,7 @@ class AdminController extends Zend_Controller_Action {
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
             if ($form->isValid($formData)) {
-                
+
                 $typ = 2; //Falle
                 $name = $form->getValue('G_NAME');
                 $lat = $form->getValue('G_LAT');
@@ -288,9 +283,9 @@ class AdminController extends Zend_Controller_Action {
 
                 if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
                     $f_p_id = $this->_auth->getIdentity()->P_ID;
-                    } else {
+                } else {
                     $f_p_id = null;
-                    }
+                }
 
                 $geodaten = new Application_Model_DbTable_Geodaten();
 
@@ -304,7 +299,7 @@ class AdminController extends Zend_Controller_Action {
 
                 //$this->_flashMessenger->addMessage('Neue Brutstätte gespeichert');
                 $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
             }
             $lat = $form->getValue('G_LAT');
             $lon = $form->getValue('G_LON');
@@ -318,7 +313,7 @@ class AdminController extends Zend_Controller_Action {
 
     public function addpersonAction() {
 
-        $form = new Application_Form_User();
+        $form = new Application_Form_Personen();
         $form->senden->setLabel('Hinzufügen');
 
         $this->view->form = $form;
@@ -336,23 +331,60 @@ class AdminController extends Zend_Controller_Action {
                 $p_logname = $form->getValue('P_LOGNAME');
                 $p_passwort = $form->getValue('P_PASSWORT');
                 $p_typ = $form->getValue('P_TYP');
-      //          $p_g_id = $form->getValue('P_G_ID'); to do !
                 $p_text = $form->getValue('P_TEXT');
 
 
+                $address = $p_plz." ".$p_ort." ".$p_strasse;
+                $search  = array ('ä', 'ö', 'ü', 'ß');
+                $replace = array ('ae', 'oe', 'ue', 'ss');
+                
+                $address  = str_replace($search, $replace, $address);
+                $address = preg_replace('/ {2,}/', ' ', $address); //mehrere Leerzeichen entfernen
+                
+
+                //$address = htmlentities($address, ENT_QUOTES, "UTF-8");
+                //$address= iconv("UTF-8", "ASCII//TRANSLIT", $address);
+                $address= urlencode(utf8_encode($address));
+                // Desired address
+                $address = "http://maps.google.com/maps/api/geocode/xml?address=$address?region=at&sensor=false";
+               
+
+                
+                // Retrieve the URL contents
+               $page = file_get_contents($address) or die("url not loading");
+               
+                // Parse the returned XML file
+                $xml = new SimpleXMLElement($page);
+                // Retrieve the desired XML node
+                $status = $xml->status;
+                
+                
+                if ($status == "OK"){
+                    $googleLat = $xml->result->geometry->location->lat;
+                    $googleLon = $xml->result->geometry->location->lng;
+                    $geodaten = new Application_Model_DbTable_Geodaten();
+                    $typ = 1; //Typ Adresse
+                    $p_g_id = $geodaten->addGeodaten($p_logname, $typ, $googleLat, $googleLon);
+                 }
+                 else
+                 {
+                     $p_g_id = null;
+                 }
 
                 $personen = new Application_Model_DbTable_Personen();
 
                 $personen->addPerson($p_vorname, $p_nachname, $p_plz, $p_ort,
-                                   $p_strasse, $p_tel, $p_email, $p_logname,
-                                   $p_passwort, $p_typ, $p_text );
+                        $p_strasse, $p_tel, $p_email, $p_logname,
+                        $p_passwort, $p_typ, $p_g_id, $p_text);
 
                 $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom ));
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
+                
             }
-        }
-    }
 
+        }
+
+    }
 
     public function editbrutstaetteAction() {
         $id = 0;
@@ -367,70 +399,68 @@ class AdminController extends Zend_Controller_Action {
 
 
         if ($this->getRequest()->isPost()) {
-               $formData = $this->getRequest()->getPost();
-                if ($form->isValid($formData)) {
-                    $typ = 3;
-                    $id = $form->getValue('G_ID');
-                    $name = $form->getValue('G_NAME');
-                    $lat = $form->getValue('G_LAT');
-                    $lon = $form->getValue('G_LON');
-                    $b_groesse = $form->getValue('B_GROESSE');
-                    $b_gew_art = $form->getValue('B_GEWAESSER_ART');
-                    $b_zugang = $form->getValue('B_ZUGANG');
-                    $b_bek_art = $form->getValue('B_BEK_ART');
-                    $b_text = $form->getValue('B_TEXT');
-                    $b_kontakt = $form->getValue('B_KONTAKTDATEN');
-                    $checked = $form->getValue('B_CHECKED');
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+                $typ = 3;
+                $id = $form->getValue('G_ID');
+                $name = $form->getValue('G_NAME');
+                $lat = $form->getValue('G_LAT');
+                $lon = $form->getValue('G_LON');
+                $b_groesse = $form->getValue('B_GROESSE');
+                $b_gew_art = $form->getValue('B_GEWAESSER_ART');
+                $b_zugang = $form->getValue('B_ZUGANG');
+                $b_bek_art = $form->getValue('B_BEK_ART');
+                $b_text = $form->getValue('B_TEXT');
+                $b_kontakt = $form->getValue('B_KONTAKTDATEN');
+                $checked = $form->getValue('B_CHECKED');
 
-                    $zoom = $form->getValue('ZOOM');
+                $zoom = $form->getValue('ZOOM');
 
-                    if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
-                        $b_p_id = $this->_auth->getIdentity()->P_ID;
-                        
-                    } else {
-                        $b_p_id = null;
-                        
-                    }
-
-                    $geodaten = new Application_Model_DbTable_Geodaten();
-                    $geodaten->updateGeodaten($id, $name, $typ, $lat, $lon);
-
-                    $b_g_id = $id;
-                    $brutstaetten = new Application_Model_DbTable_Brutstaetten();
-                    $brutstaetten->updateBrutstaette($b_groesse, $b_gew_art,
-                            $b_zugang, $b_bek_art, $b_text, $b_kontakt,$b_g_id, $b_p_id, $checked);
-                    $this->_helper->redirector('showallpoints', 'admin',
-                            null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
+                if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
+                    $b_p_id = $this->_auth->getIdentity()->P_ID;
                 } else {
-                    $lat = $form->getValue('G_LAT');
-                    $lon = $form->getValue('G_LON');
-                    $id = $form->getValue('G_ID');
-                    $zoom = $form->getValue('ZOOM');
-                    $this->view->lat = $lat;
-                    $this->view->lon = $lon;
-                    $this->view->zoom = $zoom;
-                    $this->view->id = $id;
-                    //$form->populate($formData);
+                    $b_p_id = null;
                 }
+
+                $geodaten = new Application_Model_DbTable_Geodaten();
+                $geodaten->updateGeodaten($id, $name, $typ, $lat, $lon);
+
+                $b_g_id = $id;
+                $brutstaetten = new Application_Model_DbTable_Brutstaetten();
+                $brutstaetten->updateBrutstaette($b_groesse, $b_gew_art,
+                        $b_zugang, $b_bek_art, $b_text, $b_kontakt, $b_g_id, $b_p_id, $checked);
+                $this->_helper->redirector('showallpoints', 'admin',
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
             } else {
-                $id = $this->_getParam('g_id', 0);
-                $lat = $this->_getParam('lat', 0);
-                $lon = $this->_getParam('lon', 0);
-                $zoom = $this->_getParam('zoom', 0);
+                $lat = $form->getValue('G_LAT');
+                $lon = $form->getValue('G_LON');
+                $id = $form->getValue('G_ID');
+                $zoom = $form->getValue('ZOOM');
                 $this->view->lat = $lat;
                 $this->view->lon = $lon;
                 $this->view->zoom = $zoom;
                 $this->view->id = $id;
-                if ($id > 0) {
-                    $geodatenModel = new Application_Model_DbTable_Geodaten();
-                    $this->view->form->populate($geodatenModel->
-                                    fetchRow('G_ID=' . $id)->toArray());
-                    $brutModel = new Application_Model_DbTable_Brutstaetten();
-                    $this->view->form->populate($brutModel->
-                                    fetchRow('B_G_ID=' . $id)->toArray());
-               }
+//$form->populate($formData);
             }
-          }
+        } else {
+            $id = $this->_getParam('g_id', 0);
+            $lat = $this->_getParam('lat', 0);
+            $lon = $this->_getParam('lon', 0);
+            $zoom = $this->_getParam('zoom', 0);
+            $this->view->lat = $lat;
+            $this->view->lon = $lon;
+            $this->view->zoom = $zoom;
+            $this->view->id = $id;
+            if ($id > 0) {
+                $geodatenModel = new Application_Model_DbTable_Geodaten();
+                $this->view->form->populate($geodatenModel->
+                                fetchRow('G_ID=' . $id)->toArray());
+                $brutModel = new Application_Model_DbTable_Brutstaetten();
+                $this->view->form->populate($brutModel->
+                                fetchRow('B_G_ID=' . $id)->toArray());
+            }
+        }
+    }
 
     public function editfalleAction() {
         $id = 0;
@@ -445,73 +475,69 @@ class AdminController extends Zend_Controller_Action {
 
 
         if ($this->getRequest()->isPost()) {
-               $formData = $this->getRequest()->getPost();
-                if ($form->isValid($formData)) {
-                    $typ = 2;
-                    $id = $form->getValue('G_ID');
-                    $name = $form->getValue('G_NAME');
-                    $lat = $form->getValue('G_LAT');
-                    $lon = $form->getValue('G_LON');
-                    $f_typ = $form->getValue('F_TYP');
-                    $f_text = $form->getValue('F_TEXT');
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+                $typ = 2;
+                $id = $form->getValue('G_ID');
+                $name = $form->getValue('G_NAME');
+                $lat = $form->getValue('G_LAT');
+                $lon = $form->getValue('G_LON');
+                $f_typ = $form->getValue('F_TYP');
+                $f_text = $form->getValue('F_TEXT');
 
-                    $zoom = $form->getValue('ZOOM');
+                $zoom = $form->getValue('ZOOM');
 
-                    if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
-                        $f_p_id = $this->_auth->getIdentity()->P_ID;
-
-                    } else {
-                        $f_p_id = null;
-
-                    }
-
-                    $geodaten = new Application_Model_DbTable_Geodaten();
-                    $geodaten->updateGeodaten($id, $name, $typ, $lat, $lon);
-
-                    $f_g_id = $id;
-                    $fallen = new Application_Model_DbTable_Fallen();
-                    $fallen->updateFalle($f_typ, $f_text, $f_g_id, $f_p_id);
-                    $this->_helper->redirector('showallpoints', 'admin',
-                            null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
+                if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
+                    $f_p_id = $this->_auth->getIdentity()->P_ID;
                 } else {
-                    $lat = $form->getValue('G_LAT');
-                    $lon = $form->getValue('G_LON');
-                    $id = $form->getValue('G_ID');
-                    $zoom = $form->getValue('ZOOM');
-                    $this->view->lat = $lat;
-                    $this->view->lon = $lon;
-                    $this->view->zoom = $zoom;
-                    $this->view->id = $id;
-                    //$form->populate($formData);
+                    $f_p_id = null;
                 }
+
+                $geodaten = new Application_Model_DbTable_Geodaten();
+                $geodaten->updateGeodaten($id, $name, $typ, $lat, $lon);
+
+                $f_g_id = $id;
+                $fallen = new Application_Model_DbTable_Fallen();
+                $fallen->updateFalle($f_typ, $f_text, $f_g_id, $f_p_id);
+                $this->_helper->redirector('showallpoints', 'admin',
+                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
             } else {
-                $id = $this->_getParam('g_id', 0);
-                $lat = $this->_getParam('lat', 0);
-                $lon = $this->_getParam('lon', 0);
-                $zoom = $this->_getParam('zoom', 0);
+                $lat = $form->getValue('G_LAT');
+                $lon = $form->getValue('G_LON');
+                $id = $form->getValue('G_ID');
+                $zoom = $form->getValue('ZOOM');
                 $this->view->lat = $lat;
                 $this->view->lon = $lon;
                 $this->view->zoom = $zoom;
                 $this->view->id = $id;
-                if ($id > 0) {
-                    $geodatenModel = new Application_Model_DbTable_Geodaten();
-                    $this->view->form->populate($geodatenModel->
-                                    fetchRow('G_ID=' . $id)->toArray());
-                    $fallenModel = new Application_Model_DbTable_Fallen();
-                    $this->view->form->populate($fallenModel->
-                                    fetchRow('F_G_ID=' . $id)->toArray());
-               }
+//$form->populate($formData);
             }
-          }
+        } else {
+            $id = $this->_getParam('g_id', 0);
+            $lat = $this->_getParam('lat', 0);
+            $lon = $this->_getParam('lon', 0);
+            $zoom = $this->_getParam('zoom', 0);
+            $this->view->lat = $lat;
+            $this->view->lon = $lon;
+            $this->view->zoom = $zoom;
+            $this->view->id = $id;
+            if ($id > 0) {
+                $geodatenModel = new Application_Model_DbTable_Geodaten();
+                $this->view->form->populate($geodatenModel->
+                                fetchRow('G_ID=' . $id)->toArray());
+                $fallenModel = new Application_Model_DbTable_Fallen();
+                $this->view->form->populate($fallenModel->
+                                fetchRow('F_G_ID=' . $id)->toArray());
+            }
+        }
+    }
 
-
-
-     /**
+    /**
      * Generate XML File for all Points
      */
     public function listallpointsAction() {
-        //$pointsModel = new Application_Model_DbTable_Geodaten();
-        //$this->view->dom = $pointsModel->listAllGeodatenXML();
+//$pointsModel = new Application_Model_DbTable_Geodaten();
+//$this->view->dom = $pointsModel->listAllGeodatenXML();
         $pointsModel = new Application_Model_GeodatenBrutstaetten();
         $this->view->dom = $pointsModel->listAllGeodatenAndBrutCheckedXML();
     }
@@ -525,86 +551,79 @@ class AdminController extends Zend_Controller_Action {
         $this->view->allPoints = $points;
     }
 
-
-      public function listonebrutstaetteaktionenAction() {
+    public function listonebrutstaetteaktionenAction() {
         if ($this->getRequest()->isGet()) {
-                $id = $this->_getParam('g_id', 0);
+            $id = $this->_getParam('g_id', 0);
 
-                if ($id > 0) {
-                   $brutModel = new Application_Model_DbTable_Brutstaetten();
-                   $brut = $brutModel->getBrutstaettebyGeopoint($id);
-                   $b_id = $brut['B_ID'];
-                   $aktionenModel = new Application_Model_AktionenAktionstyp();
-                   $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
-                   $this->view->dom = $aktionenModel->aktionen2xml($aktionen);
-                 }
+            if ($id > 0) {
+                $brutModel = new Application_Model_DbTable_Brutstaetten();
+                $brut = $brutModel->getBrutstaettebyGeopoint($id);
+                $b_id = $brut['B_ID'];
+                $aktionenModel = new Application_Model_AktionenAktionstyp();
+                $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
+                $this->view->dom = $aktionenModel->aktionen2xml($aktionen);
+            }
         }
-      }
-
-      public function listonepointaktionenAction() {
-        if ($this->getRequest()->isGet()) {
-                $g_id = $this->_getParam('g_id', 0);
-
-                if ($g_id > 0) {
-                $geodaten = new Application_Model_DbTable_Geodaten();
-                $geopoint = $geodaten->getGeodaten($g_id);
-                switch ($geopoint['G_TYP'])
-                    {
-                    case 1:
-                      //Adresse
-                      break;
-                    case 2:
-                      //Falle
-                     $fallen = new Application_Model_DbTable_Fallen();
-                     $falle = $fallen->getFallebyGeopoint($g_id);
-                     $f_id = $falle['F_ID'];
-                     $aktionenModel = new Application_Model_AktionenAktionstyp();
-                     $aktionen = $aktionenModel->getOneFalleAllAktionen($f_id);
-                      break;
-                    case 3:
-                      //Brutstaette
-                     $brutstaetten = new Application_Model_DbTable_Brutstaetten();
-                     $brut = $brutstaetten->getBrutstaettebyGeopoint($g_id);
-                     $b_id = $brut['B_ID'];
-                     $aktionenModel = new Application_Model_AktionenAktionstyp();
-                     $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
-                     break;
-                     }
-
-                   $this->view->dom = $aktionenModel->aktionen2xml($aktionen);
-                 }
-        }
-      }
-      
-    
-    public function listonebrutstaetteaktionenhtmlAction() {
-        if ($this->getRequest()->isGet()) {
-                $id = $this->_getParam('g_id', 0);
-                $lat = $this->_getParam('lat', 0);
-                $lon = $this->_getParam('lon', 0);
-                $zoom = $this->_getParam('zoom', 0);
-                $this->view->lat = $lat;
-                $this->view->lon = $lon;
-                $this->view->zoom = $zoom;
-                $this->view->id = $id;
-                if ($id > 0) {
-                   $geodatenModel = new Application_Model_DbTable_Geodaten();
-                   $geodaten = $geodatenModel->getGeodaten($id);
-                   $brutModel = new Application_Model_DbTable_Brutstaetten();
-                   $brut = $brutModel->getBrutstaettebyGeopoint($id);
-                   $b_id = $brut['B_ID'];
-                   $aktionenModel = new Application_Model_AktionenAktionstyp();
-                   $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
-                   $this->view->geodaten=$geodaten;
-                   $this->view->brut=$brut;
-                   $this->view->aktionen=$aktionen;
-                }
-        }
-
-        
-         
     }
 
+    public function listonepointaktionenAction() {
+        if ($this->getRequest()->isGet()) {
+            $g_id = $this->_getParam('g_id', 0);
+
+            if ($g_id > 0) {
+                $geodaten = new Application_Model_DbTable_Geodaten();
+                $geopoint = $geodaten->getGeodaten($g_id);
+                switch ($geopoint['G_TYP']) {
+                    case 1:
+//Adresse
+                        break;
+                    case 2:
+//Falle
+                        $fallen = new Application_Model_DbTable_Fallen();
+                        $falle = $fallen->getFallebyGeopoint($g_id);
+                        $f_id = $falle['F_ID'];
+                        $aktionenModel = new Application_Model_AktionenAktionstyp();
+                        $aktionen = $aktionenModel->getOneFalleAllAktionen($f_id);
+                        break;
+                    case 3:
+//Brutstaette
+                        $brutstaetten = new Application_Model_DbTable_Brutstaetten();
+                        $brut = $brutstaetten->getBrutstaettebyGeopoint($g_id);
+                        $b_id = $brut['B_ID'];
+                        $aktionenModel = new Application_Model_AktionenAktionstyp();
+                        $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
+                        break;
+                }
+
+                $this->view->dom = $aktionenModel->aktionen2xml($aktionen);
+            }
+        }
+    }
+
+    public function listonebrutstaetteaktionenhtmlAction() {
+        if ($this->getRequest()->isGet()) {
+            $id = $this->_getParam('g_id', 0);
+            $lat = $this->_getParam('lat', 0);
+            $lon = $this->_getParam('lon', 0);
+            $zoom = $this->_getParam('zoom', 0);
+            $this->view->lat = $lat;
+            $this->view->lon = $lon;
+            $this->view->zoom = $zoom;
+            $this->view->id = $id;
+            if ($id > 0) {
+                $geodatenModel = new Application_Model_DbTable_Geodaten();
+                $geodaten = $geodatenModel->getGeodaten($id);
+                $brutModel = new Application_Model_DbTable_Brutstaetten();
+                $brut = $brutModel->getBrutstaettebyGeopoint($id);
+                $b_id = $brut['B_ID'];
+                $aktionenModel = new Application_Model_AktionenAktionstyp();
+                $aktionen = $aktionenModel->getOneBrutstaetteAllAktionen($b_id);
+                $this->view->geodaten = $geodaten;
+                $this->view->brut = $brut;
+                $this->view->aktionen = $aktionen;
+            }
+        }
+    }
 
     public function listonebrutstaetteAction() {
         if ($this->getRequest()->isGet()) {
@@ -614,11 +633,10 @@ class AdminController extends Zend_Controller_Action {
             $brutpers = $brutstaettenpersonen->getOneBrutPersonen($g_id);
             $dom = $brutstaettenpersonen->BrutPersonenAktionen2xml($brutpers);
             $this->view->dom = $dom;
-    
         }
     }
 
-     public function listonefalleAction() {
+    public function listonefalleAction() {
         if ($this->getRequest()->isGet()) {
             $g_id = $this->_getParam('g_id', 0);
             $g_id = (int) $g_id;
@@ -626,12 +644,8 @@ class AdminController extends Zend_Controller_Action {
             $fallepers = $fallenpersonen->getOneFallenPersonen($g_id);
             $dom = $fallenpersonen->FallenPersonenAktionen2xml($fallepers);
             $this->view->dom = $dom;
-
         }
     }
-
-
-
 
     public function setbrutcheckedAction() {
         $lat = 0;
@@ -682,7 +696,7 @@ class AdminController extends Zend_Controller_Action {
             $zoom = $this->_getParam('zoom', 0);
             $points = new Application_Model_DbTable_Geodaten();
             $points->deleteGeodaten($id);
-            //$this->_flashMessenger->addMessage('Löschen Erfolgreich!');
+//$this->_flashMessenger->addMessage('Löschen Erfolgreich!');
             $this->_helper->redirector('showallpoints', 'admin',
                     null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
         }

@@ -6,7 +6,7 @@ class Application_Model_DbTable_Personen extends Zend_Db_Table_Abstract
     protected $_name = 'PERSONEN';
 
     public function addPerson($vorname, $nachname, $plz, $ort, $strasse,
-                              $tel, $email, $logname, $passwort, $typ, $text) {
+                              $tel, $email, $logname, $passwort, $typ, $p_g_id ,$text) {
                                             
         $persondata = array('P_VORNAME' => $vorname,
                             'P_NACHNAME' => $nachname,
@@ -18,7 +18,7 @@ class Application_Model_DbTable_Personen extends Zend_Db_Table_Abstract
                             'P_LOGNAME' => $logname,
                             'P_PASSWORT' => $passwort,
                             'P_TYP' => $typ,
-            // P_G_ID  to do
+                            'P_G_ID' => $p_g_id,
                             'P_TEXT' => $text
                           );
 
