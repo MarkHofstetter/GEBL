@@ -8,13 +8,13 @@ class Application_Form_User extends Zend_Form
 
         $p_vorname = new Zend_Form_Element_Text('P_VORNAME');
          $p_vorname->setLabel('Vorname (optional): ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              ->addValidator('Alpha', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 50))
               ->setAttrib('size','70');
 			  
         $p_nachname = new Zend_Form_Element_Text('P_NACHNAME');
          $p_nachname->setLabel('Nachname (optional): ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              ->addValidator('Alpha', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 50))
               ->setAttrib('size','70');			  
 			  
@@ -26,13 +26,13 @@ class Application_Form_User extends Zend_Form
 			  
         $p_ort = new Zend_Form_Element_Text('P_ORT');
          $p_ort->setLabel('Ort (optional): ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              ->addValidator('Alpha', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 20))
               ->setAttrib('size','70');			  			  
 			  
-        $p_strasse = new Zend_Form_Element_Text('P_NACHNAME');
+        $p_strasse = new Zend_Form_Element_Text('P_STRASSE');
          $p_strasse->setLabel('Strasse (optional): ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              ->addValidator('Alpha', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 30))
               ->setAttrib('size','70');			  			  
 			  
@@ -44,7 +44,7 @@ class Application_Form_User extends Zend_Form
 			  
         $p_email = new Zend_Form_Element_Text('P_EMAIL');
          $p_email->setLabel('E-mail (optional): ')
-              ->addValidator('Alnum', true, array('allowWhiteSpace' => true))
+              ->addValidator('EmailAddress', true, array('allowWhiteSpace' => true))
               ->addValidator('StringLength', false, array(0, 50))
               ->setAttrib('size','70');			  			  
 			  
