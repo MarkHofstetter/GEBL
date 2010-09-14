@@ -68,6 +68,14 @@ function initialize() {
                 marker.set("id",id);
                 marker.set ("checked", checked);
                 bindInfoWindow(marker, map, infoWindow);
+                if (isDefined ("showAktion")){
+                    if (showAktion == id){
+                    google.maps.event.trigger(marker, 'click');
+                    //fire click event on marker
+                    getAktionen(id);
+                    //show Aktionen
+                    }
+                }
             }
 
         }
@@ -264,5 +272,8 @@ function loadScript() {
 }
 
 
+function isDefined(variable){
+	return this[variable] === undefined ? false : true;
+};
 
   
