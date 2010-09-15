@@ -328,7 +328,6 @@ class AdminController extends Zend_Controller_Action {
 
         $form = new Application_Form_Personen();
         $form->senden->setLabel('Hinzufügen');
-
         $this->view->form = $form;
 
         if ($this->getRequest()->isPost()) {
@@ -392,6 +391,16 @@ class AdminController extends Zend_Controller_Action {
             }
         }
     }
+
+
+
+   public function listpersonenAction() {
+        $form = new Application_Form_ListPersonen();
+        $form->senden->setLabel('Hinzufügen');
+        $this->view->form = $form;
+
+   }
+
 
     public function editbrutstaetteAction() {
         $id = 0;
