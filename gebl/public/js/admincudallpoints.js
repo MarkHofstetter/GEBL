@@ -281,4 +281,11 @@
                             + "/zoom/" + map.getZoom();
     }
 
+    function listPersonen(){
+    window.location.href="/admin/listpersonen"
+                            + "/lat/" + map.getCenter().lat()
+                            + "/lon/" +  map.getCenter().lng()
+                            + "/zoom/" + map.getZoom();
+    }
+
 
