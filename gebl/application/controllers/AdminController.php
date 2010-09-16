@@ -386,6 +386,10 @@ class AdminController extends Zend_Controller_Action {
         $form = new Application_Form_ListPersonen();
         $form->senden->setLabel('Hinzufügen');
         $this->view->form = $form;
+		
+		$personen = new Application_Model_DbTable_Personen();
+		$personenList = $personen->fetchAll();
+		$this->view->personen = $personenList;
 
    }
 

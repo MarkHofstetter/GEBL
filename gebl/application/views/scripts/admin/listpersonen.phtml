@@ -1,0 +1,46 @@
+<?php
+$this->headScript()->appendFile(
+        '/js/gmap.js',
+        'text/javascript'
+);
+$this->headScript()->appendFile(
+        '/js/admincudallpoints.js',
+        'text/javascript'
+);
+$this->headScript()->captureStart()
+?>
+
+
+
+function showall(){
+    window.location.href="/admin/showallpoints"
+  }
+<?php $this->headScript()->captureEnd() ?>
+
+
+
+
+
+<div id ="outer">
+
+    <div id ="header">
+        <a href="/index/logout">Logout</a>
+        <h1>GEBL-Karte: Benutzerverwaltung</h1>
+    </div>
+    
+    <div id="centrecontent">
+        <input id ="addperson" type="button" value="neuen Benutzer hinzufuegen" onclick="addPerson()"/>
+        <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>
+        <?php echo $this->partialLoop('personenLoop.phtml', $this->personen); ?>
+    </div>
+     <div class="clearer"></div>
+</div>
+<div id="footer">
+ Text kommt noch
+ </div>  
+  
+  
+  
+  
+  
+  
