@@ -112,7 +112,7 @@ overflow:hidden;
 #aktionen
 {
 font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-width:100%;
+/*width:525px;*/
 border-collapse:collapse;
 }
 #aktionen td, #aktionen th

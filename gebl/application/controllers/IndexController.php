@@ -11,7 +11,7 @@ class IndexController extends Zend_Controller_Action
 
 
         //FlashMessenger
-        $this->_flashMessenger = $this->_helper->getHelper('flashMessenger');
+        //$this->_flashMessenger = $this->_helper->getHelper('flashMessenger');
 
     }
 
@@ -19,16 +19,17 @@ class IndexController extends Zend_Controller_Action
     {
       // echo $this->hrModel->getSysDate();
        //$this->_helper->redirector('showallpoints','admin');
-        $this->_helper->redirector('index','guest');
+       $this->_helper->redirector('index','guest');
     }
 
 
 public function loginAction()
     {
-
-       
+        Zend_Auth::getInstance()->clearIdentity(); //clear previous id else new login will not be allowed
         $form = new Application_Form_Auth();
         $this->view->form = $form;
+        Zend_Registry::set('view', $this->view);
+    /*  Moved to Auth Controller Plugin
         $this->view->message = $this->_flashMessenger->getMessages();
         if ($this->getRequest()->isPost()){
             $formData = $this->getRequest()->getPost();
@@ -71,7 +72,8 @@ public function loginAction()
             
             $this->_helper->redirector('login','index');
         }}
-      }}
+      }
+   */}
 
     public function logoutAction() {
         Zend_Auth::getInstance()->clearIdentity();

@@ -5,7 +5,7 @@ class Application_Form_Auth extends Zend_Form
 
     public function init()
     {
-        $this->setAction('/index/login');
+        //$this->setAction('/index/login');
         $this->setMethod('post');
         $user = new Zend_Form_Element_Text('username');
         $user->setLabel('Name: ')

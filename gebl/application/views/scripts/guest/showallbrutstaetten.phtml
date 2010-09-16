@@ -48,7 +48,15 @@ var customIconsBrut = {
   <div id ="outer">
   
       <div id ="header">
-        <a href="/index/login">Login</a>
+       <?php   $this->auth = Zend_Auth::getInstance();
+                 if ($this->auth->hasIdentity() &&
+                        is_object($this->auth->getIdentity())) {
+                    echo ("Angemeldet als '".$this->auth->getIdentity()->P_LOGNAME
+                            ."'<br> <a href='/index/logout'>Abmelden</a> ");
+                }else{
+                   echo ("<a href='/index/login'>Anmelden</a>");
+                }
+         ?>
         <h1>GEBL-Karte: Gemeldete Brutstätten </h1>
       </div>
 

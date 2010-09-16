@@ -2,7 +2,12 @@
 
 class GuestController extends Zend_Controller_Action {
 
+    protected $_auth;
+
     public function init() {
+
+        $this->_auth = Zend_Auth::getInstance();
+
         //Context Switch for XML
         $contextSwitch = $this->_helper->getHelper('contextSwitch');
         $contextSwitch->addActionContext('listallbrutgeodaten', 'xml')
@@ -88,9 +93,14 @@ class GuestController extends Zend_Controller_Action {
 
                 $zoom = $form->getValue('ZOOM');
 
-                
-                $b_p_id = null;
-                $checked = 0;
+                 if ($this->_auth->hasIdentity() &&
+                        is_object($this->_auth->getIdentity())) {
+                    $b_p_id = $this->_auth->getIdentity()->P_ID;
+                    }
+                    else{
+                        $b_p_id = null;
+                    }
+                 $checked = 0;
                 
 
                 $geodaten = new Application_Model_DbTable_Geodaten();
