@@ -752,7 +752,15 @@ class AdminController extends Zend_Controller_Action {
 
         if ($this->getRequest()->isPost()) {
             $formData = $this->getRequest()->getPost();
-            if ($form->isValid($formData)) {
+            $id = $formData['P_ID'];
+            $id = (int)$id;
+            $this->view->form->P_LOGNAME->addValidator('Db_NoRecordExists', false,
+                      array('table' => 'PERSONEN','field' => 'P_LOGNAME',
+                          'exclude' => array ('field' => 'P_ID','value' => $id),
+                          'messages' =>
+                          array(Zend_Validate_Db_NoRecordExists::ERROR_RECORD_FOUND =>
+                              "Login Name '%value%' existiert bereits!")));
+          if ($form->isValid($formData)) {
                 $p_id = $form->getValue('P_ID');
                 $vorname = $form->getValue('P_VORNAME');
                 $nachname = $form->getValue('P_NACHNAME');
@@ -831,7 +839,6 @@ class AdminController extends Zend_Controller_Action {
             $id = $this->_getParam('id', 0);
             //get id from edit link
             if ($id > 0) {
-                
                 $personen = new Application_Model_DbTable_Personen();
                 $this->view->form->populate($personen->
                                 fetchRow('P_ID=' . $id)->toArray());

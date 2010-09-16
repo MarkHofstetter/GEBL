@@ -98,9 +98,10 @@ class Plugin_Auth_AccessControl extends Zend_Controller_Plugin_Abstract {
         if (!$this->_acl->isAllowed($role, $resource)) {
             if ($this->_auth->hasIdentity()) {
                 // angemeldet, aber keine Rechte -> Fehler!
+               
                 $request->setModuleName('default');
                 $request->setControllerName('error');
-                $request->setActionName('noAccess');
+                $request->setActionName('noaccess');
             } else {
                 //nicht angemeldet -> Login
                 $request->setModuleName('default');
