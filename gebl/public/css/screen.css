@@ -163,6 +163,35 @@ color:#000000;
 background-color:#EAF2D3;
 }
 
+
+#personen
+{
+font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+/*width:525px;*/
+border-collapse:collapse;
+}
+#personen td, #personen th
+{
+font-size:0.75em;
+border:1px solid #98bf21;
+padding:2px 5px 1px 5px;
+}
+#personen th
+{
+font-size:0.75em;
+text-align:left;
+padding-top:5px;
+padding-bottom:4px;
+background-color:#A7C942;
+color:#ffffff;
+}
+#personen tr.alt td
+{
+color:#000000;
+background-color:#EAF2D3;
+}
+
+
 .mapfull{
      height: 450px;
     width: 1060px;

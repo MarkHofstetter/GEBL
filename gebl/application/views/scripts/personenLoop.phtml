@@ -3,6 +3,12 @@
         <td><?php echo $this->P_TYP ?></td>
         <td><?php echo $this->P_VORNAME ?></td>
         <td><?php echo $this->P_NACHNAME ?></td>
-        <td><a href="/admin/addperson/id/<?php echo $this->P_ID ?>">bearbeiten</a></td>
-        <td><a href="/admin/addperson/id/<?php echo $this->P_ID?>">löschen</a></td>
+        <td><?php echo $this->P_STRASSE ?></td>
+        <td><?php echo $this->P_PLZ ?></td>
+        <td><?php echo $this->P_ORT ?></td>
+        <td><?php echo $this->P_TEL ?></td>
+        <td><?php echo $this->P_EMAIL ?></td>
+        <td><?php echo $this->P_TEXT ?></td>
+        <td><a href="/admin/editperson/id/<?php echo $this->P_ID ?>">bearbeiten</a></td>
+        <td><a href="/admin/deleteperson/id/<?php echo $this->P_ID?>">löschen</a></td>
 </tr>

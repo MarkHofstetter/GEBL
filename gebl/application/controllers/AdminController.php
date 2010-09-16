@@ -386,8 +386,7 @@ class AdminController extends Zend_Controller_Action {
                         $p_strasse, $p_tel, $p_email, $p_logname,
                         $p_passwort, $p_typ, $p_g_id, $p_text);
 
-                $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
+                $this->_helper->redirector('listpersonen', 'admin');
             }
         }
     }
@@ -395,12 +394,8 @@ class AdminController extends Zend_Controller_Action {
 
 
    public function listpersonenAction() {
-        $form = new Application_Form_ListPersonen();
-        $form->senden->setLabel('Hinzufügen');
-        $this->view->form = $form;
-		
-		$personen = new Application_Model_DbTable_Personen();
-		$personenList = $personen->fetchAll();
+                $personen = new Application_Model_DbTable_Personen();
+                $personenList = $personen->fetchAll(null, "P_LOGNAME ASC");
 		$this->view->personen = $personenList;
 
    }
@@ -716,11 +711,134 @@ class AdminController extends Zend_Controller_Action {
             $zoom = $this->_getParam('zoom', 0);
             $points = new Application_Model_DbTable_Geodaten();
             $points->deleteGeodaten($id);
-//$this->_flashMessenger->addMessage('Löschen Erfolgreich!');
+            //$this->_flashMessenger->addMessage('Löschen Erfolgreich!');
             $this->_helper->redirector('showallpoints', 'admin',
                     null, array('lat' => $lat, 'lon' => $lon, 'zoom' => $zoom));
         }
     }
+
+        public function deletepersonAction() {
+        if ($this->getRequest()->isGet()) {
+            $id = $this->_getParam('id', 0);
+
+            if ($this->_auth->hasIdentity() && is_object($this->_auth->getIdentity())) {
+                    $p_id = $this->_auth->getIdentity()->P_ID;
+                } else {
+                    $p_id = null;
+                }
+            if ($p_id != $id){
+
+            $personen = new Application_Model_DbTable_Personen();
+            $personen->deletePerson($id);
+            }
+            else{
+            //$this->_flashMessenger->addMessage('Löschen des eigenen Benutzers nicht erlaubt');
+            }
+        }
+            $this->_helper->redirector('listpersonen', 'admin');
+
+    }
+
+        public function editpersonAction() {
+        $id = 0;
+
+        $form = new Application_Form_Personen();
+        $form->senden->setLabel('Ändern');
+        $form->setAction('/admin/editperson');
+        $form->P_LOGNAME->removeValidator('Db_NoRecordExists');
+        //
+        $this->view->form = $form;
+
+
+        if ($this->getRequest()->isPost()) {
+            $formData = $this->getRequest()->getPost();
+            if ($form->isValid($formData)) {
+                $p_id = $form->getValue('P_ID');
+                $vorname = $form->getValue('P_VORNAME');
+                $nachname = $form->getValue('P_NACHNAME');
+                $plz = $form->getValue('P_PLZ');
+                $ort = $form->getValue('P_ORT');
+                $strasse = $form->getValue('P_STRASSE');
+                $tel = $form->getValue('P_TEL');
+                $email = $form->getValue('P_EMAIL');
+                $logname = $form->getValue('P_LOGNAME');
+                $passwort = $form->getValue('P_PASSWORT');
+                $typ = $form->getValue('P_TYP');
+                $g_id = $form->getValue('P_G_ID');
+                $text = $form->getValue('P_TEXT');
+
+                if (!($plz == null AND $ort == NULL AND $strasse == NULL)) {
+                    // Koordinaten nur ermitteln, wenn Adresse vorhanden
+                    $address = $plz . " " . $ort . " " . $strasse;
+                    $search = array('ä', 'ö', 'ü', 'ß');
+                    $replace = array('ae', 'oe', 'ue', 'ss');
+
+                    $address = str_replace($search, $replace, $address);
+                    $address = preg_replace('/ {2,}/', ' ', $address); //mehrere Leerzeichen entfernen
+                    $address = urlencode(utf8_encode($address));
+                    // Desired address
+                    $address = "http://maps.google.com/maps/api/geocode/xml?address=$address?region=at&sensor=false";
+
+                    // Retrieve the URL contents
+                    $page = file_get_contents($address) or die("url not loading");
+
+                    // Parse the returned XML file
+                    $xml = new SimpleXMLElement($page);
+                    // Retrieve the desired XML node
+                    $status = $xml->status;
+
+                    $geodaten = new Application_Model_DbTable_Geodaten();
+                    if ($status == "OK") {
+                        $googleLat = $xml->result->geometry->location->lat;
+                        $googleLon = $xml->result->geometry->location->lng;
+                        $typ = 1; //Typ Adresse
+                        if ($g_id != null){
+                            $geodaten->updateGeodaten($g_id, $logname, $typ, $googleLat, $googleLon);
+                           }
+                           else
+                           {
+                             $g_id = $geodaten->addGeodaten($logname, $typ, $googleLat, $googleLon);
+                           }
+                    } else { //Status not OK -> No Geocoder Result
+                        if ($g_id != null){ // delete existing geodaten
+                            $geodaten->deleteGeodaten($g_id);
+                           }
+                           else
+                           {
+                             // no old geodaten existing
+                           }
+                    }
+                } //end existing address
+                else {// no address in personen data
+                    if ($g_id != null){ // delete existing geodaten
+                            $geodaten->deleteGeodaten($g_id);
+                            $g_id == null; //remove point from personen daten
+                           }
+                   }
+
+                $personen = new Application_Model_DbTable_Personen();
+
+                $personen->updatePerson($p_id, $vorname, $nachname, $plz, $ort,
+                        $strasse, $tel, $email, $logname,
+                        $passwort, $typ, $g_id, $text);
+
+                $this->_helper->redirector('listpersonen', 'admin');
+            } else {
+                
+//$form->populate($formData);
+            }
+        } else {
+            $id = $this->_getParam('id', 0);
+            //get id from edit link
+            if ($id > 0) {
+                
+                $personen = new Application_Model_DbTable_Personen();
+                $this->view->form->populate($personen->
+                                fetchRow('P_ID=' . $id)->toArray());
+            }
+        }
+    }
+
 
 }
 

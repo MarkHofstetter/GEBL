@@ -1,46 +1,49 @@
-<?php
-$this->headScript()->appendFile(
-        '/js/gmap.js',
-        'text/javascript'
-);
-$this->headScript()->appendFile(
-        '/js/admincudallpoints.js',
-        'text/javascript'
-);
-$this->headScript()->captureStart()
-?>
-
-
-
-function showall(){
-    window.location.href="/admin/showallpoints"
-  }
-<?php $this->headScript()->captureEnd() ?>
-
-
-
-
-
 <div id ="outer">
 
     <div id ="header">
-        <a href="/index/logout">Logout</a>
+        <?php   $this->auth = Zend_Auth::getInstance();
+                 if ($this->auth->hasIdentity() &&
+                        is_object($this->auth->getIdentity())) {
+                    echo ("Angemeldet als '".$this->auth->getIdentity()->P_LOGNAME
+                            ."'<br> <a href='/index/logout'>Abmelden</a> ");
+                }else{
+                   echo ("<a href='/index/login'>Anmelden</a>");
+                }
+         ?>
         <h1>GEBL-Karte: Benutzerverwaltung</h1>
     </div>
-    
-    <div id="centrecontent">
-        <input id ="addperson" type="button" value="neuen Benutzer hinzufuegen" onclick="addPerson()"/>
-        <input id ="showbrut" type="button" value="Abbrechen" onclick="showall()"/>
-        <?php echo $this->partialLoop('personenLoop.phtml', $this->personen); ?>
+
+    <div id="header2">
+        <p>
+            <input id ="addperson" type="button" value="Neuen Benutzer hinzufügen" onclick="window.location.href='/admin/addperson'"/>
+            <input id ="showbrut" type="button" value="Benutzerverwaltung beenden" onclick="window.location.href='/admin/showallpoints'"/>
+        </p>
     </div>
-     <div class="clearer"></div>
+
+    <div id="centrecontent">
+        <table id="personen">
+            <th>Loginname</th>
+            <th>Typ</th>
+            <th>Vorname</th>
+            <th>Zuname</th>
+            <th>Strasse</th>
+            <th>PLZ</th>
+            <th>Ort</th>
+            <th>Tel</th>
+            <th>E-Mail</th>
+            <th>Kommentar</th>
+            <th></th>
+            <th></th>
+            <?php echo $this->partialLoop('personenLoop.phtml', $this->personen); ?>
+        </table>
+    </div>
+    <div class="clearer"></div>
 </div>
 <div id="footer">
- Text kommt noch
- </div>  
-  
-  
-  
-  
-  
-  
+    Liste aller Benutzer
+</div>  
+
+
+
+
+

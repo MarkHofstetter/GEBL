@@ -6,6 +6,9 @@ class Application_Form_Personen extends Zend_Form
     {
        $this->setMethod('post');
 
+       $p_id = new Zend_Form_Element_Hidden('P_ID');
+         $p_id->removeDecorator( 'Label' );
+
         $p_vorname = new Zend_Form_Element_Text('P_VORNAME');
          $p_vorname->setLabel('Vorname (optional): ')
               ->addValidator('Alpha', true, array('allowWhiteSpace' => true))
@@ -74,7 +77,9 @@ class Application_Form_Personen extends Zend_Form
               ->addValidator('Int')
               ->addValidator('Between',true,array(1,3));			  
 			  
-		// $p_g_id   to do decode adress and generate geodaten	  
+         $p_g_id = new Zend_Form_Element_Hidden('P_G_ID');
+         $p_g_id->removeDecorator( 'Label' );
+
 			  
 		$p_text = new Zend_Form_Element_Textarea('P_TEXT');
          $p_text->setLabel('Kommentar (optional, maximal 1024 Zeichen):')
@@ -83,9 +88,9 @@ class Application_Form_Personen extends Zend_Form
               ->addValidator('StringLength', false, array(0, 1024));
 
          $submit = new Zend_Form_Element_Submit('senden');
-         $this->addElements(array($p_vorname, $p_nachname, $p_plz,
+         $this->addElements(array($p_id, $p_vorname, $p_nachname, $p_plz,
              $p_ort, $p_strasse, $p_tel, $p_email, $p_logname,
-             $p_passwort, $p_typ, $p_text, $submit));
+             $p_passwort, $p_typ, $p_g_id, $p_text, $submit));
   
     }
 }
