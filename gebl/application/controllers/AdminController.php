@@ -799,13 +799,13 @@ class AdminController extends Zend_Controller_Action {
                     if ($status == "OK") {
                         $googleLat = $xml->result->geometry->location->lat;
                         $googleLon = $xml->result->geometry->location->lng;
-                        $typ = 1; //Typ Adresse
+                        $g_typ = 1; //Typ Adresse
                         if ($g_id != null){
-                            $geodaten->updateGeodaten($g_id, $logname, $typ, $googleLat, $googleLon);
+                            $geodaten->updateGeodaten($g_id, $logname, $g_typ, $googleLat, $googleLon);
                            }
                            else
                            {
-                             $g_id = $geodaten->addGeodaten($logname, $typ, $googleLat, $googleLon);
+                             $g_id = $geodaten->addGeodaten($logname, $g_typ, $googleLat, $googleLon);
                            }
                     } else { //Status not OK -> No Geocoder Result
                         if ($g_id != null){ // delete existing geodaten
