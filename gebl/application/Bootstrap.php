@@ -49,7 +49,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
         $this->getResource('frontController')->registerPlugin(new Plugin_Auth_AccessControl($auth, $acl))->setParam('auth', $auth);
     }
 
-   /*   protected function _initFirebug() {
+ /*     protected function _initFirebug() {
       $writer = new Zend_Log_Writer_Firebug();
       $logger = new Zend_Log($writer);
 

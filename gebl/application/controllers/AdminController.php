@@ -1,5 +1,4 @@
 <?php
-
 class AdminController extends Zend_Controller_Action {
 
     protected $_auth;
@@ -371,7 +370,7 @@ class AdminController extends Zend_Controller_Action {
                         $googleLon = $xml->result->geometry->location->lng;
                         $geodaten = new Application_Model_DbTable_Geodaten();
                         $typ = 1; //Typ Adresse
-                        $p_g_id = $geodaten->addGeodaten($p_logname, $typ, $googleLat, $googleLon);
+                        $p_g_id = $geodaten->addGeodaten($p_logname, $typ, (float)$googleLat, (float)$googleLon);
                     } else {
                         $p_g_id = null;
                     }
@@ -798,7 +797,9 @@ class AdminController extends Zend_Controller_Action {
                     $geodaten = new Application_Model_DbTable_Geodaten();
                     if ($status == "OK") {
                         $googleLat = $xml->result->geometry->location->lat;
+                        $googleLat = (float)$googleLat;
                         $googleLon = $xml->result->geometry->location->lng;
+                        $googleLon = (float)googleLon;
                         $g_typ = 1; //Typ Adresse
                         if ($g_id != null){
                             $geodaten->updateGeodaten($g_id, $logname, $g_typ, $googleLat, $googleLon);
