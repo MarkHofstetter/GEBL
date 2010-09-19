@@ -79,6 +79,9 @@ window.onload = loadScript;
 <div id ="outer">
 
     <div id ="header">
+        <div id ="header3">
+        &copy;2010 Bernhard Holzer &amp; Rudolf Thaler
+        </div>
         <?php   $this->auth = Zend_Auth::getInstance();
                  if ($this->auth->hasIdentity() &&
                         is_object($this->auth->getIdentity())) {

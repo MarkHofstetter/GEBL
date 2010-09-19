@@ -45,6 +45,13 @@ border-top:22px solid #000000;
 color:#FFFFFF;
 width:1060px;
 }
+#header3 {
+background:none repeat scroll 0 0 #304A00;
+color:#FFFFFF;
+height:20px;
+text-align:right;
+width:1060px;
+}
 #header h1 {
     text-align: center
 }
