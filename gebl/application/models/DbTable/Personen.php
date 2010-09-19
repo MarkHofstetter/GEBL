@@ -27,7 +27,9 @@ class Application_Model_DbTable_Personen extends Zend_Db_Table_Abstract
 
     public function updatePerson($p_id, $vorname, $nachname, $plz, $ort, $strasse,
                               $tel, $email, $logname, $passwort, $typ, $g_id, $text) {
-        $data = array('P_VORNAME' => $vorname,
+
+        if ($passwort != null){
+           $data = array('P_VORNAME' => $vorname,
                             'P_NACHNAME' => $nachname,
                             'P_PLZ' => $plz,
                             'P_ORT' => $ort,
@@ -38,8 +40,22 @@ class Application_Model_DbTable_Personen extends Zend_Db_Table_Abstract
                             'P_PASSWORT' => $passwort,
                             'P_TYP' => $typ,
                             'P_G_ID' => $g_id,
+                            'P_TEXT' => $text );
+        } else { // update ohne Passwort
+        $data = array('P_VORNAME' => $vorname,
+                            'P_NACHNAME' => $nachname,
+                            'P_PLZ' => $plz,
+                            'P_ORT' => $ort,
+                            'P_STRASSE' => $strasse,
+                            'P_TEL' => $tel,
+                            'P_EMAIL' => $email,
+                            'P_LOGNAME' => $logname,
+                            'P_TYP' => $typ,
+                            'P_G_ID' => $g_id,
                             'P_TEXT' => $text
+
                           );
+        }
        $where = $this->getAdapter()->quoteInto('P_ID = ?', $p_id);
        $this->update($data, $where);
        }
@@ -49,4 +65,3 @@ class Application_Model_DbTable_Personen extends Zend_Db_Table_Abstract
         $this->delete('P_ID =' . (int) $id);
     }
 }
-

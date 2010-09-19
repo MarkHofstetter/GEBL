@@ -746,6 +746,9 @@ class AdminController extends Zend_Controller_Action {
         $form->senden->setLabel('Ändern');
         $form->setAction('/admin/editperson');
         $form->P_LOGNAME->removeValidator('Db_NoRecordExists');
+        // for update no passwort required
+        $form->P_PASSWORT->setRequired(false);
+        $form->P_PASSWORT_CONFIRM->setRequired(false);
         //
         $this->view->form = $form;
 
@@ -828,7 +831,6 @@ class AdminController extends Zend_Controller_Action {
                    }
 
                 $personen = new Application_Model_DbTable_Personen();
-
                 $personen->updatePerson($p_id, $vorname, $nachname, $plz, $ort,
                         $strasse, $tel, $email, $logname,
                         $passwort, $typ, $g_id, $text);
