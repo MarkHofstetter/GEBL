@@ -63,14 +63,23 @@ class Application_Form_Personen extends Zend_Form
               ->addValidator('StringLength', false, array(0, 20))
               ->setAttrib('size','70');			  			  
 			  
-        $p_passwort = new Zend_Form_Element_Text('P_PASSWORT');
+        $p_passwort = new Zend_Form_Element_Password('P_PASSWORT');
          $p_passwort->setLabel('* Login Passwort: ')
 		      ->setRequired(true)
-              //->addValidator('Alnum', true, array('allowWhiteSpace' => true))
-              ->addValidator('StringLength', false, array(0, 20))
-              ->setAttrib('size','70');			  			  
-			  
-		$p_typ = new Zend_Form_Element('P_TYP');
+              ->addValidator('StringLength', false, array(6, 20))
+              ->setAttrib('size','70');
+
+       $p_passwort_confirm = new Zend_Form_Element_Password('P_PASSWORT_CONFIRM');
+         $p_passwort_confirm->setLabel('* Passwort wiederholen: ')
+		      ->setRequired(true)
+              ->addValidator('StringLength', false, array(6, 20))
+              ->addValidator('Identical', false,
+                      array('token' => 'P_PASSWORT', 'messages' =>
+                      array(Zend_Validate_Identical::NOT_SAME =>
+                          'Passwortwiederholung nicht korrekt!')))
+              ->setAttrib('size','70');
+
+        $p_typ = new Zend_Form_Element('P_TYP');
          $p_typ->setLabel('* Benutzertyp (1 Normal, 2 Experte, 3 Administrator) : ')
 		      ->setValue("1")
               ->setRequired(true)
@@ -90,7 +99,7 @@ class Application_Form_Personen extends Zend_Form
          $submit = new Zend_Form_Element_Submit('senden');
          $this->addElements(array($p_id, $p_vorname, $p_nachname, $p_plz,
              $p_ort, $p_strasse, $p_tel, $p_email, $p_logname,
-             $p_passwort, $p_typ, $p_g_id, $p_text, $submit));
+             $p_passwort, $p_passwort_confirm, $p_typ, $p_g_id, $p_text, $submit));
   
     }
 }

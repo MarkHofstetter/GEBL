@@ -341,6 +341,7 @@ class AdminController extends Zend_Controller_Action {
                 $p_email = $form->getValue('P_EMAIL');
                 $p_logname = $form->getValue('P_LOGNAME');
                 $p_passwort = $form->getValue('P_PASSWORT');
+                $p_passwort_confirm = $form->getValue('P_PASSWORT_CONFIRM');
                 $p_typ = $form->getValue('P_TYP');
                 $p_text = $form->getValue('P_TEXT');
 
@@ -770,6 +771,7 @@ class AdminController extends Zend_Controller_Action {
                 $email = $form->getValue('P_EMAIL');
                 $logname = $form->getValue('P_LOGNAME');
                 $passwort = $form->getValue('P_PASSWORT');
+                $passwort_confirm = $form->getValue('P_PASSWORT_CONFIRM');
                 $typ = $form->getValue('P_TYP');
                 $g_id = $form->getValue('P_G_ID');
                 $text = $form->getValue('P_TEXT');
