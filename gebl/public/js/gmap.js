@@ -15,6 +15,7 @@ function initialize() {
     //marker for edit or add
     clickedmarker = new google.maps.Marker();
     clickedmarker.setIcon(clickedmarkericon);
+    clickedmarker.setZIndex(1000000); //Marker not hidden behind other markers
     if (placemarkerok == true){
         var clickedInfoWindow = new google.maps.InfoWindow;
         clickedInfoWindow.setContent("Positionieren Sie den Marker durch Klicken oder Ziehen");

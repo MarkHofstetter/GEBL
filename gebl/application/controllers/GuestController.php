@@ -96,11 +96,13 @@ class GuestController extends Zend_Controller_Action {
                  if ($this->_auth->hasIdentity() &&
                         is_object($this->_auth->getIdentity())) {
                     $b_p_id = $this->_auth->getIdentity()->P_ID;
+                    $checked = 1;
                     }
                     else{
                         $b_p_id = null;
+                        $checked = 0;
                     }
-                 $checked = 0;
+                 
                 
 
                 $geodaten = new Application_Model_DbTable_Geodaten();

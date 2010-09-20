@@ -38,7 +38,14 @@ var markerid = <?php if ($this->id) {
 var urlmarkers = "/guest/listallbrutgeodaten?format=xml"
 var placemarkerok = true;
 var clickedmarker;
-var clickedmarkericon =  "/images/waterredanimated.gif";
+var clickedmarkericon =
+        <?php   $this->auth = Zend_Auth::getInstance();
+                 if ($this->auth->hasIdentity() &&
+                        is_object($this->auth->getIdentity())) {
+                    echo ("\"/images/watergreenanimated.gif\"");
+                }else{
+                   echo ("\"/images/waterredanimated.gif\"");
+                };?>;
 
 var customIconsBrut = {
 0: {
