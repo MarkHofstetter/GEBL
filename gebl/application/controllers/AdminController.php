@@ -804,7 +804,7 @@ class AdminController extends Zend_Controller_Action {
                         $googleLat = $xml->result->geometry->location->lat;
                         $googleLat = (float)$googleLat;
                         $googleLon = $xml->result->geometry->location->lng;
-                        $googleLon = (float)googleLon;
+                        $googleLon = (float)$googleLon;
                         $g_typ = 1; //Typ Adresse
                         if ($g_id != null){
                             $geodaten->updateGeodaten($g_id, $logname, $g_typ, $googleLat, $googleLon);

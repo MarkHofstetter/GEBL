@@ -11,7 +11,8 @@
                  case "1":
                  html = "<h4>"+ markername + "</h4>" + "Typ: Adresse <br>";
                  document.getElementById("info").innerHTML="";
-                 html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/>"
+                 html = html + "<input id ='benutzerverwaltung' type='button' value='Benutzerverwaltung' onclick='window.location.href=\"/admin/listpersonen\"'/>";
+                 //html = html + "<input type='button' value='Löschen' onclick='deleteMarker("+ markerid +")'/>"
                  break;
 
                  case "2":
@@ -273,6 +274,14 @@
                             + "/lon/" +  map.getCenter().lng()
                             + "/zoom/" + map.getZoom();
     }
+
+    function benutzerverwaltung(){
+        if (isDefined("map")){
+            setMapCookies();
+        }
+        window.location.href="/admin/listpersonen"
+    }
+
 
     
    
