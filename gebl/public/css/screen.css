@@ -48,9 +48,10 @@ width:1060px;
 #header3 {
 background:none repeat scroll 0 0 #304A00;
 color:#FFFFFF;
-height:20px;
+height:10px;
 text-align:right;
 width:1060px;
+font-size:0.75em;
 }
 #header h1 {
     text-align: center

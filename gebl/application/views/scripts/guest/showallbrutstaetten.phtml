@@ -66,6 +66,13 @@ var customIconsBrut = {
           <div id="header2">
           <p>    
           <input id ="addbrut" type="button" value="Weitere Brutstätte melden" onclick="addBrutstaette()"/>
+          <?php $this->auth = Zend_Auth::getInstance();
+                 if ($this->auth->hasIdentity() && is_object($this->auth->getIdentity())) {
+                    if ($this->auth->getIdentity()->P_TYP == "3"){
+                     echo ("<input id ='adminbutton' type='button' value='Administration' onclick='window.location.href=\"/admin/index\"'>");
+                    }
+                  }
+         ?>
           </p>
           <p>
           <input id="address" type="textbox" size="50" value="2452 Mannersdorf" onchange="codeAddress()">

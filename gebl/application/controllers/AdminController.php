@@ -56,9 +56,10 @@ class AdminController extends Zend_Controller_Action {
 
     /*
      * Add a Point by selecting coordiantes in map
+     * No longer in use
      */
 
-    public function addPointAction() {
+ /*   public function addPointAction() {
         $form = new Application_Form_Geopoint();
         $form->senden->setLabel('Hinzufügen');
         $this->view->form = $form;
@@ -83,6 +84,8 @@ class AdminController extends Zend_Controller_Action {
             }
         }
     }
+  * 
+  */
 
     public function addaktionAction() {
         $lat = 0;
