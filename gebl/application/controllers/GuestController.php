@@ -15,8 +15,21 @@ class GuestController extends Zend_Controller_Action {
     }
 
     public function indexAction() {
-        $this->_helper->redirector('showallbrutstaetten', 'guest');
-    }
+        $this->auth = Zend_Auth::getInstance();
+                 if ($this->auth->hasIdentity() && is_object($this->auth->getIdentity())) {
+                    if ($this->auth->getIdentity()->P_TYP == "3"){
+                     $this->_helper->redirector('showallpoints', 'admin');
+                    }
+                    else
+                    {
+                        $this->_helper->redirector('showallbrutstaetten', 'guest');
+                    }
+                  }
+                  else
+                  {
+                     $this->_helper->redirector('showallbrutstaetten', 'guest');
+                  }
+           }
 
     public function showallbrutstaettenAction() {
         $lat = 0;

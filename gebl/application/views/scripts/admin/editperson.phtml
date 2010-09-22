@@ -1,15 +1,19 @@
 <div id ="outer">
 
     <div id ="header">
-        <?php   $this->auth = Zend_Auth::getInstance();
-                 if ($this->auth->hasIdentity() &&
-                        is_object($this->auth->getIdentity())) {
-                    echo ("Angemeldet als '".$this->auth->getIdentity()->P_LOGNAME
-                            ."'<br> <a href='/index/logout'>Abmelden</a> ");
-                }else{
-                   echo ("<a href='/index/login'>Anmelden</a>");
-                }
-         ?>
+        <div id ="header3">
+            &copy;2010 Bernhard Holzer &amp; Rudolf Thaler
+        </div>
+        <?php
+        $this->auth = Zend_Auth::getInstance();
+        if ($this->auth->hasIdentity() &&
+                is_object($this->auth->getIdentity())) {
+            echo ("Angemeldet als '" . $this->auth->getIdentity()->P_LOGNAME
+            . "'<br> <a href='/index/logout'>Abmelden</a> ");
+        } else {
+            echo ("<a href='/index/login'>Anmelden</a>");
+        }
+        ?>
         <h1>GEBL-Karte: Benutzer editieren</h1>
     </div>
 
@@ -17,23 +21,22 @@
         <p>
             <input id ="personenliste" type="button" value="Zurück zur Benutzerliste" onclick="window.location.href='/admin/listpersonen'"/>
             <input id ="listpoints" type="button" value="Benutzerverwaltung beenden" onclick="window.location.href='/admin/showallpoints'"/>
-         </p>
+        </p>
     </div>
 
-    
+
     <div id="centrecontent">
-        <?php echo $this->form; ?>
+<?php echo $this->form; ?>
         <input id ="abbrechen" type="button" value="Abbrechen" onclick="window.location.href='/admin/listpersonen'"/>
-        
+
     </div>
-     <div class="clearer"></div>
+    <div class="clearer"></div>
 </div>
 <div id="footer">
- Felder mit * sind Pflichtfelder
- </div>  
-  
-  
-  
-  
-  
-  
+    Felder mit * sind Pflichtfelder
+</div>  
+
+
+
+
+
