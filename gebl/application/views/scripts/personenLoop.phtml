@@ -1,6 +1,23 @@
 <tr valign="top">
         <td><?php echo $this->P_LOGNAME ?></td>
-        <td><?php echo $this->P_TYP ?></td>
+        <td><?php switch ($this->P_TYP) {
+            case '1':
+            echo 'Normal';
+            break;
+        
+            case '2':
+            echo 'Experte';
+            break;
+        
+            case '3':
+            echo 'Administrator';
+            break;
+        
+            default:
+            echo $this->P_TYP;
+        }
+            ?></td>
+        
         <td><?php echo $this->P_VORNAME ?></td>
         <td><?php echo $this->P_NACHNAME ?></td>
         <td><?php echo $this->P_STRASSE ?></td>

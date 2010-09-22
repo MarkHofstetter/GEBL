@@ -79,14 +79,7 @@ class Application_Form_Personen extends Zend_Form
                           'Passwortwiederholung nicht korrekt!')))
               ->setAttrib('size','70');
 
-    /*    $p_typ = new Zend_Form_Element('P_TYP');
-         $p_typ->setLabel('* Benutzertyp (1 Normal, 2 Experte, 3 Administrator) : ')
-		      ->setValue("1")
-              ->setRequired(true)
-              ->addValidator('Int')
-              ->addValidator('Between',true,array(1,3));
-     *
-     */
+ 
          
          $typOptions = array(
                                '1' => 'Normal',
@@ -95,7 +88,7 @@ class Application_Form_Personen extends Zend_Form
                               );
 
          $p_typ = new Zend_Form_Element_Select('P_TYP');
-         $p_typ->setLabel('* Benutzertyp : ')
+         $p_typ->setLabel('* Benutzertyp: ')
 		      ->setValue("1")
               ->setRequired(true)
               ->addValidator('Int')

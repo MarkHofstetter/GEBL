@@ -54,38 +54,7 @@ class AdminController extends Zend_Controller_Action {
         //$this->_helper->redirector('login', 'index');
     }
 
-    /*
-     * Add a Point by selecting coordiantes in map
-     * No longer in use
-     */
-
- /*   public function addPointAction() {
-        $form = new Application_Form_Geopoint();
-        $form->senden->setLabel('Hinzufügen');
-        $this->view->form = $form;
-
-
-        if ($this->getRequest()->isPost()) {
-            $formData = $this->getRequest()->getPost();
-            if ($form->isValid($formData)) {
-                $typ = $form->getValue('G_TYP');
-                $name = $form->getValue('G_NAME');
-                $lat = $form->getValue('G_LAT');
-                $lon = $form->getValue('G_LON');
-
-
-                $points = new Application_Model_DbTable_Geodaten();
-
-                $points->addPoint($typ, $name, $lat, $lon);
-
-
-                $this->_helper->redirector('showallpoints', 'admin',
-                        null, array('lat' => $lat, 'lon' => $lon));
-            }
-        }
-    }
-  * 
-  */
+ 
 
     public function addaktionAction() {
         $lat = 0;
